@@ -4,6 +4,7 @@ import "./globals.css";
 
 // 1. Uvozimo našu komponentu (pazi da putanja odgovara tvom folderu)
 import LoadingScreen from "@/components/LoadingScreen"; 
+import Navbar from "@/components/Navbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
         
         {/* 3. Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde */}
         <LoadingScreen />
+        <Navbar />
         
         {/* 4. Ostatak sajta se učitava ispod, ali je skriven dok loader ne nestane */}
         {children}
