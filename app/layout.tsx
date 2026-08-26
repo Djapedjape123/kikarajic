@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+//promena jezika 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 // 1. Uvozimo našu komponentu (pazi da putanja odgovara tvom folderu)
 import LoadingScreen from "@/components/LoadingScreen"; 
 import Navbar from "@/components/Navbar";
@@ -35,11 +38,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         
         {/* 3. Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde */}
-        <LoadingScreen />
-        <Navbar />
+        <LanguageProvider>
+          <LoadingScreen />
+          <Navbar />
+          {children}
+        </LanguageProvider>
         
         {/* 4. Ostatak sajta se učitava ispod, ali je skriven dok loader ne nestane */}
-        {children}
+        
         
       </body>
     </html>

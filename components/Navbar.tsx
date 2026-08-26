@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Luxurious_Script } from "next/font/google";
+import { useLanguage } from "@/context/LanguageContext";
 
-// Uvozimo Luxurious Script font
 const luxurious = Luxurious_Script({
   weight: "400",
   subsets: ["latin"],
@@ -15,16 +15,14 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
 
-  // Praćenje skrola za promenu pozadine
+  // Uvozimo logiku za jezik
+  const { activeLang, setActiveLang, t } = useLanguage();
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      if (window.scrollY > 50) setIsScrolled(true);
+      else setIsScrolled(false);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -40,7 +38,7 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 w-full z-40 transition-all duration-300 ease-in-out ${
-        isScrolled || isMobileMenuOpen // Ako je meni otvoren, uvek primeni punu boju
+        isScrolled || isMobileMenuOpen
           ? "bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-sm"
           : "bg-transparent text-white"
       }`}
@@ -48,28 +46,25 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
-          {/* LOGO TEKST (Leva strana) */}
           <Link href="/" className="flex-shrink-0 flex items-center z-50">
             <span className={`${luxurious.className} text-3xl tracking-wider`}>
               Kika Rajić
             </span>
           </Link>
 
-          {/* DESKTOP NAVIGACIJA (Sredina i Desno) */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">O meni</Link>
-            <Link href="/galerija" className="hover:text-[#bc1888] transition-colors">Galerija</Link>
-            <Link href="/sminka" className="hover:text-[#bc1888] transition-colors">Šminka</Link>
-            <Link href="/sprej-ten" className="hover:text-[#bc1888] transition-colors">Sprej ten</Link>
+            {/* Dinamički prevodi povučeni iz context-a */}
+            <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
+            <Link href="/galerija" className="hover:text-[#bc1888] transition-colors">{t.nav.gallery}</Link>
+            <Link href="/sminka" className="hover:text-[#bc1888] transition-colors">{t.nav.makeup}</Link>
+            <Link href="/sprej-ten" className="hover:text-[#bc1888] transition-colors">{t.nav.sprayTan}</Link>
             
-            {/* Edukacije Dropdown (Hover) */}
             <div className="relative group">
               <button className="hover:text-[#bc1888] transition-colors flex items-center gap-1 py-8">
-                Edukacije
+                {t.nav.educations}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </button>
               
-              {/* Padajući meni (Desktop) */}
               <div className="absolute top-full left-0 mt-0 w-56 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-xl rounded-b-xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div className="py-2 flex flex-col">
                   {eduLinks.map((link, idx) => (
@@ -81,17 +76,26 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/studio" className="hover:text-[#bc1888] transition-colors">Studio</Link>
+            <Link href="/studio" className="hover:text-[#bc1888] transition-colors">{t.nav.studio}</Link>
 
-            {/* Jezički prekidač SR | EN */}
+            {/* Dinamički jezički prekidač SR | EN (Desktop) */}
             <div className="flex items-center space-x-2 pl-4 border-l border-current">
-              <button className="font-bold text-[#bc1888] transition-colors">SR</button>
+              <button 
+                onClick={() => setActiveLang('SR')}
+                className={`transition-colors ${activeLang === 'SR' ? 'font-bold text-[#bc1888]' : 'font-medium hover:text-[#bc1888]'}`}
+              >
+                SR
+              </button>
               <span className="opacity-50">|</span>
-              <button className="hover:text-[#bc1888] transition-colors font-medium">EN</button>
+              <button 
+                onClick={() => setActiveLang('EN')}
+                className={`transition-colors ${activeLang === 'EN' ? 'font-bold text-[#bc1888]' : 'font-medium hover:text-[#bc1888]'}`}
+              >
+                EN
+              </button>
             </div>
           </div>
 
-          {/* HAMBURGER DUGME (Mobilni) */}
           <div className="md:hidden flex items-center z-50">
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -109,38 +113,51 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* MOBILNI MENI (Animiran, Frosted Glass) */}
+      {/* MOBILNI MENI */}
       <div 
         className={`md:hidden fixed top-20 left-0 w-full h-screen bg-[#FAF7F2]/95 backdrop-blur-xl text-stone-800 shadow-2xl transition-all duration-500 ease-in-out origin-top ${
           isMobileMenuOpen ? "scale-y-100 opacity-100 visible" : "scale-y-0 opacity-0 invisible"
         }`}
       >
-        <div className="flex flex-col px-6 pt-6 pb-20 space-y-4 h-full overflow-y-auto">
+        <div className="flex flex-col px-6 pt-6 pb-20 space-y-3 h-full overflow-y-auto">
           
-          {/* Linkovi sa tranzicijom ukllizavanja */}
           <div className={`transition-all duration-500 delay-100 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/o-meni" className="block text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>O meni</Link>
+            <Link href="/o-meni" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              {t.nav.about}
+            </Link>
           </div>
           
           <div className={`transition-all duration-500 delay-150 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/galerija" className="block text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Galerija</Link>
+            <Link href="/galerija" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {t.nav.gallery}
+            </Link>
           </div>
           
           <div className={`transition-all duration-500 delay-200 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/sminka" className="block text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Šminka</Link>
+            <Link href="/sminka" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+              {t.nav.makeup}
+            </Link>
           </div>
           
           <div className={`transition-all duration-500 delay-250 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/sprej-ten" className="block text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Sprej ten</Link>
+            <Link href="/sprej-ten" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+              {t.nav.sprayTan}
+            </Link>
           </div>
           
-          {/* Edukacije Accordion (Mobilni) */}
           <div className={`transition-all duration-500 delay-300 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
             <button 
               onClick={() => setIsEduOpen(!isEduOpen)}
-              className="flex justify-between items-center w-full text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all"
+              className="flex justify-between items-center w-full text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all"
             >
-              Edukacije
+              <span className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" /></svg>
+                {t.nav.educations}
+              </span>
               <svg className={`w-5 h-5 transform transition-transform duration-300 ${isEduOpen ? "rotate-180 text-[#bc1888]" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
             </button>
             <div className={`overflow-hidden transition-all duration-300 px-4 ${isEduOpen ? "max-h-64 mt-2 opacity-100" : "max-h-0 opacity-0"}`}>
@@ -160,13 +177,34 @@ export default function Navbar() {
           </div>
 
           <div className={`transition-all duration-500 delay-400 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/studio" className="block text-xl font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>Studio</Link>
+            <Link href="/studio" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10a2 2 0 012-2h2a2 2 0 012 2v11" /></svg>
+              {t.nav.studio}
+            </Link>
           </div>
 
-          {/* Jezički prekidač (Mobilni) */}
-          <div className={`flex justify-center space-x-4 pt-8 border-t border-stone-200 mt-6 transition-all duration-500 delay-500 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <button className="font-bold px-6 py-2 bg-gradient-to-tr from-[#f09433] to-[#bc1888] text-white rounded-full shadow-md">SR</button>
-            <button className="px-6 py-2 bg-white/50 border border-stone-200 hover:border-[#bc1888] text-stone-700 rounded-full transition-all">EN</button>
+          {/* Dinamički jezički prekidač (Mobilni) */}
+          <div className={`flex justify-center space-x-4 pt-6 border-t border-stone-200 mt-4 transition-all duration-500 delay-500 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+            <button 
+              onClick={() => setActiveLang('SR')}
+              className={`font-bold px-6 py-2 rounded-full transition-all ${
+                activeLang === 'SR' 
+                ? 'bg-gradient-to-tr from-[#f09433] to-[#bc1888] text-white shadow-md' 
+                : 'bg-white/50 border border-stone-200 hover:border-[#bc1888] text-stone-700'
+              }`}
+            >
+              SR
+            </button>
+            <button 
+              onClick={() => setActiveLang('EN')}
+              className={`font-bold px-6 py-2 rounded-full transition-all ${
+                activeLang === 'EN' 
+                ? 'bg-gradient-to-tr from-[#f09433] to-[#bc1888] text-white shadow-md' 
+                : 'bg-white/50 border border-stone-200 hover:border-[#bc1888] text-stone-700'
+              }`}
+            >
+              EN
+            </button>
           </div>
         </div>
       </div>
