@@ -14,6 +14,17 @@ export const translations = {
       subtitle: 'Otkrijte svoju savršenu verziju uz profesionalno šminkanje, frizure i premium sprej ten tretmane.',
       bookBtn: 'Zakaži termin',
       workshopBtn: 'WorkShop Prijave'
+    },
+    // NOVO: Dodati prevodi za statistike
+    stats: {
+      badge: "Iskustvo i poverenje",
+      items: {
+        yearsWork: "Godina rada",
+        yearsEdu: "Godina edukacija",
+        clients: "Zadovoljnih klijenata",
+        students: "Učenica",
+        masterclasses: "Masterclassova"
+      }
     }
   },
   EN: {
@@ -29,6 +40,17 @@ export const translations = {
       subtitle: 'Discover your perfect version with professional makeup, hairstyling, and premium spray tan treatments.',
       bookBtn: 'Book an Appointment',
       workshopBtn: 'WorkShop Signups'
+    },
+    // NOVO: Dodati prevodi za statistike (Engleski)
+    stats: {
+      badge: "Experience & Trust",
+      items: {
+        yearsWork: "Years working",
+        yearsEdu: "Years teaching",
+        clients: "Happy clients",
+        students: "Students",
+        masterclasses: "Masterclasses"
+      }
     }
   }
 };

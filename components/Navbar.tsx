@@ -28,19 +28,21 @@ export default function Navbar() {
   }, []);
 
   const eduLinks = [
-    { name: "1:1 bazna", href: "/edukacije/1-1-bazna" },
-    { name: "Škola šminke", href: "/edukacije/skola-sminke" },
-    { name: "Perfekto", href: "/edukacije/perfekto" },
-    { name: "Usavršavanje", href: "/edukacije/usavrsavanje" },
-    { name: "N.sam by Tamara", href: "/edukacije/n-sam-by-tamara" },
+    { name: "Škola šminkanja", href: "/edukacije/1-1-bazna" },
+    { name: "Workshops", href: "/edukacije/skola-sminke" },
+    { name: "Bazna obuka", href: "/edukacije/perfekto" },
+    { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
+    { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
   ];
 
   return (
     <nav
-      className={`fixed top-0 w-full z-40 transition-all duration-300 ease-in-out ${
-        isScrolled || isMobileMenuOpen
-          ? "bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-sm"
-          : "bg-transparent text-white"
+      className={`fixed left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
+        isScrolled && !isMobileMenuOpen
+          ? "top-4 w-[95%] md:w-[85%] lg:w-[75%] rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-xl"
+          : isMobileMenuOpen
+          ? "top-0 w-full bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-sm"
+          : "top-0 w-full bg-transparent text-white"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,10 +67,11 @@ export default function Navbar() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </button>
               
-              <div className="absolute top-full left-0 mt-0 w-56 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-xl rounded-b-xl border border-white/20 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
+              {/* Odvojen lebdeći dropdown za Edukacije na desktopu */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-2xl rounded-2xl border border-white/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div className="py-2 flex flex-col">
                   {eduLinks.map((link, idx) => (
-                    <Link key={idx} href={link.href} className="px-6 py-3 hover:bg-[#E8DDD1]/50 hover:text-[#bc1888] transition-all text-sm font-medium">
+                    <Link key={idx} href={link.href} className="px-6 py-3 mx-2 rounded-xl hover:bg-[#E8DDD1]/50 hover:text-[#bc1888] transition-all text-sm font-medium">
                       {link.name}
                     </Link>
                   ))}

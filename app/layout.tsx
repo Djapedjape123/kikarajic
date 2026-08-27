@@ -44,7 +44,7 @@ export default function RootLayout({
           {children}
         </LanguageProvider>
         
-        {/* 4. Ostatak sajta se učitava ispod, ali je skriven dok loader ne nestane */}
+       
         
         
       </body>
