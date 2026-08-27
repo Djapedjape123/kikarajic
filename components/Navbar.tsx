@@ -14,17 +14,28 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
+  
+  // 1. NOVO STATE: Prati da li je loader završio (2 sekunde)
+  const [isReady, setIsReady] = useState(false);
 
-  // Uvozimo logiku za jezik
   const { activeLang, setActiveLang, t } = useLanguage();
 
   useEffect(() => {
+    // 2. Tajmer od 2 sekunde koji drži Navbar skrivenim dok traje loader
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 2000);
+
     const handleScroll = () => {
       if (window.scrollY > 50) setIsScrolled(true);
       else setIsScrolled(false);
     };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const eduLinks = [
@@ -37,7 +48,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ease-in-out ${
+      // 3. PROMENA U KLASAMA: Dodat opacity-0 / opacity-100 u zavisnosti od isReady
+      className={`fixed left-1/2 transform -translate-x-1/2 z-40 transition-all duration-700 ease-in-out ${
+        !isReady ? "opacity-0 pointer-events-none" : "opacity-100"
+      } ${
         isScrolled && !isMobileMenuOpen
           ? "top-4 w-[95%] md:w-[85%] lg:w-[75%] rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-xl"
           : isMobileMenuOpen
@@ -55,7 +69,6 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            {/* Dinamički prevodi povučeni iz context-a */}
             <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
             <Link href="/galerija" className="hover:text-[#bc1888] transition-colors">{t.nav.gallery}</Link>
             <Link href="/sminka" className="hover:text-[#bc1888] transition-colors">{t.nav.makeup}</Link>
@@ -67,7 +80,6 @@ export default function Navbar() {
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
               </button>
               
-              {/* Odvojen lebdeći dropdown za Edukacije na desktopu */}
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-2xl rounded-2xl border border-white/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div className="py-2 flex flex-col">
                   {eduLinks.map((link, idx) => (
@@ -81,7 +93,6 @@ export default function Navbar() {
 
             <Link href="/studio" className="hover:text-[#bc1888] transition-colors">{t.nav.studio}</Link>
 
-            {/* Dinamički jezički prekidač SR | EN (Desktop) */}
             <div className="flex items-center space-x-2 pl-4 border-l border-current">
               <button 
                 onClick={() => setActiveLang('SR')}
@@ -186,7 +197,6 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Dinamički jezički prekidač (Mobilni) */}
           <div className={`flex justify-center space-x-4 pt-6 border-t border-stone-200 mt-4 transition-all duration-500 delay-500 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
             <button 
               onClick={() => setActiveLang('SR')}
