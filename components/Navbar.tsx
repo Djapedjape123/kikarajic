@@ -14,14 +14,15 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
-  
-  // 1. NOVO STATE: Prati da li je loader završio (2 sekunde)
   const [isReady, setIsReady] = useState(false);
 
+  // Uvozimo logiku za jezik i prevode
   const { activeLang, setActiveLang, t } = useLanguage();
 
+  // Dinamičke edukacije iz prevoda (SR / EN)
+  const eduLinks = t.eduLinks;
+
   useEffect(() => {
-    // 2. Tajmer od 2 sekunde koji drži Navbar skrivenim dok traje loader
     const timer = setTimeout(() => {
       setIsReady(true);
     }, 2000);
@@ -38,17 +39,8 @@ export default function Navbar() {
     };
   }, []);
 
-  const eduLinks = [
-    { name: "Škola šminkanja", href: "/edukacije/1-1-bazna" },
-    { name: "Workshops", href: "/edukacije/skola-sminke" },
-    { name: "Bazna obuka", href: "/edukacije/perfekto" },
-    { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
-    { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
-  ];
-
   return (
     <nav
-      // 3. PROMENA U KLASAMA: Dodat opacity-0 / opacity-100 u zavisnosti od isReady
       className={`fixed left-1/2 transform -translate-x-1/2 z-40 transition-all duration-700 ease-in-out ${
         !isReady ? "opacity-0 pointer-events-none" : "opacity-100"
       } ${

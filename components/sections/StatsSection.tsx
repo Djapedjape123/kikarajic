@@ -65,7 +65,7 @@ export default function StatsSection() {
     }as const;;
 
     return (
-        <section className="py-24 bg-[#FAF7F2] relative overflow-hidden">
+        <section id="statistike" className="py-18 bg-[#FAF7F2] relative overflow-hidden">
 
             {/* Dekorativni pozadinski element za sekciju */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#f09433]/10 to-[#bc1888]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />

@@ -25,7 +25,15 @@ export const translations = {
         students: "Učenica",
         masterclasses: "Masterclassova"
       }
-    }
+    },
+    // NOVO: Edukacije na srpskom
+    eduLinks: [
+      { name: "Škola šminkanja", href: "/edukacije/1-1-bazna" },
+      { name: "Workshops", href: "/edukacije/skola-sminke" },
+      { name: "Bazna obuka", href: "/edukacije/perfekto" },
+      { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
+      { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
+    ]
   },
   EN: {
     nav: {
@@ -51,6 +59,14 @@ export const translations = {
         students: "Students",
         masterclasses: "Masterclasses"
       }
-    }
+    },
+    // NOVO: Edukacije na engleskom (zadržano i netaknuto kako si tražio)
+    eduLinks: [
+      { name: "Makeup School", href: "/edukacije/1-1-bazna" },
+      { name: "Workshops", href: "/edukacije/skola-sminke" },
+      { name: "Basic Training", href: "/edukacije/perfekto" },
+      { name: "Advanced for Makeup Artists", href: "/edukacije/usavrsavanje" },
+      { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
+    ]
   }
 };

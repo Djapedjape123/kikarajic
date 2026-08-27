@@ -83,7 +83,8 @@ export default function HeroSection() {
                     <motion.a
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
-                        href="https://instagram.com/tvoj_link"
+                        // OVO JE TAJ MAGIČNI LINK ZA DIREKTAN CHAT:
+                        href="https://ig.me/m/kikarajic" 
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-[240px] sm:w-auto flex items-center justify-center px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium shadow-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-shadow hover:shadow-[#bc1888]/30"
@@ -107,8 +108,7 @@ export default function HeroSection() {
 
             </div>
 
-            {/* 4. ANIMIRANI SCROLL DOWN INDIKATOR */}
-            {/* 4. ANIMIRANI SCROLL DOWN INDIKATOR (Klikabilna strelica) */}
+            /// 
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
