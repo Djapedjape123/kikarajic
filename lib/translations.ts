@@ -7,9 +7,15 @@ export const translations = {
       gallery: 'Galerija',
       makeup: 'Šminka',
       sprayTan: 'Sprej ten',
+      services: 'Usluge',
       educations: 'Edukacije',
       studio: 'Studio'
     },
+    serviceLinks: [
+      { name: "Šminka", href: "/sminka" },
+      { name: "Sprej ten", href: "/sprej-ten" },
+      { name: "Svečane frizure", href: "/svecane-frizure" },
+    ],
     hero: {
       subtitle: 'Otkrijte svoju savršenu verziju uz profesionalno šminkanje, frizure i premium sprej ten tretmane.',
       bookBtn: 'Zakaži termin',
@@ -40,6 +46,7 @@ export const translations = {
       about: 'About me',
       gallery: 'Gallery',
       makeup: 'Makeup',
+      services: 'Services', 
       sprayTan: 'Spray Tan',
       educations: 'Educations',
       studio: 'Studio'
@@ -61,6 +68,11 @@ export const translations = {
       }
     },
     // NOVO: Edukacije na engleskom (zadržano i netaknuto kako si tražio)
+    serviceLinks: [
+      { name: "Makeup", href: "/sminka" },
+      { name: "Spray Tan", href: "/sprej-ten" },
+      { name: "Formal Hairstyles", href: "/svecane-frizure" },
+    ],
     eduLinks: [
       { name: "Makeup School", href: "/edukacije/1-1-bazna" },
       { name: "Workshops", href: "/edukacije/skola-sminke" },

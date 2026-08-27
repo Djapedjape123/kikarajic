@@ -14,13 +14,13 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false); // <--- NOVO ZA USLUGE (MOBILNI)
   const [isReady, setIsReady] = useState(false);
 
-  // Uvozimo logiku za jezik i prevode
   const { activeLang, setActiveLang, t } = useLanguage();
 
-  // Dinamičke edukacije iz prevoda (SR / EN)
   const eduLinks = t.eduLinks;
+  const serviceLinks = t.serviceLinks; // <--- Usluge iz prevoda
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -63,9 +63,26 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
             <Link href="/galerija" className="hover:text-[#bc1888] transition-colors">{t.nav.gallery}</Link>
-            <Link href="/sminka" className="hover:text-[#bc1888] transition-colors">{t.nav.makeup}</Link>
-            <Link href="/sprej-ten" className="hover:text-[#bc1888] transition-colors">{t.nav.sprayTan}</Link>
             
+            {/* NOVI PADAJUĆI MENI: USLUGE (Desktop) */}
+            <div className="relative group">
+              <button className="hover:text-[#bc1888] transition-colors flex items-center gap-1 py-8">
+                {t.nav.services}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </button>
+              
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-2xl rounded-2xl border border-white/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
+                <div className="py-2 flex flex-col">
+                  {serviceLinks.map((link, idx) => (
+                    <Link key={idx} href={link.href} className="px-6 py-3 mx-2 rounded-xl hover:bg-[#E8DDD1]/50 hover:text-[#bc1888] transition-all text-sm font-medium">
+                      {link.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* PADAJUĆI MENI: EDUKACIJE (Desktop) */}
             <div className="relative group">
               <button className="hover:text-[#bc1888] transition-colors flex items-center gap-1 py-8">
                 {t.nav.educations}
@@ -140,22 +157,37 @@ export default function Navbar() {
               {t.nav.gallery}
             </Link>
           </div>
-          
+
+          {/* NOVI MOBILNI AKORDIJON ZA USLUGE */}
           <div className={`transition-all duration-500 delay-200 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/sminka" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
-              {t.nav.makeup}
-            </Link>
+            <button 
+              onClick={() => setIsServicesOpen(!isServicesOpen)}
+              className="flex justify-between items-center w-full text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all"
+            >
+              <span className="flex items-center gap-3">
+                <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
+                {t.nav.services}
+              </span>
+              <svg className={`w-5 h-5 transform transition-transform duration-300 ${isServicesOpen ? "rotate-180 text-[#bc1888]" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+            <div className={`overflow-hidden transition-all duration-300 px-4 ${isServicesOpen ? "max-h-64 mt-2 opacity-100" : "max-h-0 opacity-0"}`}>
+              <div className="flex flex-col space-y-2 border-l-2 border-[#bc1888]/30 pl-4 py-2">
+                {serviceLinks.map((link, idx) => (
+                  <Link 
+                    key={idx} 
+                    href={link.href} 
+                    className="block py-2 text-base text-stone-600 hover:text-[#bc1888] transition-colors"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
           
+          {/* MOBILNI AKORDIJON ZA EDUKACIJE */}
           <div className={`transition-all duration-500 delay-250 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href="/sprej-ten" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
-              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-              {t.nav.sprayTan}
-            </Link>
-          </div>
-          
-          <div className={`transition-all duration-500 delay-300 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
             <button 
               onClick={() => setIsEduOpen(!isEduOpen)}
               className="flex justify-between items-center w-full text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all"
@@ -182,14 +214,14 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className={`transition-all duration-500 delay-400 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+          <div className={`transition-all duration-500 delay-300 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
             <Link href="/studio" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
               <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10a2 2 0 012-2h2a2 2 0 012 2v11" /></svg>
               {t.nav.studio}
             </Link>
           </div>
 
-          <div className={`flex justify-center space-x-4 pt-6 border-t border-stone-200 mt-4 transition-all duration-500 delay-500 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+          <div className={`flex justify-center space-x-4 pt-6 border-t border-stone-200 mt-4 transition-all duration-500 delay-350 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
             <button 
               onClick={() => setActiveLang('SR')}
               className={`font-bold px-6 py-2 rounded-full transition-all ${
