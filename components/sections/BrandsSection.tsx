@@ -33,7 +33,7 @@ export default function BrandsSection() {
       <div className="w-full">
         <LogoLoop
           logos={brands}
-          speed={30} // Brzina rotacije (smanji/povećaj po želji)
+          speed={40} // Brzina rotacije (smanji/povećaj po želji)
           gap={80}   // Razmak između logotipa
           logoHeight={48} // Visina slike (48px = Tailwind h-12)
           fadeOut={true}
