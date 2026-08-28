@@ -11,6 +11,9 @@ export const translations = {
       educations: 'Edukacije',
       studio: 'Studio'
     },
+    brands: {
+      title: "Brendovi sa kojima sarađujem"
+    },
     serviceLinks: [
       { name: "Šminka", href: "/sminka" },
       { name: "Sprej ten", href: "/sprej-ten" },
@@ -50,6 +53,9 @@ export const translations = {
       sprayTan: 'Spray Tan',
       educations: 'Educations',
       studio: 'Studio'
+    },
+    brands: {
+      title: "Brands I collaborate with"
     },
     hero: {
       subtitle: 'Discover your perfect version with professional makeup, hairstyling, and premium spray tan treatments.',

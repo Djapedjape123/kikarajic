@@ -1,5 +1,6 @@
 // Uvozimo našu Hero komponentu
 // Napomena: Proveri da li se putanja poklapa sa tvojom strukturom foldera!
+import BrandsSection from "@/components/sections/BrandsSection";
 import HeroSection from "@/components/sections/HeroSection"; 
 import StatsSection from "@/components/sections/StatsSection";
 
@@ -11,6 +12,7 @@ export default function Home() {
       {/* 1. Hero sekcija sa videom */}
       <HeroSection />
       <StatsSection />
+      <BrandsSection />
       
       {/* Ovde ćemo kasnije redom dodavati ostale komponente: */}
       {/* <AboutSection /> */}
