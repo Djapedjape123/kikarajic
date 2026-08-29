@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// 2. Prepravljen SEO i naslov sajta da bude profi od starta
+
 export const metadata: Metadata = {
   title: "Kika Rajić | Studio",
   description: "Profesionalno šminkanje, frizure i sprej ten",

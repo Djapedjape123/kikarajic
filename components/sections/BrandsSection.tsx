@@ -10,7 +10,7 @@ const brands = [
   { name: "Golden Rose", href: "https://gbs.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910394/logo4-removebg-preview_qro1sw.png" },
   { name: "Tangle Teezer ", href: "https://tangleteezer.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910315/logo3-removebg-preview_mp4uhh.png" },
   { name: "Milani", href: "https://www.milanicosmetics.com/?srsltid=AfmBOopiXc54gWqYTdhnJC610LtWapy2RFPDiHRXlTBQMypLQ430hVXi", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910250/logo2-removebg-preview_znvdjl.png" },
-  { name: "Estee Lauder", href: "", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910186/Estee-Lauder-Logo-1-removebg-preview_e5xuhz.png" }
+  { name: "Estee Lauder", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910186/Estee-Lauder-Logo-1-removebg-preview_e5xuhz.png" }
 ];
 
 export default function BrandsSection() {
