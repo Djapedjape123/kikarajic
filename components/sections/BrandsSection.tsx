@@ -3,8 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import LogoLoop from "@/components/ui/LogoLoop"; // Tvoja super glatka komponenta!
 
-// 1. Ovde ćeš sutra ubaciti Cloudinary linkove.
-// Za sada koristimo placeholdere SA BELOM POZADINOM da testiraš CSS trik.
+
 const brands = [
   { name: "YSl", href: "https://www.yslbeauty.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910461/logo6-removebg-preview_bi02ya.png" },
   { name: "Astarta Parfums", href: "https://astartaparfums.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910509/logo5-removebg-preview_1_milurr.png" },
