@@ -62,7 +62,7 @@ export const translations = {
       bookBtn: 'Book an Appointment',
       workshopBtn: 'WorkShop Signups'
     },
-    // NOVO: Dodati prevodi za statistike (Engleski)
+    
     stats: {
       badge: "Experience & Trust",
       items: {

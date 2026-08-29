@@ -7,7 +7,6 @@ import LogoLoop from "@/components/ui/LogoLoop"; // Tvoja super glatka komponent
 const brands = [
   { name: "YSl", href: "https://www.yslbeauty.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910461/logo6-removebg-preview_bi02ya.png" },
   { name: "Astarta Parfums", href: "https://astartaparfums.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910509/logo5-removebg-preview_1_milurr.png" },
-  
   { name: "Golden Rose", href: "https://gbs.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910394/logo4-removebg-preview_qro1sw.png" },
   { name: "Tangle Teezer ", href: "https://tangleteezer.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910315/logo3-removebg-preview_mp4uhh.png" },
   { name: "Milani", href: "https://www.milanicosmetics.com/?srsltid=AfmBOopiXc54gWqYTdhnJC610LtWapy2RFPDiHRXlTBQMypLQ430hVXi", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910250/logo2-removebg-preview_znvdjl.png" },
@@ -49,10 +48,6 @@ export default function BrandsSection() {
               <img
                 src={item.src}
                 alt={item.name}
-                // OVO JE MAGIJA:
-                // mix-blend-multiply
-                // grayscale / opacity-50: pravi ih sivim
-                // group-hover: vraća im originalnu boju!
                 className="h-19 md:h-24 w-auto object-contain mix-blend-multiply grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
               />
             </a>
