@@ -7,7 +7,7 @@ export default function LoadingScreen() {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    // Pokrećemo fade-out efekat (nestajanje) nakon 1.5 sekundi
+   
     const fadeTimer = setTimeout(() => {
       setIsFading(true);
     }, 1600);
