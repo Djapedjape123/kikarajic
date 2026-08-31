@@ -42,7 +42,7 @@ export default function RootLayout({
           <LoadingScreen />
           <Navbar />
           
-          {/* <-- DODATO: Naše fiksirano Instagram dugme --> */}
+          
           <InstagramFloatButton />
 
           {children}
