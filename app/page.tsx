@@ -1,6 +1,7 @@
 
 import BrandsSection from "@/components/sections/BrandsSection";
 import HeroSection from "@/components/sections/HeroSection"; 
+import LocationSection from "@/components/sections/LocationSection";
 import StatsSection from "@/components/sections/StatsSection";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
       <HeroSection />
       <StatsSection />
       <BrandsSection />
+      <LocationSection/>
       
     </main>
   );

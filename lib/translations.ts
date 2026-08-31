@@ -35,6 +35,22 @@ export const translations = {
         masterclasses: "Masterclassova"
       }
     },
+    location: {
+      badge: "Lokacija",
+      title: "Kako do nas?",
+      desc: "Naš studio se nalazi na pristupačnoj lokaciji u Novom Sadu. Radujemo se vašem dolasku!",
+      address_label: "Adresa",
+      address_value: "Bore Prodanovića 1A",
+      address_note: "(Ulaz je u prizemlju zgrade)",
+      email_label: "Email adresa",
+      phone_label: "Telefon",
+      hours_label: "Radno vreme",
+      hours_week: "Ponedeljak - Petak: 09:00 - 18:00",
+      hours_weekend: "Subota: Po dogovoru",
+      nav_button: "Uključi navigaciju",
+      pin_title: "Kika Rajić Studio",
+      pin_sub: "Vaša oaza lepote"
+    },
     // NOVO: Edukacije na srpskom
     eduLinks: [
       { name: "Škola šminkanja", href: "/edukacije/1-1-bazna" },
@@ -85,6 +101,22 @@ export const translations = {
       { name: "Basic Training", href: "/edukacije/perfekto" },
       { name: "Advanced for Makeup Artists", href: "/edukacije/usavrsavanje" },
       { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
-    ]
+    ],
+    location: {
+      badge: "Location",
+      title: "How to find us?",
+      desc: "Our studio is located in an easily accessible area in Novi Sad. We look forward to seeing you!",
+      address_label: "Address",
+      address_value: "Bore Prodanovića 1A",
+      address_note: "(Ground floor entrance)",
+      email_label: "Email Address",
+      phone_label: "Phone",
+      hours_label: "Working Hours",
+      hours_week: "Monday - Friday: 09:00 - 18:00",
+      hours_weekend: "Saturday: By appointment",
+      nav_button: "Get Directions",
+      pin_title: "Kika Rajić Studio",
+      pin_sub: "Your beauty oasis"
+    }
   }
 };
