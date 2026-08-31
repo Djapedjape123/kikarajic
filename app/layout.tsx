@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-//promena jezika 
+// promena jezika 
 import { LanguageProvider } from "@/context/LanguageContext";
 
-// 1. Uvozimo našu komponentu (pazi da putanja odgovara tvom folderu)
+// 1. Uvozimo naše komponente
 import LoadingScreen from "@/components/LoadingScreen"; 
 import Navbar from "@/components/Navbar";
+import InstagramFloatButton from "@/components/InstagramFloatButton"; // <-- DODATO: Uvozimo Instagram dugme
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Kika Rajić | Studio",
@@ -37,15 +37,16 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         
-        {/* 3. Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde */}
+        {/* Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde */}
         <LanguageProvider>
           <LoadingScreen />
           <Navbar />
+          
+          {/* <-- DODATO: Naše fiksirano Instagram dugme --> */}
+          <InstagramFloatButton />
+
           {children}
         </LanguageProvider>
-        
-       
-        
         
       </body>
     </html>
