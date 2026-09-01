@@ -46,7 +46,8 @@ export default function HeroSection() {
                     <motion.span
                         initial={{ opacity: 0, y: 30, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 1, delay: 2.1, ease: [0.16, 1, 0.3, 1] }}
+                        // Smanjen delay sa 2.1 na 1.5 i duration sa 1 na 0.8
+                        transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
                         className={`${luxurious.className} text-6xl md:text-8xl lg:text-9xl drop-shadow-lg`}
                     >
                         Kika Rajić
@@ -55,7 +56,8 @@ export default function HeroSection() {
                     <motion.span
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 2.3, ease: [0.16, 1, 0.3, 1] }}
+                        // Smanjen delay sa 2.3 na 1.7 i duration sa 1 na 0.8
+                        transition={{ duration: 0.8, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
                         className="text-2xl md:text-4xl font-light tracking-[0.35em] uppercase mt-2 md:mt-6 text-stone-200 drop-shadow-md"
                     >
                         Studio
@@ -84,7 +86,7 @@ export default function HeroSection() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
                         // OVO JE TAJ MAGIČNI LINK ZA DIREKTAN CHAT:
-                        href="https://ig.me/m/kikarajic" 
+                        href="https://ig.me/m/kikarajic"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-[240px] sm:w-auto flex items-center justify-center px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium shadow-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-shadow hover:shadow-[#bc1888]/30"
@@ -108,7 +110,7 @@ export default function HeroSection() {
 
             </div>
 
-            /// 
+            ///
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
