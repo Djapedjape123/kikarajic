@@ -70,7 +70,7 @@ export default function Reviews() {
   const heading = activeLang === "SR" ? "Šta kažu klijentkinje i saradnici" : "What clients & partners say";
   const subHeading = activeLang === "SR" ? "Iskustva iz prve ruke sa naših tretmana i edukacija" : "Firsthand experiences from our treatments and classes";
   
-  const loopReviews = [...reviews, ...reviews];
+  const loopReviews = [...reviews, ...reviews, ...reviews];
 
   return (
     <section className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40">
@@ -204,19 +204,25 @@ export default function Reviews() {
       </AnimatePresence>
 
       {/* CSS za animaciju trake */}
+      {/* CSS za savršeno glatki kružni tok bez zastoja */}
       <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
         .marquee-track {
-          animation: marquee 45s linear infinite;
+          display: flex;
+          width: max-content;
+          animation: marquee 35s linear infinite;
         }
         .marquee-track:hover {
           animation-play-state: paused;
         }
         @keyframes marquee {
-          from {
+          0% {
             transform: translateX(0);
           }
-          to {
-            transform: translateX(-50%);
+          100% {
+            transform: translateX(calc(-100% / 3));
           }
         }
         @media (prefers-reduced-motion: reduce) {
