@@ -58,7 +58,16 @@ export const translations = {
       { name: "Bazna obuka", href: "/edukacije/perfekto" },
       { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
       { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
-    ]
+    ],
+    about: {
+      badge: "Moj put",
+      title: "O meni & ",
+      p1: "Moje ime je Kika Rajić, osnivačica i vlasnica Kika Rajić Studia — beauty prostora koji je nastao iz moje ljubavi prema šminkanju, edukaciji i stvaranju.",
+      p2: "Šminkanjem se bavim već 10 godina, a poslednjih 6 godina sam i edukator, gde prenosim svoje znanje, iskustvo i ljubav prema šminkanju na više od 500 polaznika. Do danas sam imala priliku da našminkam više od 5.000 klijenata, održim brojne masterclass-ove, radim kampanje, spotove, putujem na različite destinacije kako bi klijenti nosili baš moju šminku i ostvarim saradnje sa različitim beauty brendovima, kao i da učestvujem u kreiranju sadržaja i snimanjima za društvene mreže.",
+      p3: "Verujem da šminka nije samo tehnika, već način da istaknemo ono najlepše u sebi, a upravo tu filozofiju želim da prenesem i kroz novi koncept Kika Rajić Studia.",
+      p4: "Novi studio nastao je sa željom da šminkanje i edukaciju podignemo na potpuno novi nivo. Kroz spoj znanja, iskustva, estetike i ljubavi prema ovom poslu, trudim se da svako od vas dobije jedinstveno iskustvo i oseća se posebno za svaku priliku.",
+      quote: "Ovo je tek početak..."
+    }
   },
   EN: {
     nav: {
@@ -117,6 +126,15 @@ export const translations = {
       nav_button: "Get Directions",
       pin_title: "Kika Rajić Studio",
       pin_sub: "Your beauty oasis"
+    },
+    about: {
+      badge: "My Journey",
+      title: "About me & ",
+      p1: "My name is Kika Rajić, founder and owner of Kika Rajić Studio — a beauty space born out of my love for makeup, education, and creation.",
+      p2: "I have been working as a makeup artist for 10 years, and for the last 6 years, I've also been an educator, passing on my knowledge, experience, and passion for makeup to over 500 students. To date, I have had the privilege of doing makeup for more than 5,000 clients, holding numerous masterclasses, working on campaigns and music videos, traveling to various destinations so clients could wear my makeup, collaborating with different beauty brands, and participating in content creation for social media.",
+      p3: "I believe that makeup is not just a technique, but a way to highlight the most beautiful parts of ourselves. That is exactly the philosophy I want to convey through the new concept of Kika Rajić Studio.",
+      p4: "The new studio was created with the desire to elevate makeup and education to a completely new level. Through a blend of knowledge, experience, aesthetics, and love for this profession, I strive to ensure that each of you receives a unique experience and feels special for every occasion.",
+      quote: "This is just the beginning..."
     }
   }
 };
