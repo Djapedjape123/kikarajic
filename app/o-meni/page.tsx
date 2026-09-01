@@ -54,7 +54,7 @@ export default function AboutPage() {
 
             {/* 2. GRANDIOZAN GRADIJENT ZA NAVBAR */}
             {/* Kreće od tamno sive/crne pri vrhu i bledi u providno prema dole */}
-            <div className="absolute top-0 left-0 w-full h-[35vh] bg-gradient-to-b from-stone-900/80 via-stone-900/20 to-transparent pointer-events-none z-0" />
+            <div className="absolute top-0 left-0 w-full h-[45vh] bg-gradient-to-b from-[#C28B5A]/90 via-[#D4A373]/40 to-transparent pointer-events-none z-0" />
 
             {/* 3. Dodali smo 'relative z-10' da bi ceo sadržaj bio iznad ovog gradijenta */}
             <div className="max-w-7xl mx-auto relative z-10">
