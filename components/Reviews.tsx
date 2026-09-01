@@ -88,15 +88,17 @@ export default function Reviews() {
         </p>
       </div>
 
-      {/* Marquee traka */}
+     {/* Marquee traka sa podrškom za prevlačenje prstom na mobilnim uređajima */}
       <div
-        className="relative overflow-hidden py-4"
+        className="relative overflow-x-auto sm:overflow-hidden py-4 scrollbar-none"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          scrollbarWidth: 'none', // Skriva scrollbar na Firefox-u
+          msOverflowStyle: 'none',  // Skriva scrollbar na IE/Edge
         }}
       >
-        <div className="marquee-track flex w-max gap-8 px-4">
+        <div className="marquee-track flex w-max gap-8 px-4 touch-pan-x">
           {loopReviews.map((review, index) => (
             <article
               key={`${review.id}-${index}`}
