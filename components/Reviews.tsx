@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { FaStar, FaTimes } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useAnimationFrame } from "framer-motion";
 
 type Review = {
   id: number;
@@ -70,10 +70,59 @@ export default function Reviews() {
   const heading = activeLang === "SR" ? "Šta kažu klijentkinje i saradnici" : "What clients & partners say";
   const subHeading = activeLang === "SR" ? "Iskustva iz prve ruke sa naših tretmana i edukacija" : "Firsthand experiences from our treatments and classes";
   
-  const loopReviews = [...reviews, ...reviews, ...reviews];
+  // Rendamo 4 puna niza da bismo imali dovoljno kartica za široke ekrane i nesmetan "teleport"
+  const loopReviews = [...reviews, ...reviews, ...reviews, ...reviews];
+
+  // --- LOGIKA ZA MAGIČNI TELEPORT I DRAG (Framer Motion) ---
+  const x = useMotionValue(0);
+  const [teleportWidth, setTeleportWidth] = useState(0);
+  
+  const itemRef = useRef<HTMLElement>(null);
+  const isHovered = useRef(false);
+  const isDragging = useRef(false);
+
+  // 1. Merimo širinu tačno JEDNOG niza (5 kartica + razmaci)
+  useEffect(() => {
+    const calculateWidth = () => {
+      if (itemRef.current) {
+        const cardWidth = itemRef.current.offsetWidth;
+        const gap = 32; // gap-8 je 32px u Tailwindu
+        // Širina jednog unikatnog seta (5 kartica)
+        setTeleportWidth((cardWidth + gap) * reviews.length);
+      }
+    };
+
+    calculateWidth();
+    window.addEventListener("resize", calculateWidth);
+    return () => window.removeEventListener("resize", calculateWidth);
+  }, []);
+
+  // 2. Osmatrač - "Teleportacija"
+  // Kad god se `x` pomeri, proveravamo da li je prešlo širinu niza i vraćamo na početak
+  useEffect(() => {
+    const unsubscribe = x.on("change", (latest) => {
+      if (!teleportWidth) return;
+
+      if (latest <= -teleportWidth) {
+        x.set(latest + teleportWidth);
+      } else if (latest >= 0) {
+        x.set(latest - teleportWidth);
+      }
+    });
+    return unsubscribe;
+  }, [teleportWidth, x]);
+
+  // 3. Automatsko pomeranje animacije (svaki frejm pomeri malo ulevo)
+  useAnimationFrame((time, delta) => {
+    // Pauzira ako merimo širinu, ako je miš preko, ili ako klijent prevlači prstom
+    if (!teleportWidth || isHovered.current || isDragging.current) return;
+    
+    // Brzina kretanja. Povećaj 0.7 za brže, smanji za sporije.
+    x.set(x.get() - 0.7 * (delta / 16)); 
+  });
 
   return (
-    <section className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40">
+    <section className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40 select-none">
       
       {/* Naslov sekcije */}
       <div className="max-w-7xl mx-auto px-4 text-center mb-16">
@@ -88,21 +137,33 @@ export default function Reviews() {
         </p>
       </div>
 
-     {/* Marquee traka sa podrškom za prevlačenje prstom na mobilnim uređajima */}
+      {/* Traka za prevlačenje (zamenili smo običan scroll sa Framer motion drag-om) */}
       <div
-        className="relative overflow-x-auto sm:overflow-hidden py-4 scrollbar-none"
+        className="relative overflow-hidden py-4"
         style={{
           maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
           WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-          scrollbarWidth: 'none', // Skriva scrollbar na Firefox-u
-          msOverflowStyle: 'none',  // Skriva scrollbar na IE/Edge
         }}
       >
-        <div className="marquee-track flex w-max gap-8 px-4 touch-pan-x">
+        <motion.div 
+          className="flex w-max gap-8 px-4 cursor-grab active:cursor-grabbing"
+          style={{ x }}
+          drag="x" // Omogućava prevlačenje levo-desno
+          dragConstraints={{ left: -10000, right: 10000 }} // Oslobađa traku za beskonačan drag (naš teleport je hvata)
+          dragElastic={0}
+          onDragStart={() => (isDragging.current = true)}
+          onDragEnd={() => (isDragging.current = false)}
+          onMouseEnter={() => (isHovered.current = true)}
+          onMouseLeave={() => (isHovered.current = false)}
+          onTouchStart={() => (isHovered.current = true)}
+          onTouchEnd={() => (isHovered.current = false)}
+        >
           {loopReviews.map((review, index) => (
             <article
               key={`${review.id}-${index}`}
-              className="shrink-0 w-[360px] sm:w-[400px] rounded-3xl bg-white/95 backdrop-blur-sm border border-[#E8DDD1]/60 shadow-lg p-8 transition-all duration-500 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-2xl hover:border-[#bc1888]/40 group flex flex-col justify-between"
+              // Postavljamo ref na prvu karticu samo da bismo izmerili širinu celog seta
+              ref={index === 0 ? itemRef : null}
+              className="shrink-0 w-[360px] sm:w-[400px] rounded-3xl bg-white/95 backdrop-blur-sm border border-[#E8DDD1]/60 shadow-lg p-8 transition-transform duration-300 hover:scale-[1.02] group flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -116,13 +177,11 @@ export default function Reviews() {
                   </span>
                 </div>
 
-                {/* Kratak tekst na kartici */}
                 <p className="text-stone-600 italic leading-relaxed font-light text-sm sm:text-base line-clamp-3">
                   {activeLang === "SR" ? review.shortSR : review.shortEN}
                 </p>
               </div>
 
-              {/* Donji deo kartice sa dugmetom za čitanje celog teksta */}
               <div className="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-sm shadow-sm">
@@ -134,7 +193,6 @@ export default function Reviews() {
                   </div>
                 </div>
 
-                {/* Dugme za otvaranje cele recenzije */}
                 <button
                   onClick={() => setSelectedReview(review)}
                   className="text-xs font-semibold text-[#bc1888] hover:underline uppercase tracking-wider"
@@ -144,7 +202,7 @@ export default function Reviews() {
               </div>
             </article>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* ========================================================= */}
@@ -164,10 +222,9 @@ export default function Reviews() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              onClick={(e) => e.stopPropagation()} // Sprečava zatvaranje kad se klikne unutar prozora
+              onClick={(e) => e.stopPropagation()} 
               className="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-10 shadow-2xl relative border border-stone-100"
             >
-              {/* Dugme za zatvaranje (X) */}
               <button
                 onClick={() => setSelectedReview(null)}
                 className="absolute top-6 right-6 text-stone-400 hover:text-stone-800 p-2 rounded-full bg-stone-100 hover:bg-stone-200 transition-all"
@@ -176,19 +233,16 @@ export default function Reviews() {
                 <FaTimes size={18} />
               </button>
 
-              {/* Zvezdice u modalu */}
               <div className="flex gap-1 text-amber-400 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <FaStar key={i} size={16} />
                 ))}
               </div>
 
-              {/* Puni tekst recenzije (sa prelomima redova) */}
               <div className="text-stone-700 italic font-light text-base sm:text-lg leading-relaxed space-y-4 mb-8 whitespace-pre-line">
                 &ldquo;{activeLang === "SR" ? selectedReview.fullSR : selectedReview.fullEN}&rdquo;
               </div>
 
-              {/* Potpis u modalu */}
               <div className="pt-6 border-t border-stone-100 flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-lg shadow-md">
                   {selectedReview.name.charAt(0)}
@@ -202,35 +256,6 @@ export default function Reviews() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* CSS za animaciju trake */}
-      {/* CSS za savršeno glatki kružni tok bez zastoja */}
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-        .marquee-track {
-          display: flex;
-          width: max-content;
-          animation: marquee 35s linear infinite;
-        }
-        .marquee-track:hover {
-          animation-play-state: paused;
-        }
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(calc(-100% / 3));
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-track {
-            animation: none;
-          }
-        }
-      `}</style>
     </section>
   );
 }
