@@ -1,4 +1,5 @@
 
+import Reviews from "@/components/Reviews";
 import BrandsSection from "@/components/sections/BrandsSection";
 import HeroSection from "@/components/sections/HeroSection"; 
 import LocationSection from "@/components/sections/LocationSection";
@@ -13,7 +14,9 @@ export default function Home() {
       <HeroSection />
       <StatsSection />
       <BrandsSection />
+      
       <LocationSection/>
+      <Reviews />
       
     </main>
   );
