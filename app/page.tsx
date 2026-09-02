@@ -1,6 +1,7 @@
 
 import Reviews from "@/components/Reviews";
 import BrandsSection from "@/components/sections/BrandsSection";
+import FAQ from "@/components/sections/FAQ";
 import HeroSection from "@/components/sections/HeroSection"; 
 import LocationSection from "@/components/sections/LocationSection";
 import StatsSection from "@/components/sections/StatsSection";
@@ -18,7 +19,7 @@ export default function Home() {
       <LocationSection/>
       <Reviews />
       {/* jos jedna komop */}
-      
+      <FAQ />
       
     </main>
   );
