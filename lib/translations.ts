@@ -54,7 +54,7 @@ export const translations = {
     // NOVO: Edukacije na srpskom
     eduLinks: [
       { name: "Škola šminkanja", href: "/edukacije/skola-sminkanja" },
-      { name: "Workshops", href: "/edukacije/skola-sminke" },
+      { name: "Workshops", href: "/edukacije/worksshops" },
       { name: "Bazna obuka", href: "/edukacije/bazna" },
       { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
       { name: "Perfect yourself", href: "/edukacije/n-sam-by-tamara" },
