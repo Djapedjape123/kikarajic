@@ -9,6 +9,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import LoadingScreen from "@/components/LoadingScreen"; 
 import Navbar from "@/components/Navbar";
 import InstagramFloatButton from "@/components/InstagramFloatButton"; // <-- DODATO: Uvozimo Instagram dugme
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
           <InstagramFloatButton />
 
           {children}
+          <Footer/>
         </LanguageProvider>
         
       </body>
