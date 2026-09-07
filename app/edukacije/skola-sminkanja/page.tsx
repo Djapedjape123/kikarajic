@@ -121,24 +121,33 @@ export default function SkolaSminkanjaPage() {
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         {/* TODO: Ovde ubaci svoj Cloudinary link za HERO sliku za Školu šminkanja */}
         <div className="absolute inset-0 w-full h-full">
+          {/* Slika za male ekrane (vidljiva samo na mobilnim uređajima) */}
           <img 
-            src="https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg" 
+            src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg" 
             alt="Škola šminkanja" 
-            className="w-full h-full object-cover object-top"
+            className="w-full h-full object-cover object-top md:hidden"
           />
+          
+          {/* Slika za velike ekrane (vidljiva samo na desktopu i većim tabletima) */}
+          <img 
+            src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg" 
+            alt="Škola šminkanja" 
+            className="w-full h-full object-cover object-top hidden md:block"
+          />
+          
           {/* Tamni overlay za savršenu vidljivost navbara */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-          <motion.span 
+          {/* <motion.span 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="inline-block py-1.5 px-4 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium tracking-widest uppercase mb-6"
           >
             {content.heroTag}
-          </motion.span>
+          </motion.span> */}
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -273,13 +282,13 @@ export default function SkolaSminkanjaPage() {
         {/* TODO: Zameni src atribute sa svojim Cloudinary linkovima za Školu šminkanja */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src="https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg" alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807866/IMG_1329.JPG_zui59e.jpg" alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md sm:mt-8">
-            <img src="https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg" alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807848/IMG_1332.JPG_k0g8yl.jpg" alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src="https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg" alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg" alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
         </div>
       </section>
