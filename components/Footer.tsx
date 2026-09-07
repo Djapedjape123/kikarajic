@@ -141,8 +141,8 @@ export default function Footer() {
                     <p>© {new Date().getFullYear()} Kika Rajić Studio. {activeLang === "SR" ? "Sva prava zadržana." : "All rights reserved."}</p>
 
                     <p className="flex items-center gap-1">
-                        <span>Web design & dev by</span>
-                        <span className="text-stone-400 font-medium">prWeb</span>
+                        <span>Web dev by</span>
+                        <span className="text-stone-400 font-medium"><a href="https://www.pedjadev.com/">prWeb</a></span>
                     </p>
 
                     {/* Dugme za povratak na vrh */}
