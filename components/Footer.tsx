@@ -116,8 +116,8 @@ export default function Footer() {
 
                         <div className="flex items-center gap-3 text-stone-400 text-sm font-light">
                             <FaEnvelope className="text-[#bc1888] shrink-0" size={16} />
-                            <a href="mailto:kontakt@kikarajic.com" className="hover:text-white transition-colors">
-                                kontakt@kikarajic.com
+                            <a href="mailto:rajickristina.ns@gmail.com" className="hover:text-white transition-colors">
+                                rajickristina.ns@gmail.com
                             </a>
                         </div>
 
