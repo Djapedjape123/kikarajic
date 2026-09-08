@@ -42,11 +42,10 @@ export default function RootLayout({
         <LanguageProvider>
           <LoadingScreen />
           <Navbar />
-          
-          
           <InstagramFloatButton />
 
           {children}
+          
           <Footer/>
         </LanguageProvider>
         
