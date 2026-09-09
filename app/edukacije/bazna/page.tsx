@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { FaInstagram, FaCheck, FaCamera, FaBrush, FaCertificate, FaClock, FaCreditCard } from "react-icons/fa";
 import Image from "next/image";
 
-// Rečnik za prevod - tačan od reči do reči kako si poslao, plus engleski
+
 const t = {
   SR: {
     heroTag: "Individualni Program",
