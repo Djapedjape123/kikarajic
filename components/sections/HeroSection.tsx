@@ -89,7 +89,7 @@ export default function HeroSection() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
                         // OVO JE TAJ MAGIČNI LINK ZA DIREKTAN CHAT:
-                        href="https://ig.me/m/kikarajic"
+                        href="https://www.instagram.com/kikarajic/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-[240px] sm:w-auto flex items-center justify-center px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium shadow-xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-shadow hover:shadow-[#bc1888]/30"
