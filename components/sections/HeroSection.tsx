@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
+import WorkshopModal from "@/components/WorkshopModal";
 
 const luxurious = Luxurious_Script({
     weight: "400",
@@ -12,6 +14,7 @@ const luxurious = Luxurious_Script({
 
 export default function HeroSection() {
     const { t } = useLanguage();
+    const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false); // NOVI STATE ZA MODAL
 
     return (
         <section className="relative w-full min-h-[85svh] md:h-screen flex items-center justify-center overflow-hidden bg-stone-900">
@@ -97,20 +100,20 @@ export default function HeroSection() {
                         {t.hero.bookBtn}
                     </motion.a>
 
-                    {/* WorkShop Dugme */}
+                    {/* Dugme za Workshop Modal - Umesto Linka stavljen Button */}
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                        <Link
-                            href="/workshop"
-                            className="w-[240px] sm:w-auto flex items-center justify-center px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium border border-white/40 bg-black/30 backdrop-blur-md transition-all hover:bg-white hover:text-stone-900 shadow-xl"
+                        <button
+                            onClick={() => setIsWorkshopModalOpen(true)}
+                            className="w-[240px] sm:w-auto flex items-center justify-center px-6 py-2.5 sm:px-8 sm:py-3 rounded-full text-white text-sm sm:text-base font-medium border border-white/40 bg-black/30 backdrop-blur-md transition-all hover:bg-white hover:text-stone-900 shadow-xl cursor-pointer"
                         >
                             {t.hero.workshopBtn}
-                        </Link>
+                        </button>
                     </motion.div>
                 </motion.div>
 
             </div>
 
-            ///
+            {/* Skrol dugme */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -121,7 +124,6 @@ export default function HeroSection() {
                     href="#statistike"
                     onClick={(e) => {
                         e.preventDefault();
-                        // Ova funkcija pravi onaj glatki scroll efekat
                         document.getElementById("statistike")?.scrollIntoView({ behavior: "smooth" });
                     }}
                     className="flex flex-col items-center justify-center p-2 group cursor-pointer"
@@ -139,8 +141,13 @@ export default function HeroSection() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                     </motion.svg>
                 </a>
-
             </motion.div>
+
+            {/* VIP MODAL KOMPONENTA (Iskače kad je isWorkshopModalOpen true) */}
+            <WorkshopModal 
+                isOpen={isWorkshopModalOpen} 
+                onClose={() => setIsWorkshopModalOpen(false)} 
+            />
 
         </section >
     );
