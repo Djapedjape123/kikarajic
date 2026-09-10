@@ -115,7 +115,7 @@ export const translations = {
     //   { name: "Workshops", href: "/edukacije/worksshops" },
     //   { name: "Bazna obuka", href: "/edukacije/bazna" },
     //   { name: "Usavršavanje za sminkere", href: "/edukacije/usavrsavanje" },
-    //   { name: "Perfect yourself", href: "/edukacije/perfect-yourself" },
+    //   { name: "Perfect yourself", href: "/edukacije/perfect-yourself" }, 
     location: {
       badge: "Location",
       title: "How to find us?",
