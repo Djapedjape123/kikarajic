@@ -1,10 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import anime from "animejs";
 import { Luxurious_Script } from "next/font/google";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
+
 
 const luxurious = Luxurious_Script({
     weight: "400",
@@ -25,6 +28,8 @@ export default function AboutPage() {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const sliderImageRef = useRef<HTMLImageElement>(null);
 
     useEffect(() => {
         if (lightboxIndex !== null) return;
@@ -35,6 +40,62 @@ export default function AboutPage() {
 
         return () => clearInterval(timer);
     }, [images.length, lightboxIndex]);
+
+    useEffect(() => {
+        const content = contentRef.current;
+        if (!content || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const animation = anime({
+            targets: content.querySelectorAll("[data-about-reveal]"),
+            opacity: [0, 1],
+            translateY: [24, 0],
+            delay: anime.stagger(120),
+            duration: 800,
+            easing: "easeOutExpo",
+        });
+
+        return () => animation.pause();
+    }, []);
+
+    useEffect(() => {
+        const image = sliderImageRef.current;
+        if (!image || lightboxIndex !== null || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const animation = anime({
+            targets: image,
+            scale: [1, 1.045],
+            duration: 3000,
+            easing: "linear",
+        });
+
+        return () => animation.pause();
+    }, [currentIndex, lightboxIndex]);
+
+    useEffect(() => {
+        if (lightboxIndex !== null || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        const animation = anime({
+            targets: ".about-progress",
+            scaleX: [0, 1],
+            duration: 3000,
+            easing: "linear",
+        });
+
+        return () => animation.pause();
+    }, [currentIndex, lightboxIndex]);
+
+    useEffect(() => {
+        if (lightboxIndex === null) return;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setLightboxIndex(null);
+            if (event.key === "ArrowLeft") handlePrev();
+            if (event.key === "ArrowRight") handleNext();
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [lightboxIndex]);
 
     const handlePrev = () => {
         if (lightboxIndex === null) return;
@@ -59,34 +120,40 @@ export default function AboutPage() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                     {/* LEVA STRANA: TEKST */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -70 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.9, ease: "easeOut" }}
+                    <div
+                        ref={contentRef}
                         className="lg:col-span-7 flex flex-col justify-center"
                     >
-                        <span className="text-[#bc1888] font-bold uppercase tracking-[0.25em] text-xs sm:text-sm mb-3 block">
+                        <span data-about-reveal className="text-[#bc1888] font-bold uppercase tracking-[0.25em] text-xs sm:text-sm mb-3 block">
                             {t.about.badge}
                         </span>
 
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-800 mb-8 leading-tight">
+                        <h1 data-about-reveal className="text-4xl sm:text-5xl md:text-6xl font-serif text-stone-800 mb-8 leading-tight">
                             {t.about.title} <span className={`${luxurious.className} text-5xl sm:text-6xl md:text-7xl text-[#bc1888] inline-block`}>Kika Rajić</span>
                         </h1>
 
                         <div className="space-y-5 text-stone-700 text-base sm:text-lg leading-relaxed font-light">
-                            <p>{t.about.p1}</p>
-                            <p>{t.about.p2}</p>
-                            <p>{t.about.p3}</p>
-                            <p>{t.about.p4}</p>
+                            <p data-about-reveal>{t.about.p1}</p>
+                            <p data-about-reveal>{t.about.p2}</p>
+                            <p data-about-reveal>{t.about.p3}</p>
+                            <p data-about-reveal>{t.about.p4}</p>
                         </div>
 
                         {/* Citat */}
-                        <div className="mt-8 p-6 rounded-2xl bg-white/70 border-l-4 border-[#bc1888] shadow-sm backdrop-blur-sm">
+                        <div data-about-reveal className="mt-8 p-6 rounded-2xl bg-white/70 border-l-4 border-[#bc1888] shadow-sm backdrop-blur-sm">
                             <p className="italic text-stone-800 font-serif text-xl">
                                 &ldquo;{t.about.quote}&rdquo;
                             </p>
                         </div>
-                    </motion.div>
+
+                        <Link
+                            data-about-reveal
+                            href="/edukacije/skola-sminkanja"
+                            className="mt-7 self-start rounded-full bg-[#bc1888] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#bc1888]/20 transition-transform hover:-translate-y-1 hover:bg-[#a91579]"
+                        >
+                            {t.nav.educations}
+                        </Link>
+                    </div>
 
                     {/* DESNA STRANA: SLAJDER */}
                     <motion.div
@@ -98,6 +165,7 @@ export default function AboutPage() {
                         <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-[8px] border-white bg-stone-200 group">
                             <AnimatePresence mode="wait">
                                 <motion.img
+                                    ref={sliderImageRef}
                                     key={currentIndex}
                                     src={images[currentIndex]}
                                     alt={`Kika Rajić Slika ${currentIndex + 1}`}
@@ -110,20 +178,25 @@ export default function AboutPage() {
                                 />
                             </AnimatePresence>
 
-                            <div
+                            <button
+                                type="button"
                                 onClick={() => setLightboxIndex(currentIndex)}
                                 className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full opacity-90 group-hover:opacity-100 transition-opacity cursor-pointer pointer-events-auto"
                             >
                                 Klikni za ceo ekran
-                            </div>
+                            </button>
 
                             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10 pointer-events-none">
                                 {images.map((_, idx) => (
                                     <div
                                         key={idx}
-                                        className={`h-2 rounded-full transition-all duration-300 ${idx === currentIndex ? "w-6 bg-white" : "w-2 bg-white/50"
+                                        className={`h-2 rounded-full overflow-hidden transition-all duration-300 ${idx === currentIndex ? "w-8 bg-white/40" : "w-2 bg-white/50"
                                             }`}
-                                    />
+                                    >
+                                        {idx === currentIndex && (
+                                            <span className="about-progress block h-full origin-left bg-white" />
+                                        )}
+                                    </div>
                                 ))}
                             </div>
                         </div>
