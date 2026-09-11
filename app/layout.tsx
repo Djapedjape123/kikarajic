@@ -8,7 +8,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 //komponente
 import LoadingScreen from "@/components/LoadingScreen"; 
 import Navbar from "@/components/Navbar";
-import InstagramFloatButton from "@/components/InstagramFloatButton"; // <-- DODATO: Uvozimo Instagram dugme
+import InstagramFloatButton from "@/components/InstagramFloatButton"; // dugem za insta
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({

@@ -11,9 +11,7 @@ const luxurious = Luxurious_Script({
     subsets: ["latin"],
 });
 
-// -------------------------------------------------------------
-// OVDE ĆEŠ UBACITI SVOJE CLOUDINARY LINKOVE KAD BUDU SPREMNI
-// -------------------------------------------------------------
+
 const defaultImages = [
     "https://res.cloudinary.com/duomot4hp/image/upload/v1788264843/54E45CA6-5F90-4244-97DA-5B1332C2C2CA.JPG_n3kffz.jpg",
     "https://res.cloudinary.com/duomot4hp/image/upload/v1788264907/IMG_1462.JPG_nsptku.jpg",

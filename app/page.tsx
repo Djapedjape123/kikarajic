@@ -18,7 +18,7 @@ export default function Home() {
       
       <LocationSection/>
       <Reviews />
-      {/* jos jedna komop */}
+      
       <FAQ />
       
     </main>
