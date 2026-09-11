@@ -24,7 +24,7 @@ export const translations = {
       bookBtn: 'Zakaži termin',
       workshopBtn: 'WorkShop Prijave'
     },
-    // NOVO: Dodati prevodi za statistike
+    // statistika
     stats: {
       badge: "Iskustvo i poverenje",
       items: {
@@ -51,7 +51,7 @@ export const translations = {
       pin_title: "Kika Rajić Studio",
       pin_sub: "Vaša oaza lepote"
     },
-    // NOVO: Edukacije na srpskom
+    
     eduLinks: [
       { name: "Škola šminkanja", href: "/edukacije/skola-sminkanja" },
       { name: "Workshops", href: "/edukacije/worksshops" },

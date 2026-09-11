@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import LogoLoop from "@/components/ui/LogoLoop"; // Tvoja super glatka komponenta!
+import LogoLoop from "@/components/ui/LogoLoop"; 
 
 
 const brands = [

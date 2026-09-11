@@ -5,7 +5,7 @@ import "./globals.css";
 // promena jezika 
 import { LanguageProvider } from "@/context/LanguageContext";
 
-// 1. Uvozimo naše komponente
+//komponente
 import LoadingScreen from "@/components/LoadingScreen"; 
 import Navbar from "@/components/Navbar";
 import InstagramFloatButton from "@/components/InstagramFloatButton"; // <-- DODATO: Uvozimo Instagram dugme
