@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
+import { usePathname } from "next/navigation";
 
 const luxurious = Luxurious_Script({
   weight: "400",
@@ -18,6 +19,10 @@ export default function Navbar() {
   const [isReady, setIsReady] = useState(false);
 
   const { activeLang, setActiveLang, t } = useLanguage();
+  const pathname = usePathname();
+
+  
+  
 
   const eduLinks = t.eduLinks;
   const serviceLinks = t.serviceLinks; // <--- Usluge iz prevoda
@@ -38,6 +43,8 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <nav

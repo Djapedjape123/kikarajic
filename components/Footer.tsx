@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
 import { FaInstagram, FaMapMarkerAlt, FaEnvelope, FaChevronUp, FaTiktok } from "react-icons/fa";
+import { usePathname } from "next/navigation";
 
 const luxurious = Luxurious_Script({
     weight: "400",
@@ -12,6 +13,9 @@ const luxurious = Luxurious_Script({
 
 export default function Footer() {
     const { activeLang, t } = useLanguage();
+    const pathname = usePathname();
+
+    
 
     const eduLinks = t.eduLinks || [];
     const serviceLinks = t.serviceLinks || [];
@@ -20,6 +24,7 @@ export default function Footer() {
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
+    if (pathname.startsWith("/admin")) return null;
 
     return (
         <footer className="bg-stone-900 text-stone-300 relative overflow-hidden pt-20 pb-12 border-t border-stone-800">
