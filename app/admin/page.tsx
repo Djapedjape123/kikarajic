@@ -68,22 +68,27 @@ export default function AdminDashboard() {
     };
 
     const handleExportCSV = () => {
-        // Pravimo naslove kolona
         const headers = ["Ime i Prezime", "Email", "Radionica", "Datum Radionice", "Datum Prijave"];
 
-        // Mapiramo podatke u redove
+        // Funkcija koja čisti svaki unos od CSV injection-a i duplira postojeće navodnike
+        const escapeCSV = (str: string) => {
+            let cleanStr = str.replace(/"/g, '""'); // Excel traži duple navodnike za escape
+            // Ako počinje opasnim karakterima za formule, dodajemo apostrof
+            if (/^[=+\-@]/.test(cleanStr)) {
+                cleanStr = "'" + cleanStr;
+            }
+            return `"${cleanStr}"`;
+        };
+
         const rows = leads.map(lead => [
-            `"${lead.name}"`,
-            `"${lead.email}"`,
-            `"${lead.workshop_name}"`,
-            `"${lead.workshop_date}"`,
-            `"${new Date(lead.created_at).toLocaleDateString("sr-RS")}"`
+            escapeCSV(lead.name),
+            escapeCSV(lead.email),
+            escapeCSV(lead.workshop_name),
+            escapeCSV(lead.workshop_date),
+            escapeCSV(new Date(lead.created_at).toLocaleDateString("sr-RS"))
         ]);
 
-        // Spajamo sve u jedan fajl
         const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
-
-        // Kreiramo i klikćemo skriveni link za preuzimanje
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
@@ -108,7 +113,7 @@ export default function AdminDashboard() {
             <header className="bg-white border-b border-stone-200 sticky top-0 z-40 shadow-sm">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
                     <div>
-                        <h1 className="text-xl sm:text-2xl font-serif text-stone-800">Zdravo, Kika 👋</h1>
+                        <h1 className="text-xl sm:text-2xl font-serif text-stone-800">Zdravo,Kika</h1>
                         <p className="text-xs sm:text-sm text-stone-500 font-light">Pregled svih tvojih prijava</p>
                     </div>
 

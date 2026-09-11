@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { FaInstagram } from 'react-icons/fa';
+import { usePathname } from "next/navigation";
 
 export default function InstagramFloatButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -11,8 +12,11 @@ export default function InstagramFloatButton() {
     const timer = setTimeout(() => setIsVisible(true), 4000);
     return () => clearTimeout(timer);
   }, []);
+   const pathname = usePathname();
 
   if (!isVisible) return null;
+
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <a
