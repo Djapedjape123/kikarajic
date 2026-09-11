@@ -49,7 +49,6 @@ export default function HeroSection() {
                     <motion.span
                         initial={{ opacity: 0, y: 30, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        // Smanjen delay sa 2.1 na 1.5 i duration sa 1 na 0.8
                         transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
                         className={`${luxurious.className} text-6xl md:text-8xl lg:text-9xl drop-shadow-lg`}
                     >
@@ -59,7 +58,6 @@ export default function HeroSection() {
                     <motion.span
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        // Smanjen delay sa 2.3 na 1.7 i duration sa 1 na 0.8
                         transition={{ duration: 0.8, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
                         className="text-2xl md:text-4xl font-light tracking-[0.35em] uppercase mt-2 md:mt-6 text-stone-200 drop-shadow-md"
                     >
@@ -88,7 +86,6 @@ export default function HeroSection() {
                     <motion.a
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.97 }}
-                        // OVO JE TAJ MAGIČNI LINK ZA DIREKTAN CHAT:
                         href="https://www.instagram.com/kikarajic/"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -100,7 +97,7 @@ export default function HeroSection() {
                         {t.hero.bookBtn}
                     </motion.a>
 
-                    {/* Dugme za Workshop Modal - Umesto Linka stavljen Button */}
+                    {/* Dugme za Workshop Modal */}
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
                         <button
                             onClick={() => setIsWorkshopModalOpen(true)}
@@ -120,7 +117,7 @@ export default function HeroSection() {
                 transition={{ delay: 3.2, duration: 1 }}
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
             >
-                <a
+              <a
                     href="#statistike"
                     onClick={(e) => {
                         e.preventDefault();
@@ -137,16 +134,18 @@ export default function HeroSection() {
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
-                        {/* Elegantna dupla strelica */}
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                     </motion.svg>
                 </a>
             </motion.div>
 
             {/* VIP MODAL KOMPONENTA (Iskače kad je isWorkshopModalOpen true) */}
-            <WorkshopModal 
-                isOpen={isWorkshopModalOpen} 
-                onClose={() => setIsWorkshopModalOpen(false)} 
+            {/* OVDE MENJAŠ NAZIV I DATUM ZA SVAKI NOVI WORKSHOP */}
+            <WorkshopModal
+                isOpen={isWorkshopModalOpen}
+                onClose={() => setIsWorkshopModalOpen(false)}
+                workshopName="Masterclass šminkanja"
+                workshopDate="15. oktobar 2026."
             />
 
         </section >

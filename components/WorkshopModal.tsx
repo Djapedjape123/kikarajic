@@ -8,10 +8,10 @@ import { useLanguage } from "@/context/LanguageContext";
 interface WorkshopModalProps {
   isOpen: boolean;
   onClose: () => void;
+  workshopName: string;
+  workshopDate: string;
 }
 
-// Prati širinu ekrana da bismo znali da li je desktop (slide-in sa strane, pun visina)
-// ili mobilni (centriran modal na sredini ekrana).
 function useIsDesktop(breakpoint = 640) {
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -27,14 +27,14 @@ function useIsDesktop(breakpoint = 640) {
 
 const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
+export default function WorkshopModal({ isOpen, onClose, workshopName, workshopDate }: WorkshopModalProps) {
   const { activeLang } = useLanguage();
   const isDesktop = useIsDesktop();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
@@ -64,7 +64,7 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
     return () => clearTimeout(resetTimer);
   }, [isOpen, onClose]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email) return;
 
@@ -77,16 +77,25 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
 
     setEmailError("");
     setStatus("loading");
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("/api/workshop-signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, workshopName, workshopDate }),
+      });
+
+      if (!res.ok) throw new Error("Signup failed");
       setStatus("success");
-    }, 1500);
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* ZAMUĆENA POZADINA (Backdrop) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -95,7 +104,6 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
             className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-md"
           />
 
-          {/* KONTEJNER: centrirano na malom ekranu, desno (pun visina) na desktopu */}
           <div className="fixed inset-0 z-[100] flex items-center justify-center sm:justify-end pointer-events-none p-4 sm:p-0">
             <motion.div
               role="dialog"
@@ -107,7 +115,6 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="pointer-events-auto w-full max-w-[400px] sm:max-w-none sm:w-[480px] max-h-[90vh] sm:max-h-none sm:h-full bg-stone-950/95 backdrop-blur-2xl border border-white/10 sm:border-y-0 sm:border-r-0 shadow-2xl flex flex-col rounded-[2rem] sm:rounded-none relative overflow-hidden"
             >
-              {/* Zaglavlje (Zatvaranje) */}
               <div className="flex justify-end p-5 sm:p-6 relative z-50 shrink-0">
                 <button
                   onClick={onClose}
@@ -118,7 +125,6 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                 </button>
               </div>
 
-              {/* SADRŽAJ - skroluje se ako ne stane na mali ekran */}
               <div className="flex-1 overflow-y-auto px-5 sm:px-10 pb-8 sm:pb-10 flex flex-col justify-center relative" style={{ perspective: 1200 }}>
                 <motion.div
                   animate={{ rotateY: status === "success" ? 180 : 0 }}
@@ -126,7 +132,6 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                   style={{ transformStyle: "preserve-3d" }}
                   className="relative w-full min-h-[440px] sm:min-h-[500px]"
                 >
-                  {/* PREDNJA STRANA: FORMA */}
                   <div
                     className="absolute inset-0 flex flex-col justify-center"
                     style={{ backfaceVisibility: "hidden" }}
@@ -139,6 +144,9 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                         </h3>
                       </div>
                       <p className="text-stone-400 font-light text-xs sm:text-sm leading-relaxed px-2">
+                        {workshopName} — {workshopDate}
+                      </p>
+                      <p className="text-stone-500 font-light text-xs leading-relaxed px-2 mt-1">
                         {activeLang === "SR"
                           ? "Ostavi svoje podatke kako bi rezervisala mesto. Broj mesta je strogo ograničen."
                           : "Leave your details to reserve your spot. Spots are strictly limited."}
@@ -194,6 +202,14 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                           : "By registering, you agree to be notified about future workshops."}
                       </p>
 
+                      {status === "error" && (
+                        <p className="text-xs text-red-400 text-center">
+                          {activeLang === "SR"
+                            ? "Nešto je pošlo po zlu. Pokušaj ponovo."
+                            : "Something went wrong. Please try again."}
+                        </p>
+                      )}
+
                       <button
                         type="submit"
                         disabled={status === "loading"}
@@ -208,7 +224,6 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                     </form>
                   </div>
 
-                  {/* ZADNJA STRANA: VIP KARTA */}
                   <div
                     className="absolute inset-0 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col justify-between overflow-hidden bg-gradient-to-br from-[#e35bb0] via-[#bc1888] to-[#7a0f5e] border border-white/30"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
@@ -235,7 +250,13 @@ export default function WorkshopModal({ isOpen, onClose }: WorkshopModalProps) {
                           <p className="text-white/70 text-[10px] sm:text-xs uppercase tracking-wider">
                             {activeLang === "SR" ? "Događaj" : "Event"}
                           </p>
-                          <p className="text-white text-sm sm:text-base font-medium drop-shadow-sm">Kika Rajić Masterclass</p>
+                          <p className="text-white text-sm sm:text-base font-medium drop-shadow-sm">{workshopName}</p>
+                        </div>
+                        <div>
+                          <p className="text-white/70 text-[10px] sm:text-xs uppercase tracking-wider">
+                            {activeLang === "SR" ? "Datum" : "Date"}
+                          </p>
+                          <p className="text-white text-sm sm:text-base font-medium drop-shadow-sm">{workshopDate}</p>
                         </div>
                         <div>
                           <p className="text-white/70 text-[10px] sm:text-xs uppercase tracking-wider">
