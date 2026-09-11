@@ -36,9 +36,9 @@ export default function BrandsSection() {
           speed={40} // Brzina rotacije (smanji/povećaj po želji)
           gap={80}   // Razmak između logotipa
           logoHeight={48} // Visina slike (48px = Tailwind h-12)
-          fadeOut={true}
+          fadeOut={true} // Omogućava fade out efekat na ivicama
           fadeOutColor="#FAF7F2" // Isti fadeOut kao naša pozadina!
-          pauseOnHover={true}
+          pauseOnHover={true} 
           renderItem={(item: any) => (
             <a
               href={item.href}

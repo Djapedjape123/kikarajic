@@ -11,7 +11,7 @@ export default function Home() {
     // Glavni omotač stranice, stavio sam našu krem boju pozadine
     <main className="flex flex-col min-h-screen bg-[#FAF7F2]">
       
-      {/* 1. Hero sekcija sa videom */}
+      
       <HeroSection />
       <StatsSection />
       <BrandsSection />
