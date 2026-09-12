@@ -24,6 +24,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Kika Rajić | Studio",
   description: "Profesionalno šminkanje, frizure i sprej ten",
+  
 };
 
 export default function RootLayout({
