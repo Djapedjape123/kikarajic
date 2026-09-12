@@ -145,7 +145,7 @@ export default function HeroSection() {
                 isOpen={isWorkshopModalOpen}
                 onClose={() => setIsWorkshopModalOpen(false)}
                 workshopName="Masterclass šminkanja"
-                workshopDate="15. oktobar 2026."
+                workshopDate="15. oktobar 2026. 20:00h Hotel Metropol, Beograd"
             />
 
         </section >
