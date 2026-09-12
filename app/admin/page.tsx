@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogOut, Download, Trash2, User, Mail, Calendar, Ticket, Loader2, Globe } from "lucide-react";
+import { LogOut, Download, Trash2, User, Mail, Calendar, Ticket, Loader2, Globe, Search, Filter } from "lucide-react";
 
 // Tip podataka iz naše baze
 type Lead = {
@@ -20,6 +20,10 @@ export default function AdminDashboard() {
     const [leads, setLeads] = useState<Lead[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+
+    // Stanja za pretragu i filtriranje
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedWorkshop, setSelectedWorkshop] = useState("Sve radionice");
 
     useEffect(() => {
         fetchLeads();
@@ -46,7 +50,6 @@ export default function AdminDashboard() {
     };
 
     const handleDelete = async (id: string) => {
-        // Sigurnosno pitanje pre brisanja
         if (!window.confirm("Da li si sigurna da želiš da obrišeš ovu prijavu? Ovo se ne može vratiti.")) {
             return;
         }
@@ -59,7 +62,6 @@ export default function AdminDashboard() {
             });
 
             if (res.ok) {
-                // Ako je brisanje uspešno, sklanjamo karticu sa ekrana bez učitavanja stranice
                 setLeads(leads.filter((lead) => lead.id !== id));
             }
         } catch (error) {
@@ -67,20 +69,34 @@ export default function AdminDashboard() {
         }
     };
 
+    // Dinamično izvlačenje svih radionica iz baze
+    const uniqueWorkshops = ["Sve radionice", ...Array.from(new Set(leads.map((l) => l.workshop_name)))];
+
+    // Filtriranje prijava na osnovu pretrage i padajućeg menija
+    const filteredLeads = leads.filter((lead) => {
+        const matchesSearch =
+            lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            lead.email.toLowerCase().includes(searchQuery.toLowerCase());
+
+        const matchesWorkshop =
+            selectedWorkshop === "Sve radionice" || lead.workshop_name === selectedWorkshop;
+
+        return matchesSearch && matchesWorkshop;
+    });
+
     const handleExportCSV = () => {
         const headers = ["Ime i Prezime", "Email", "Radionica", "Datum Radionice", "Datum Prijave"];
 
-        // Funkcija koja čisti svaki unos od CSV injection-a i duplira postojeće navodnike
         const escapeCSV = (str: string) => {
-            let cleanStr = str.replace(/"/g, '""'); // Excel traži duple navodnike za escape
-            // Ako počinje opasnim karakterima za formule, dodajemo apostrof
+            let cleanStr = str.replace(/"/g, '""'); 
             if (/^[=+\-@]/.test(cleanStr)) {
                 cleanStr = "'" + cleanStr;
             }
             return `"${cleanStr}"`;
         };
 
-        const rows = leads.map(lead => [
+        // Exportujemo samo filtrirane prijave (ono što Kika trenutno vidi na ekranu)
+        const rows = filteredLeads.map(lead => [
             escapeCSV(lead.name),
             escapeCSV(lead.email),
             escapeCSV(lead.workshop_name),
@@ -113,11 +129,10 @@ export default function AdminDashboard() {
             <header className="bg-white border-b border-stone-200 sticky top-0 z-40 shadow-sm">
                 <div className="max-w-5xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
                     <div>
-                        <h1 className="text-xl sm:text-2xl font-serif text-stone-800">Zdravo,Kika</h1>
+                        <h1 className="text-xl sm:text-2xl font-serif text-stone-800">Zdravo, Kika</h1>
                         <p className="text-xs sm:text-sm text-stone-500 font-light">Pregled svih tvojih prijava</p>
                     </div>
 
-                    {/* DUGMIĆI NA DESNOJ STRANI */}
                     <div className="flex items-center gap-2 sm:gap-3">
                         <Link
                             href="/"
@@ -141,10 +156,45 @@ export default function AdminDashboard() {
             {/* GLAVNI DEO */}
             <div className="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
 
+                {/* TRAKA ZA PRETRAGU I FILTRIRANJE */}
+                <div className="bg-white p-4 rounded-2xl shadow-sm border border-stone-200 mb-6 flex flex-col sm:flex-row gap-4">
+                    {/* Polje za pretragu */}
+                    <div className="relative flex-1">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                            <Search size={18} />
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Traži po imenu ili emailu..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all"
+                        />
+                    </div>
+
+                    {/* Padajući meni za radionice */}
+                    <div className="relative w-full sm:w-64">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                            <Filter size={18} />
+                        </div>
+                        <select
+                            value={selectedWorkshop}
+                            onChange={(e) => setSelectedWorkshop(e.target.value)}
+                            className="w-full pl-10 pr-8 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all appearance-none cursor-pointer"
+                        >
+                            {uniqueWorkshops.map((workshop, idx) => (
+                                <option key={idx} value={workshop}>
+                                    {workshop}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
                 {/* Kontrole iznad liste */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                     <div className="bg-white px-4 py-2 rounded-full shadow-sm border border-stone-200 text-sm text-stone-600 font-medium">
-                        Ukupno prijava: <span className="text-[#bc1888] font-bold">{leads.length}</span>
+                        Ukupno prijava: <span className="text-[#bc1888] font-bold">{filteredLeads.length}</span>
                     </div>
 
                     <button
@@ -157,16 +207,16 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* LISTA PRIJAVA - KARTICE */}
-                {leads.length === 0 ? (
+                {filteredLeads.length === 0 ? (
                     <div className="bg-white rounded-3xl p-12 text-center border border-stone-100 shadow-sm mt-10">
                         <Ticket className="mx-auto text-stone-300 mb-4" size={48} />
-                        <h3 className="text-lg font-medium text-stone-700">Trenutno nema prijava</h3>
-                        <p className="text-stone-500 text-sm mt-2">Kada se neko prijavi na radionicu, pojaviće se ovde.</p>
+                        <h3 className="text-lg font-medium text-stone-700">Nema rezultata</h3>
+                        <p className="text-stone-500 text-sm mt-2">Nismo pronašli nijednu prijavu za ovu pretragu.</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <AnimatePresence>
-                            {leads.map((lead) => (
+                            {filteredLeads.map((lead) => (
                                 <motion.div
                                     key={lead.id}
                                     initial={{ opacity: 0, scale: 0.95 }}
