@@ -88,7 +88,7 @@ export default function AdminDashboard() {
         const headers = ["Ime i Prezime", "Email", "Radionica", "Datum Radionice", "Datum Prijave"];
 
         const escapeCSV = (str: string) => {
-            let cleanStr = str.replace(/"/g, '""'); 
+            let cleanStr = str.replace(/"/g, '""');
             if (/^[=+\-@]/.test(cleanStr)) {
                 cleanStr = "'" + cleanStr;
             }
@@ -168,7 +168,10 @@ export default function AdminDashboard() {
                             placeholder="Traži po imenu ili emailu..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm 
+                                      placeholder-stone-500 
+                                      sm:placeholder-white
+                                        focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all"
                         />
                     </div>
 
