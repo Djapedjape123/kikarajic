@@ -17,7 +17,7 @@ export default function HeroSection() {
     const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false); // NOVI STATE ZA MODAL
 
     return (
-        <section className="relative w-full min-h-[85svh] md:h-screen flex items-center justify-center overflow-hidden bg-stone-900">
+        <section className="relative w-full min-h-[100svh] md:h-screen flex items-center justify-center overflow-hidden bg-stone-900">
 
             {/* 1. VIDEO POZADINA */}
             <video
