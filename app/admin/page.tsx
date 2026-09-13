@@ -183,7 +183,7 @@ export default function AdminDashboard() {
                         <select
                             value={selectedWorkshop}
                             onChange={(e) => setSelectedWorkshop(e.target.value)}
-                            className="w-full pl-10 pr-8 py-2.5 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all appearance-none cursor-pointer"
+                            className="w-full pl-10 pr-8 py-2.5 bg-stone-50 border placeholder-stone-500 border-stone-200 rounded-xl text-sm focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all appearance-none cursor-pointer"
                         >
                             {uniqueWorkshops.map((workshop, idx) => (
                                 <option key={idx} value={workshop}>
