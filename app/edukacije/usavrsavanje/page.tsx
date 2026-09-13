@@ -3,6 +3,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import { FaInstagram, FaCheck, FaBrush, FaCertificate, FaCamera, FaUserGraduate, FaBullseye } from "react-icons/fa";
+import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
 
 // Rečnik za prevod - prilagođen tekstu za Individualno usavršavanje
 const t = {
@@ -120,16 +121,14 @@ export default function IndividualnoUsavrsavanjePage() {
       {/* 1. HERO SEKCIJA SA DUPLIM SLIKAMA (Mobile vs Desktop) */}
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          {/* TODO: Ubaci sliku za MALE ekrane (mobilne) */}
           <img 
-            src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807720/IMG_1325.JPG_fdj7eh.jpg" 
+            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807720/IMG_1325.JPG_fdj7eh.jpg", 800)}
             alt="Individualno usavršavanje" 
             className="w-full h-full object-cover object-top md:hidden"
           />
           
-          {/* TODO: Ubaci sliku za VELIKE ekrane (desktop) */}
           <img 
-            src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg" 
+            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
             alt="Individualno usavršavanje" 
             className="w-full h-full object-cover object-top hidden md:block"
           />
@@ -139,15 +138,6 @@ export default function IndividualnoUsavrsavanjePage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-          {/* <motion.span 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block py-1.5 px-4 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium tracking-widest uppercase mb-6"
-          >
-            {content.heroTag}
-          </motion.span> */}
-          
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -278,16 +268,15 @@ export default function IndividualnoUsavrsavanjePage() {
         <h2 className="text-3xl font-serif text-stone-800 text-center mb-12">
           {content.galleryTitle}
         </h2>
-        {/* TODO: Zameni src atribute sa svojim Cloudinary linkovima za Usavršavanje */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807736/IMG_5148.JPG_beawel.jpg" alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807736/IMG_5148.JPG_beawel.jpg", 700)} alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md sm:mt-8">
-            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg" alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg", 700)} alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src="https://res.cloudinary.com/duomot4hp/image/upload/v1788807709/IMG_5293.JPG_edc1nn.jpg" alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807709/IMG_5293.JPG_edc1nn.jpg", 700)} alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
         </div>
       </section>
@@ -305,12 +294,12 @@ export default function IndividualnoUsavrsavanjePage() {
           <p className="text-stone-300 font-light text-lg sm:text-xl mb-10">
             {content.finalCtaDesc}
           </p>
-          <a
+          
             href="https://ig.me/m/kikarajic"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full text-white text-lg font-medium shadow-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-transform hover:scale-105 hover:shadow-[#bc1888]/40"
-          >
+          <a>
             <FaInstagram size={24} />
             {content.finalCtaBtn}
           </a>
