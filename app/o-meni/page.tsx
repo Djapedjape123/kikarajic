@@ -22,14 +22,34 @@ const defaultImages = [
     "https://res.cloudinary.com/duomot4hp/image/upload/v1788265014/IMG_1479.JPG_pkoauw.jpg",
 ];
 
+// Ubacuje Cloudinary transformaciju (auto format + auto kvalitet + širina)
+// direktno u URL, bez potrebe da se slike ručno menjaju u Cloudinary panelu.
+function optimizeCloudinaryUrl(url: string, width: number) {
+    return url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`);
+}
+
 export default function AboutPage() {
     const { t } = useLanguage();
-    const images = defaultImages;
+
+    // Manja verzija za slajder (prikazuje se u okviru ~420px)
+    const images = defaultImages.map((url) => optimizeCloudinaryUrl(url, 900));
+    // Veća verzija za lightbox (prikazuje se skoro preko celog ekrana)
+    const lightboxImages = defaultImages.map((url) => optimizeCloudinaryUrl(url, 1600));
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const sliderImageRef = useRef<HTMLImageElement>(null);
+
+    // Preload - sve slike slajdera se u pozadini učitaju čim se stranica otvori,
+    // da ne bude "zastoja" kad slajder pređe na sledeću.
+    useEffect(() => {
+        images.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (lightboxIndex !== null) return;
@@ -108,18 +128,13 @@ export default function AboutPage() {
     };
 
     return (
-        // 1. Dodali smo 'relative' na main da bi gradijent mogao da se pozicionira
         <main className="min-h-screen relative bg-[#FAF7F2] pt-28 pb-16 md:pt-36 md:pb-24 px-4 sm:px-6 lg:px-12 overflow-hidden">
 
-            {/* 2. GRANDIOZAN GRADIJENT ZA NAVBAR */}
-            {/* Kreće od tamno sive/crne pri vrhu i bledi u providno prema dole */}
             <div className="absolute top-0 left-0 w-full h-[45vh] bg-gradient-to-b from-[#C28B5A]/90 via-[#D4A373]/40 to-transparent pointer-events-none z-0" />
 
-            {/* 3. Dodali smo 'relative z-10' da bi ceo sadržaj bio iznad ovog gradijenta */}
             <div className="max-w-7xl mx-auto relative z-10">
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                    {/* LEVA STRANA: TEKST */}
                     <div
                         ref={contentRef}
                         className="lg:col-span-7 flex flex-col justify-center"
@@ -139,7 +154,6 @@ export default function AboutPage() {
                             <p data-about-reveal>{t.about.p4}</p>
                         </div>
 
-                        {/* Citat */}
                         <div data-about-reveal className="mt-8 p-6 rounded-2xl bg-white/70 border-l-4 border-[#bc1888] shadow-sm backdrop-blur-sm">
                             <p className="italic text-stone-800 font-serif text-xl">
                                 &ldquo;{t.about.quote}&rdquo;
@@ -155,7 +169,6 @@ export default function AboutPage() {
                         </Link>
                     </div>
 
-                    {/* DESNA STRANA: SLAJDER */}
                     <motion.div
                         initial={{ opacity: 0, x: 70 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -205,7 +218,6 @@ export default function AboutPage() {
                 </div>
             </div>
 
-            {/* LIGHTBOX */}
             <AnimatePresence>
                 {lightboxIndex !== null && (
                     <motion.div
@@ -254,7 +266,7 @@ export default function AboutPage() {
                             className="max-w-4xl max-h-[85vh] w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
                         >
                             <img
-                                src={images[lightboxIndex]}
+                                src={lightboxImages[lightboxIndex]}
                                 alt="Enlarged view"
                                 className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl pointer-events-none"
                             />
