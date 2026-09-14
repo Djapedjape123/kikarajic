@@ -27,7 +27,7 @@ export default function HeroSection() {
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover object-center z-0"
             >
-                <source src="https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4" type="video/mp4" />
+                <source src="https://res.cloudinary.com/duomot4hp/video/upload/f_auto,q_auto,w_1080/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4" type="video/mp4" />
                 Vaš pretraživač ne podržava video format.
             </video>
 
