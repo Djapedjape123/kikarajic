@@ -70,10 +70,8 @@ export default function Reviews() {
   const heading = activeLang === "SR" ? "Šta kažu klijentkinje i saradnici" : "What clients & partners say";
   const subHeading = activeLang === "SR" ? "Iskustva iz prve ruke sa naših tretmana i edukacija" : "Firsthand experiences from our treatments and classes";
   
-  // Rendamo 4 puna niza da bismo imali dovoljno kartica za široke ekrane i nesmetan "teleport"
   const loopReviews = [...reviews, ...reviews, ...reviews, ...reviews];
 
-  // --- LOGIKA ZA MAGIČNI TELEPORT I DRAG (Framer Motion) ---
   const x = useMotionValue(0);
   const [teleportWidth, setTeleportWidth] = useState(0);
   
@@ -81,13 +79,11 @@ export default function Reviews() {
   const isHovered = useRef(false);
   const isDragging = useRef(false);
 
-  // 1. Merimo širinu tačno JEDNOG niza (5 kartica + razmaci)
   useEffect(() => {
     const calculateWidth = () => {
       if (itemRef.current) {
         const cardWidth = itemRef.current.offsetWidth;
-        const gap = 32; // gap-8 je 32px u Tailwindu
-        // Širina jednog unikatnog seta (5 kartica)
+        const gap = 32;
         setTeleportWidth((cardWidth + gap) * reviews.length);
       }
     };
@@ -97,8 +93,6 @@ export default function Reviews() {
     return () => window.removeEventListener("resize", calculateWidth);
   }, []);
 
-  // 2. Osmatrač - "Teleportacija"
-  // Kad god se `x` pomeri, proveravamo da li je prešlo širinu niza i vraćamo na početak
   useEffect(() => {
     const unsubscribe = x.on("change", (latest) => {
       if (!teleportWidth) return;
@@ -112,20 +106,16 @@ export default function Reviews() {
     return unsubscribe;
   }, [teleportWidth, x]);
 
-  // 3. Automatsko pomeranje animacije (svaki frejm pomeri malo ulevo)
   useAnimationFrame((time, delta) => {
-    // Pauzira ako merimo širinu, ako je miš preko, ili ako klijent prevlači prstom
     if (!teleportWidth || isHovered.current || isDragging.current) return;
-    
-    // Brzina kretanja. Povećaj 0.7 za brže, smanji za sporije.
     x.set(x.get() - 0.7 * (delta / 16)); 
   });
 
   return (
-    <section className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40 select-none">
+    <section className="py-28 md:py-32 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40 select-none">
       
       {/* Naslov sekcije */}
-      <div className="max-w-7xl mx-auto px-4 text-center mb-16">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-16 md:mb-20">
         <span className="text-[#bc1888] font-bold uppercase tracking-[0.25em] text-xs sm:text-sm mb-3 block">
           {activeLang === "SR" ? "Iskustva i utisci" : "Testimonials"}
         </span>
@@ -137,19 +127,19 @@ export default function Reviews() {
         </p>
       </div>
 
-      {/* Traka za prevlačenje (zamenili smo običan scroll sa Framer motion drag-om) */}
+      {/* Traka za prevlačenje (dodat py-8 sm:py-6 za više mesta gornjim/donjim senkama) */}
       <div
-        className="relative overflow-hidden py-4"
+        className="relative overflow-hidden py-8 sm:py-6"
         style={{
-          maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+          maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
         }}
       >
         <motion.div 
-          className="flex w-max gap-8 px-4 cursor-grab active:cursor-grabbing"
+          className="flex w-max gap-6 sm:gap-8 px-4 cursor-grab active:cursor-grabbing"
           style={{ x }}
-          drag="x" // Omogućava prevlačenje levo-desno
-          dragConstraints={{ left: -10000, right: 10000 }} // Oslobađa traku za beskonačan drag (naš teleport je hvata)
+          drag="x"
+          dragConstraints={{ left: -10000, right: 10000 }}
           dragElastic={0}
           onDragStart={() => (isDragging.current = true)}
           onDragEnd={() => (isDragging.current = false)}
@@ -161,9 +151,9 @@ export default function Reviews() {
           {loopReviews.map((review, index) => (
             <article
               key={`${review.id}-${index}`}
-              // Postavljamo ref na prvu karticu samo da bismo izmerili širinu celog seta
               ref={index === 0 ? itemRef : null}
-              className="shrink-0 w-[360px] sm:w-[400px] rounded-3xl bg-white/95 backdrop-blur-sm border border-[#E8DDD1]/60 shadow-lg p-8 transition-transform duration-300 hover:scale-[1.02] group flex flex-col justify-between"
+              /* DODATO: min-h-[260px] sm:min-h-[280px], w-[88vw] max-w-[380px] sm:w-[400px], p-7 sm:p-8 */
+              className="shrink-0 w-[88vw] max-w-[380px] sm:w-[400px] min-h-[260px] sm:min-h-[280px] rounded-3xl bg-white/95 backdrop-blur-sm border border-[#E8DDD1]/60 shadow-lg p-7 sm:p-8 transition-transform duration-300 hover:scale-[1.02] group flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -177,25 +167,25 @@ export default function Reviews() {
                   </span>
                 </div>
 
-                <p className="text-stone-600 italic leading-relaxed font-light text-sm sm:text-base line-clamp-3">
+                <p className="text-stone-600 italic leading-relaxed font-light text-sm sm:text-base line-clamp-4 sm:line-clamp-3">
                   {activeLang === "SR" ? review.shortSR : review.shortEN}
                 </p>
               </div>
 
               <div className="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-sm shadow-sm">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-sm shadow-sm shrink-0">
                     {review.name.charAt(0)}
                   </div>
-                  <div>
-                    <h4 className="font-medium text-stone-800 text-sm sm:text-base">{review.name}</h4>
-                    <span className="text-xs text-stone-400">{review.role}</span>
+                  <div className="overflow-hidden">
+                    <h4 className="font-medium text-stone-800 text-sm sm:text-base truncate">{review.name}</h4>
+                    <span className="text-xs text-stone-400 block truncate">{review.role}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => setSelectedReview(review)}
-                  className="text-xs font-semibold text-[#bc1888] hover:underline uppercase tracking-wider"
+                  className="text-xs font-semibold text-[#bc1888] hover:underline uppercase tracking-wider shrink-0 ml-2"
                 >
                   {activeLang === "SR" ? "Pročitaj sve" : "Read more"}
                 </button>
@@ -205,9 +195,7 @@ export default function Reviews() {
         </motion.div>
       </div>
 
-      {/* ========================================================= */}
       {/* MODAL ZA PRIKAZ CELE RECENZIJE */}
-      {/* ========================================================= */}
       <AnimatePresence>
         {selectedReview && (
           <motion.div
@@ -244,7 +232,7 @@ export default function Reviews() {
               </div>
 
               <div className="pt-6 border-t border-stone-100 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-lg shadow-md">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] flex items-center justify-center text-white font-serif text-lg shadow-md shrink-0">
                   {selectedReview.name.charAt(0)}
                 </div>
                 <div>
