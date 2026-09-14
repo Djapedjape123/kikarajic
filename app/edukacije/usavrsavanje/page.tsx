@@ -295,11 +295,11 @@ export default function IndividualnoUsavrsavanjePage() {
             {content.finalCtaDesc}
           </p>
           
-            href="https://ig.me/m/kikarajic"
+            
+          <a href="https://ig.me/m/kikarajic"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full text-white text-lg font-medium shadow-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-transform hover:scale-105 hover:shadow-[#bc1888]/40"
-          <a>
+            className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full text-white text-lg font-medium shadow-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-transform hover:scale-105 hover:shadow-[#bc1888]/40">
             <FaInstagram size={24} />
             {content.finalCtaBtn}
           </a>

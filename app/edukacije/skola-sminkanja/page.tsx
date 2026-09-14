@@ -117,30 +117,30 @@ export default function SkolaSminkanjaPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF7F2]">
-      
+
       {/* 1. HERO SEKCIJA */}
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
           {/* Slika za male ekrane (vidljiva samo na mobilnim uređajima) */}
-          <img 
+          <img
             src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg", 800)}
-            alt="Škola šminkanja" 
+            alt="Škola šminkanja"
             className="w-full h-full object-cover object-top md:hidden"
           />
-          
+
           {/* Slika za velike ekrane (vidljiva samo na desktopu i većim tabletima) */}
-          <img 
+          <img
             src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
-            alt="Škola šminkanja" 
+            alt="Škola šminkanja"
             className="w-full h-full object-cover object-top hidden md:block"
           />
-          
+
           {/* Tamni overlay za savršenu vidljivost navbara */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -148,8 +148,8 @@ export default function SkolaSminkanjaPage() {
           >
             {content.title}
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -157,13 +157,13 @@ export default function SkolaSminkanjaPage() {
           >
             {content.subtitle}
           </motion.p>
-          
-          <motion.a 
+
+          <motion.a
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            href="https://ig.me/m/kikarajic" 
-            target="_blank" 
+            href="https://ig.me/m/kikarajic"
+            target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-white font-medium shadow-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-all hover:scale-105 hover:shadow-[#bc1888]/40"
           >
@@ -175,7 +175,7 @@ export default function SkolaSminkanjaPage() {
 
       {/* 2. UVODNI DEO (Tekst) */}
       <section className="py-20 px-4 sm:px-6 lg:px-12 max-w-4xl mx-auto text-center">
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -190,10 +190,10 @@ export default function SkolaSminkanjaPage() {
         <h2 className="text-3xl sm:text-4xl font-serif text-stone-800 text-center mb-16">
           {content.whatYouLearn}
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {/* Kartica 1: Tehnike */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -214,7 +214,7 @@ export default function SkolaSminkanjaPage() {
           </motion.div>
 
           {/* Kartica 2: Teorija i Biznis */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -244,7 +244,7 @@ export default function SkolaSminkanjaPage() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {content.logistics.map((item, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -288,7 +288,7 @@ export default function SkolaSminkanjaPage() {
         {/* Pozadina sa prelivom za poslednji deo */}
         <div className="absolute inset-0 bg-stone-900" />
         <div className="absolute inset-0 bg-gradient-to-tr from-[#f09433]/20 via-[#dc2743]/20 to-[#bc1888]/20 blur-3xl" />
-        
+
         <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl font-serif text-white mb-6">
             {content.finalCtaTitle}
@@ -296,12 +296,13 @@ export default function SkolaSminkanjaPage() {
           <p className="text-stone-300 font-light text-lg sm:text-xl mb-10">
             {content.finalCtaDesc}
           </p>
-          
+
+          <a
             href="https://ig.me/m/kikarajic"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 py-5 rounded-full text-white text-lg font-medium shadow-2xl bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-transform hover:scale-105 hover:shadow-[#bc1888]/40"
-          <a>
+          >
             <FaInstagram size={24} />
             {content.finalCtaBtn}
           </a>
