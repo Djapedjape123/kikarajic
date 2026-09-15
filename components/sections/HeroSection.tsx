@@ -56,7 +56,7 @@ export default function HeroSection() {
             {/* 4. TEKST I DUGMIĆI 
                  IZMENA: bottom-28 (podiže blok), gap-2 (zbija tekst i dugmiće) 
                  Na velikim ekranima ostaje sm:bottom-16 md:bottom-20 i sm:gap-6 */}
-            <div className="absolute bottom-28 sm:bottom-16 md:bottom-20 inset-x-0 z-20 flex flex-col items-center text-center px-4 gap-2 sm:gap-6">
+            <div className="absolute bottom-28 sm:bottom-16 md:bottom-20 inset-x-0 z-20 flex flex-col items-center text-center px-4 gap-4 sm:gap-6">
 
                 <motion.p
                     initial={{ opacity: 0, y: 25 }}
