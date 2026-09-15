@@ -14,10 +14,10 @@ const luxurious = Luxurious_Script({
 
 export default function HeroSection() {
     const { t } = useLanguage();
-    const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false); // NOVI STATE ZA MODAL
+    const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false);
 
     return (
-        <section className="relative w-full min-h-[100svh] md:h-screen flex items-center justify-center overflow-hidden bg-stone-900">
+        <section className="relative w-full min-h-[100svh] md:h-screen overflow-hidden bg-stone-900">
 
             {/* 1. VIDEO POZADINA */}
             <video
@@ -38,49 +38,41 @@ export default function HeroSection() {
             <motion.div
                 animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#bc1888]/20 to-[#f09433]/20 rounded-full blur-3xl z-10 pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#bc1888]/20 to-[#f09433]/20 rounded-full blur-3xl z-10 pointer-events-none"
             />
 
-            {/* 3. SADRŽAJ (Tekst i dugmići sa Framer Motion animacijama) */}
-            <div className="relative z-20 flex flex-col items-center text-center px-4 mt-16 md:mt-20 max-w-4xl">
+            {/* 3. LOGO SLOJ */}
+            <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-4">
+                <motion.img
+                    src="https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png"
+                    alt="Kika Rajić Logo"
+                    initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    className="h-[622svh] sm:h-[24svh] md:h-[26svh] lg:h-[634svh] max-h-[630px] sm:max-h-[220px] md:max-h-[260px] lg:max-h-[700px] w-auto object-contain drop-shadow-lg"
+                />
+            </div>
 
-                {/* Naslov */}
-                <h1 className="text-white flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 mb-4">
-                    <motion.span
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                        className={`${luxurious.className} text-6xl md:text-8xl lg:text-9xl drop-shadow-lg`}
-                    >
-                        Kika Rajić
-                    </motion.span>
+            {/* 4. TEKST I DUGMIĆI 
+                 IZMENA: bottom-28 (podiže blok), gap-2 (zbija tekst i dugmiće) 
+                 Na velikim ekranima ostaje sm:bottom-16 md:bottom-20 i sm:gap-6 */}
+            <div className="absolute bottom-28 sm:bottom-16 md:bottom-20 inset-x-0 z-20 flex flex-col items-center text-center px-4 gap-2 sm:gap-6">
 
-                    <motion.span
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
-                        className="text-2xl md:text-4xl font-light tracking-[0.35em] uppercase mt-2 md:mt-6 text-stone-200 drop-shadow-md"
-                    >
-                        Studio
-                    </motion.span>
-                </h1>
-
-                {/* Tekst ispod naslova */}
                 <motion.p
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.9, delay: 2.5, ease: "easeOut" }}
-                    className="text-stone-200 text-sm md:text-lg max-w-xl mb-10 font-light drop-shadow-sm px-2 leading-relaxed"
+                    className="text-stone-200 text-sm md:text-lg max-w-xl font-light drop-shadow-sm leading-relaxed"
                 >
                     {t.hero.subtitle}
                 </motion.p>
 
-                {/* Dugmići */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 2.7, ease: "easeOut" }}
-                    className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center"
+                    // IZMENA: gap-2.5 umesto gap-3 sužava prostor između dva dugmeta na mobilnom
+                    className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center"
                 >
                     {/* Instagram Dugme */}
                     <motion.a
@@ -110,44 +102,14 @@ export default function HeroSection() {
 
             </div>
 
-            {/* Skrol dugme */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 3.2, duration: 1 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"
-            >
-              <a
-                    href="#statistike"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        document.getElementById("statistike")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="flex flex-col items-center justify-center p-2 group cursor-pointer"
-                    aria-label="Skroluj na dole"
-                >
-                    <motion.svg
-                        animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                        className="w-8 h-8 text-white/60 group-hover:text-white transition-colors"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
-                    </motion.svg>
-                </a>
-            </motion.div>
-
-          
-            {/* saljem odredjene propse za svki event */}
+            {/* Saljem odredjene propse za svaki event */}
             <WorkshopModal
                 isOpen={isWorkshopModalOpen}
                 onClose={() => setIsWorkshopModalOpen(false)}
-                workshopName="WorksShop šminkanja"
+                workshopName="Masterclass šminkanja"
                 workshopDate="15. oktobar 2026. 20:00h Hotel Metropol, Beograd"
             />
 
-        </section >
+        </section>
     );
 }
