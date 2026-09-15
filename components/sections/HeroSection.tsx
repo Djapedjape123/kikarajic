@@ -139,12 +139,12 @@ export default function HeroSection() {
                 </a>
             </motion.div>
 
-            {/* VIP MODAL KOMPONENTA (Iskače kad je isWorkshopModalOpen true) */}
-            {/* OVDE MENJAŠ NAZIV I DATUM ZA SVAKI NOVI WORKSHOP */}
+          
+            {/* saljem odredjene propse za svki event */}
             <WorkshopModal
                 isOpen={isWorkshopModalOpen}
                 onClose={() => setIsWorkshopModalOpen(false)}
-                workshopName="Masterclass šminkanja"
+                workshopName="WorksShop šminkanja"
                 workshopDate="15. oktobar 2026. 20:00h Hotel Metropol, Beograd"
             />
 
