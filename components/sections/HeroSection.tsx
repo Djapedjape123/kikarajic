@@ -6,6 +6,7 @@ import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import WorkshopModal from "@/components/WorkshopModal";
+import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
 
 const luxurious = Luxurious_Script({
     weight: "400",
@@ -44,7 +45,7 @@ export default function HeroSection() {
             {/* 3. LOGO SLOJ */}
             <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-4">
                 <motion.img
-                    src="https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png"
+                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png",800)}
                     alt="Kika Rajić Logo"
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
