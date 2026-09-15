@@ -39,7 +39,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         
-        {/* Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde */}
+        {/* Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde koje moramo da popravimo */}
         <LanguageProvider>
           <LoadingScreen />
           <Navbar />
