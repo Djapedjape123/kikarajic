@@ -141,7 +141,7 @@ export default function WorkshopModal({ isOpen, onClose, workshopName, workshopD
                     {activeLang === "SR" ? "Broj mesta je ograničen" : "Spots are limited"}
                   </p>
                   <a
-                    href="https://www.instagram.com/kikarajic/"
+                    href="https://ig.me/m/kikarajic"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-white text-base font-medium shadow-[0_0_20px_rgba(188,24,136,0.3)] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] transition-all hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(188,24,136,0.5)]"
