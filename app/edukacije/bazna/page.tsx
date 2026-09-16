@@ -134,14 +134,7 @@ export default function BaznaEdukacijaPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-          {/* <motion.span 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block py-1.5 px-4 rounded-full border border-white/30 bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium tracking-widest uppercase mb-6"
-          >
-            {content.heroTag}
-          </motion.span> */}
+         
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
