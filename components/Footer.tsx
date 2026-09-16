@@ -54,7 +54,7 @@ export default function Footer() {
                         {/* Društvene mreže / Instagram */}
                         <div className="flex items-center space-x-4 pt-2">
                             <a
-                                href="https://ig.me/m/kikarajic"
+                                href="https://www.instagram.com/kikarajic/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="w-10 h-10 rounded-full bg-stone-800 flex items-center justify-center text-white hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] transition-all hover:scale-110 shadow-md"
