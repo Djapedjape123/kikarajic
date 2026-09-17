@@ -107,7 +107,7 @@ export default function HeroSection() {
             <WorkshopModal
                 isOpen={isWorkshopModalOpen}
                 onClose={() => setIsWorkshopModalOpen(false)}
-                workshopName="Masterclass šminkanja"
+                workshopName="Works Shop šminkanja"
                 workshopDate="15. oktobar 2026. 20:00h Hotel Metropol, Beograd"
             />
 
