@@ -44,13 +44,13 @@ export default function Navbar() {
     };
   }, []);
 
-  if (pathname.startsWith("/admin")) return null;
+  
 
   return (
     <nav
       className={`fixed left-1/2 transform -translate-x-1/2 z-40 transition-all duration-700 ease-in-out ${!isReady ? "opacity-0 pointer-events-none" : "opacity-100"
         } ${isScrolled && !isMobileMenuOpen
-          ? "top-4 w-[95%] md:w-[85%] lg:w-[75%] rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-xl"
+          ? "top-4 w-[95%] md:w-[85%] lg:w-[75%] rounded-3xl bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-black-/50 shadow-2xl"
           : isMobileMenuOpen
             ? "top-0 w-full bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-sm"
             : "top-0 w-full bg-transparent text-white"
@@ -64,7 +64,7 @@ export default function Navbar() {
               src={
                 isScrolled || isMobileMenuOpen
                   ? "https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png"
-                  : "https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png" // <-- ZAMENI OVO SVOJIM LINKOM
+                  : "https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png" 
               }
               alt="Kika Rajić Logo"
               className="h-40 sm:h-60 w-auto object-contain transition-opacity duration-300"
