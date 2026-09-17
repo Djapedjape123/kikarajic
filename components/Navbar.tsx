@@ -15,7 +15,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false); // <--- NOVO ZA USLUGE (MOBILNI)
+  const [isServicesOpen, setIsServicesOpen] = useState(false); 
   const [isReady, setIsReady] = useState(false);
 
   const { activeLang, setActiveLang, t } = useLanguage();
@@ -71,15 +71,7 @@ export default function Navbar() {
             />
           </Link>
         
-          {/* /* <Link href="/" className="flex-shrink-0 flex items-center z-50">
-
-            <span className={`${luxurious.className} text-3xl tracking-wider`}>
-
-              Kika Rajić
-
-            </span>
-
-          </Link>*/ }
+         
 
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
