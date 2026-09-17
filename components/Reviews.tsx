@@ -15,6 +15,7 @@ type Review = {
   fullEN: string;
 };
 
+// ovde menjam samo nazive i tekstove, a ne strukturu recenzija, kada mi kika posalje recenzije
 const reviews: Review[] = [
   {
     id: 1,
