@@ -37,14 +37,14 @@ const statData = [
     { broj: 200, suffix: "", key: "students" },
     { broj: 10, suffix: "", key: "masterclasses" },
 ];
-
+// Statistika sekcija sa animacijama i brojačem,funkcija za prikaz statistike sa animacijama i brojačem
 export default function StatsSection() {
     const { t } = useLanguage();
     const ref = useRef(null);
     // once: true znači da se animacija desi samo prvi put kad korisnik skroluje do nje
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    // Varijante za stagger efekat (da ulaze jedan za drugim)
+    // Varijabla za stagger efekat (da ulaze jedan za drugim)
     const containerVariants = {
         hidden: { opacity: 0 },
         show: {
@@ -52,7 +52,7 @@ export default function StatsSection() {
             transition: { staggerChildren: 0.2 },
         },
     };
-
+    // Varijabla za animaciju svakog pojedinačnog itema
     const itemVariants = {
         hidden: { opacity: 0, y: 40, scale: 0.8 },
         show: {

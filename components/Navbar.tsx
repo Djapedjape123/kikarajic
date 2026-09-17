@@ -64,7 +64,7 @@ export default function Navbar() {
               src={
                 isScrolled || isMobileMenuOpen
                   ? "https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png"
-                  : "https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png" 
+                  : "https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png"
               }
               alt="Kika Rajić Logo"
               className="h-40 sm:h-60 w-auto object-contain transition-opacity duration-300"
