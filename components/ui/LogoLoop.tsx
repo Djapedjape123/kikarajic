@@ -29,14 +29,17 @@ const cx = (...parts: (string | undefined | null | false)[]) =>
   parts.filter(Boolean).join(' ');
 
 // 2. Dodati tipovi za Hook-ove
+// FUNKCIJA KOJA KORISTI ResizeObserver ILI FALLBACK NA window.resize
 const useResizeObserver = (callback: () => void, elements: React.RefObject<HTMLElement | null>[], dependencies: any[]) => {
   useEffect(() => {
+    // Ako ResizeObserver nije podržan, koristimo fallback na window.resize
     if (!window.ResizeObserver) {
       const handleResize = () => callback();
       window.addEventListener('resize', handleResize);
       callback();
       return () => window.removeEventListener('resize', handleResize);
     }
+    // Ako je ResizeObserver podržan, koristimo ga
     const observers = elements.map(ref => {
       if (!ref.current) return null;
       const observer = new ResizeObserver(callback);
@@ -47,7 +50,7 @@ const useResizeObserver = (callback: () => void, elements: React.RefObject<HTMLE
     return () => { observers.forEach(observer => observer?.disconnect()); };
   }, [callback, elements, dependencies]);
 };
-
+// FUNLCIJA KOJA ČEKA DA SE SVI LOGO-OVI UCITAJU
 const useImageLoader = (seqRef: React.RefObject<HTMLElement | null>, onLoad: () => void, dependencies: any[]) => {
   useEffect(() => {
     const images = seqRef.current?.querySelectorAll('img') ?? [];
