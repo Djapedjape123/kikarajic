@@ -21,9 +21,6 @@ export default function Navbar() {
   const { activeLang, setActiveLang, t } = useLanguage();
   const pathname = usePathname();
 
-  
-  
-
   const eduLinks = t.eduLinks;
   const serviceLinks = t.serviceLinks; // <--- Usluge iz prevoda
 
