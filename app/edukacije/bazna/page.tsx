@@ -114,6 +114,7 @@ const t = {
 };
 
 export default function BaznaEdukacijaPage() {
+  
   const { activeLang } = useLanguage();
   const content = activeLang === "SR" ? t.SR : t.EN;
 
@@ -122,7 +123,7 @@ export default function BaznaEdukacijaPage() {
       
       {/* 1. HERO SEKCIJA */}
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* TODO: Ovde ubaci svoj Cloudinary link za HERO sliku (npr. slika Kike kako šminka polaznicu) */}
+        
         <div className="absolute inset-0 w-full h-full">
           <img 
             src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
