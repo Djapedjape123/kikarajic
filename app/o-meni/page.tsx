@@ -22,8 +22,7 @@ const defaultImages = [
     "https://res.cloudinary.com/duomot4hp/image/upload/v1788265014/IMG_1479.JPG_pkoauw.jpg",
 ];
 
-// Ubacuje Cloudinary transformaciju (auto format + auto kvalitet + širina)
-// direktno u URL, bez potrebe da se slike ručno menjaju u Cloudinary panelu.
+
 function optimizeCloudinaryUrl(url: string, width: number) {
     return url.replace("/upload/", `/upload/f_auto,q_auto,w_${width}/`);
 }
