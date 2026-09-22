@@ -125,10 +125,18 @@ export default function BaznaEdukacijaPage() {
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         
         <div className="absolute inset-0 w-full h-full">
-          <img 
+          {/* Slika za male ekrane (vidljiva samo na mobilnim uređajima) */}
+          <img
+            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101132/IMG_2367.JPG_cqg2r7.jpg", 800)}
+            alt="Škola šminkanja"
+            className="w-full h-full object-cover object-top md:hidden"
+          />
+
+          {/* Slika za velike ekrane (vidljiva samo na desktopu i većim tabletima) */}
+          <img
             src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
-            alt="Bazna edukacija šminkanja" 
-            className="w-full h-full object-cover object-top"
+            alt="Škola šminkanja"
+            className="w-full h-full object-cover object-top hidden md:block"
           />
           {/* Tamni overlay koji omogućava da se navbar i tekst vide savršeno */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
