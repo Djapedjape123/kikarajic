@@ -195,7 +195,7 @@ export default function AboutPage() {
                                 onClick={() => setLightboxIndex(currentIndex)}
                                 className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full opacity-90 group-hover:opacity-100 transition-opacity cursor-pointer pointer-events-auto"
                             >
-                                Klikni za ceo ekran
+                                {t.about.klikni}
                             </button>
 
                             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10 pointer-events-none">

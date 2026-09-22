@@ -66,7 +66,8 @@ export const translations = {
       p2: "Šminkanjem se bavim već 10 godina, a poslednjih 6 godina sam i edukator, gde prenosim svoje znanje, iskustvo i ljubav prema šminkanju na više od 500 polaznika. Do danas sam imala priliku da našminkam više od 5.000 klijenata, održim brojne masterclass-ove, radim kampanje, spotove, putujem na različite destinacije kako bi klijenti nosili baš moju šminku i ostvarim saradnje sa različitim beauty brendovima, kao i da učestvujem u kreiranju sadržaja i snimanjima za društvene mreže.",
       p3: "Verujem da šminka nije samo tehnika, već način da istaknemo ono najlepše u sebi, a upravo tu filozofiju želim da prenesem i kroz novi koncept Kika Rajić Studia.",
       p4: "Novi studio nastao je sa željom da šminkanje i edukaciju podignemo na potpuno novi nivo. Kroz spoj znanja, iskustva, estetike i ljubavi prema ovom poslu, trudim se da svako od vas dobije jedinstveno iskustvo i oseća se posebno za svaku priliku.",
-      quote: "Ovo je tek početak..."
+      quote: "Ovo je tek početak...",
+      klikni:"Klikni za ceo ekran"
     }
   },
   EN: {
@@ -139,7 +140,8 @@ export const translations = {
       p2: "I have been working as a makeup artist for 10 years, and for the last 6 years, I've also been an educator, passing on my knowledge, experience, and passion for makeup to over 500 students. To date, I have had the privilege of doing makeup for more than 5,000 clients, holding numerous masterclasses, working on campaigns and music videos, traveling to various destinations so clients could wear my makeup, collaborating with different beauty brands, and participating in content creation for social media.",
       p3: "I believe that makeup is not just a technique, but a way to highlight the most beautiful parts of ourselves. That is exactly the philosophy I want to convey through the new concept of Kika Rajić Studio.",
       p4: "The new studio was created with the desire to elevate makeup and education to a completely new level. Through a blend of knowledge, experience, aesthetics, and love for this profession, I strive to ensure that each of you receives a unique experience and feels special for every occasion.",
-      quote: "This is just the beginning..."
+      quote: "This is just the beginning...",
+      klikni:"Click for full screen"
     }
   }
 };
