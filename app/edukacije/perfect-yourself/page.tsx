@@ -133,15 +133,7 @@ export default function PerfectYourselfPage() {
         </div>
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center mt-16">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-[#bc1888] text-sm font-medium tracking-widest uppercase mb-6 backdrop-blur-md"
-          >
-            <FaStar size={14} />
-            {content.heroTag}
-          </motion.div>
+          
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -276,13 +268,13 @@ export default function PerfectYourselfPage() {
         {/* TODO: Zameni src atribute sa svojim Cloudinary linkovima za Perfect Yourself */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807736/IMG_5148.JPG_beawel.jpg", 700)} alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101159/225FFE36-1C38-4826-8C9F-DDD9E3D02AB7.JPG_nwbs3x.jpg", 700)} alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md sm:mt-8">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807709/IMG_5293.JPG_edc1nn.jpg", 700)} alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101149/IMG_2369.JPG_iuvksi.jpg", 700)} alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg", 700)} alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101132/IMG_2367.JPG_cqg2r7.jpg", 700)} alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
         </div>
       </section>
