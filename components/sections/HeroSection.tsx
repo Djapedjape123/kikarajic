@@ -28,7 +28,10 @@ export default function HeroSection() {
                 playsInline
                 className="absolute inset-0 w-full h-full object-cover object-center z-0"
             >
-                <source src="https://res.cloudinary.com/duomot4hp/video/upload/f_auto,q_auto,w_1080/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4" type="video/mp4" />
+                {/* Prosleđen je ČIST link (bez f_auto i w_1080 unutar samog stringa), i sklonjen je type="video/mp4" */}
+                <source
+                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4", 1080)}
+                />
                 Vaš pretraživač ne podržava video format.
             </video>
 
@@ -45,7 +48,7 @@ export default function HeroSection() {
             {/* 3. LOGO SLOJ */}
             <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-4">
                 <motion.img
-                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png",800)}
+                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png", 800)}
                     alt="Kika Rajić Logo"
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
