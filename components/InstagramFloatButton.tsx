@@ -4,8 +4,12 @@ import { useEffect, useState } from 'react';
 import { FaInstagram } from 'react-icons/fa';
 import { usePathname } from "next/navigation";
 
+//prevod
+import { useLanguage } from "@/context/LanguageContext";
+
 export default function InstagramFloatButton() {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Dugme se pojavljuje nakon 4 sekunde (2 sec loader + 2 sec gledanja sajta)
@@ -30,7 +34,7 @@ export default function InstagramFloatButton() {
     >
       {/* Tooltip (oblačić) koji se pojavljuje na hover */}
       <span className="absolute right-16 bg-white text-stone-800 text-sm font-medium px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-xl whitespace-nowrap pointer-events-none transform translate-x-4 group-hover:translate-x-0 border border-stone-100 hidden sm:block">
-        Zakaži svoj termin ovde
+        {t.brands.insta}
         {/* Mali trougao (strelica) na oblačiću */}
         <span className="absolute top-1/2 -right-2 -translate-y-1/2 border-[6px] border-transparent border-l-white"></span>
       </span>

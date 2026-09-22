@@ -12,7 +12,8 @@ export const translations = {
       studio: 'Studio'
     },
     brands: {
-      title: "Brendovi sa kojima sarađujem"
+      title: "Brendovi sa kojima sarađujem",
+      insta:"Zakaži svoj termin ovde"
     },
     serviceLinks: [
       { name: "Šminka", href: "/sminka" },
@@ -81,7 +82,9 @@ export const translations = {
       studio: 'Studio'
     },
     brands: {
-      title: "Brands I collaborate with"
+      title: "Brands I collaborate with",
+      insta:"Book your appointment here"
+
     },
     hero: {
       subtitle: 'Discover your perfect version with professional makeup, hairstyling, and premium spray tan treatments.',
@@ -133,6 +136,7 @@ export const translations = {
       pin_title: "Kika Rajić Studio",
       pin_sub: "Your beauty oasis"
     },
+
     about: {
       badge: "My Journey",
       title: "About me & ",
