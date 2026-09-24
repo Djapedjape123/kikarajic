@@ -40,8 +40,7 @@ export default function AboutPage() {
     const contentRef = useRef<HTMLDivElement>(null);
     const sliderImageRef = useRef<HTMLImageElement>(null);
 
-    // Preload - sve slike slajdera se u pozadini učitaju čim se stranica otvori,
-    // da ne bude "zastoja" kad slajder pređe na sledeću.
+    
     useEffect(() => {
         images.forEach((src) => {
             const img = new Image();
