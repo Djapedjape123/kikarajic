@@ -15,7 +15,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEduOpen, setIsEduOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false); 
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
   const { activeLang, setActiveLang, t } = useLanguage();
@@ -41,7 +41,7 @@ export default function Navbar() {
     };
   }, []);
 
-  
+
 
   return (
     <nav
@@ -67,8 +67,8 @@ export default function Navbar() {
               className="h-40 sm:h-60 w-auto object-contain transition-opacity duration-300"
             />
           </Link>
-        
-         
+
+
 
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/o-meni" className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
@@ -111,6 +111,7 @@ export default function Navbar() {
             </div>
 
             <Link href="/studio" className="hover:text-[#bc1888] transition-colors">{t.nav.studio}</Link>
+            <Link href="/kursevi" className="hover:text-[#bc1888] transition-colors">{t.nav.kursevi}</Link>
 
             <div className="flex items-center space-x-2 pl-4 border-l border-current">
               <button
@@ -227,6 +228,13 @@ export default function Navbar() {
             <Link href="/studio" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
               <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10a2 2 0 012-2h2a2 2 0 012 2v11" /></svg>
               {t.nav.studio}
+            </Link>
+          </div>
+
+          <div className={`transition-all duration-500 delay-300 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
+            <Link href="/kursevi" className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+              <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10a2 2 0 012-2h2a2 2 0 012 2v11" /></svg>
+              {t.nav.kursevi}
             </Link>
           </div>
 

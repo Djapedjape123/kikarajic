@@ -9,7 +9,8 @@ export const translations = {
       sprayTan: 'Sprej ten',
       services: 'Usluge',
       educations: 'Edukacije',
-      studio: 'Studio'
+      studio: 'Studio',
+      kursevi: 'Kursevi'
     },
     brands: {
       title: "Brendovi sa kojima sarađujem",
@@ -79,7 +80,8 @@ export const translations = {
       services: 'Services', 
       sprayTan: 'Spray Tan',
       educations: 'Educations',
-      studio: 'Studio'
+      studio: 'Studio',
+      kursevi:'Courses'
     },
     brands: {
       title: "Brands I collaborate with",
