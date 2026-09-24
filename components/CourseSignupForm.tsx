@@ -14,7 +14,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
   // Stanja forme
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState(""); // NOVO: Stanje za broj telefona
+  const [phone, setPhone] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [terms, setTerms] = useState(false);
   const [honeypot, setHoneypot] = useState(""); // Skriveno polje za botove
@@ -50,7 +50,6 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
 
     // 1. Anti-Spam (Honeypot)
     if (honeypot !== "") {
-      // Ako je popunjeno, pravimo se da je uspelo, ali prekidamo funkciju
       setStatus("success");
       return;
     }
@@ -62,7 +61,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
     }
 
     if (!file) {
-      setErrorMessage(activeLang === "SR" ? "Molimo vas priložite uplatnicu." : "Please attach the payment slip.");
+      setErrorMessage(activeLang === "SR" ? "Molimo vas priložite uplatnicu ili PayPal potvrdu." : "Please attach the payment slip or PayPal screenshot.");
       return;
     }
 
@@ -72,7 +71,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
       // 3. Upload slike na Cloudinary
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("upload_preset", "kika_uplatnice"); // Ide pravo na tvoj preset!
+      formData.append("upload_preset", "kika_uplatnice");
 
       const cloudinaryRes = await fetch("https://api.cloudinary.com/v1_1/duomot4hp/image/upload", {
         method: "POST",
@@ -87,14 +86,14 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
 
       const imageUrl = cloudinaryData.secure_url;
 
-      // 4. Slanje podataka na naš API (Sada šaljemo i telefon)
+      // 4. Slanje podataka na naš API
       const apiRes = await fetch("/api/buy-course", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
           email,
-          phone, // Ubacili smo broj telefona u paket za mejl
+          phone,
           courseName,
           imageUrl,
         }),
@@ -114,7 +113,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
     }
   };
 
-  // AKO JE USPEŠNO (Prikazujemo poruku umesto forme)
+  // AKO JE USPEŠNO
   if (status === "success") {
     return (
       <div className="text-center py-10 flex flex-col items-center justify-center">
@@ -124,8 +123,8 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         </h3>
         <p className="text-stone-400">
           {activeLang === "SR" 
-            ? "Primili smo vašu uplatnicu. Čim proverimo uplatu, stiže vam pristup na mejl." 
-            : "We received your payment slip. Once verified, you will get access via email."}
+            ? "Primili smo vašu potvrdu. Čim proverimo uplatu, stiže vam pristup na mejl." 
+            : "We received your confirmation. Once verified, you will get access via email."}
         </p>
       </div>
     );
@@ -135,7 +134,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       
-      {/* Skriveno polje za botove (Honeypot) - Korisnici ovo ne vide */}
+      {/* Skriveno polje za botove (Honeypot) */}
       <input 
         type="text" 
         name="website" 
@@ -169,7 +168,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         />
       </div>
 
-      {/* NOVO: Broj telefona */}
+      {/* Broj telefona */}
       <div>
         <label className="block text-sm font-medium text-stone-300 mb-1">
           {activeLang === "SR" ? "Broj telefona (Viber/WhatsApp)" : "Phone Number (Viber/WhatsApp)"}
@@ -204,17 +203,60 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         </p>
       </div>
 
-      {/* Uplatnica Upload */}
+      {/* NAČINI PLAĆANJA - INFO BLOK */}
+      <div className="bg-white/5 border border-white/10 rounded-xl p-4 mt-2">
+        <h4 className="text-white font-medium mb-3">
+          {activeLang === "SR" ? "Instrukcije za uplatu:" : "Payment Instructions:"}
+        </h4>
+        
+        <div className="flex flex-col gap-4 text-sm text-stone-300 font-light">
+          {/* Srbija */}
+          <div className="flex items-start gap-3">
+            <span className="text-xl mt-0.5">🇷🇸</span>
+            <div>
+              <strong className="text-white block mb-1">
+                {activeLang === "SR" ? "Iz Srbije (Žiro račun):" : "From Serbia (Bank Account):"}
+              </strong>
+              160-XXXXXX-XX (Kika Rajić) <br/>
+              <span className="text-stone-400">
+                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">9.900 RSD</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Inostranstvo */}
+          <div className="flex items-start gap-3">
+            <span className="text-xl mt-0.5">🌍</span>
+            <div>
+              <strong className="text-white block mb-1">
+                {activeLang === "SR" ? "Iz inostranstva (PayPal):" : "International (PayPal):"}
+              </strong>
+              <a 
+                href="https://www.paypal.me/KristinaRajic" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#bc1888] hover:text-[#f09433] underline transition-colors"
+              >
+                paypal.me/KristinaRajic
+              </a> <br/>
+              <span className="text-stone-400">
+                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">85 EUR</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Uplatnica / PayPal Upload */}
       <div>
-        <label className="block text-sm font-medium text-stone-300 mb-2">
-          {activeLang === "SR" ? "Skrinšot uplatnice" : "Payment Slip Screenshot"}
+        <label className="block text-sm font-medium text-stone-300 mb-2 mt-2">
+          {activeLang === "SR" ? "Skrinšot uplatnice ili PayPal potvrde" : "Payment Slip or PayPal Screenshot"}
         </label>
         
-        {/* UX Savet iz našeg plana */}
-        <p className="text-xs text-stone-400 mb-3 bg-[#f09433]/10 border border-[#f09433]/20 p-2 rounded-lg">
+        <p className="text-xs text-stone-400 mb-3 bg-[#f09433]/10 border border-[#f09433]/20 p-3 rounded-lg leading-relaxed">
           💡 {activeLang === "SR" 
-            ? "Savet: Pre slanja, slobodno zamutite stanje na vašem računu. Bitno nam je samo da se vide ime, iznos i svrha uplate." 
-            : "Tip: Feel free to blur your account balance. We only need to see the name, amount, and payment purpose."}
+            ? "Uputstvo: Bez obzira kako ste platili, uslikajte ekran (uplatnicu ili PayPal 'Success' ekran) i priložite sliku ispod." 
+            : "Instruction: Regardless of how you paid, take a screenshot of the confirmation (bank slip or PayPal success screen) and upload it below."}
         </p>
 
         <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-[#bc1888]/50 bg-black/10 rounded-xl py-6 cursor-pointer transition-all">
