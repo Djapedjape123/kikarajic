@@ -26,12 +26,23 @@ export default function HeroSection() {
                 loop
                 muted
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover object-center z-0"
+                className="
+                    absolute inset-0
+                    w-full h-full
+                    object-cover
+                    object-[60%_center]
+                    sm:object-[55%_center]
+                    md:object-center
+                    z-0
+                 "
             >
-                {/* Prosleđen je ČIST link (bez f_auto i w_1080 unutar samog stringa), i sklonjen je type="video/mp4" */}
                 <source
-                    src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4", 1080)}
+                    src={optimizeCloudinaryUrl(
+                        "https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4",
+                        1080
+                    )}
                 />
+
                 Vaš pretraživač ne podržava video format.
             </video>
 
