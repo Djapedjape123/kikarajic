@@ -276,10 +276,7 @@ export default function KurseviPage() {
                   </p>
                 </div>
 
-                
                  <CourseSignupForm courseName={signupModalCourse.title[activeLang]} />
-                
-               
                 
               </div>
             </motion.div>
