@@ -12,7 +12,7 @@ const luxurious = Luxurious_Script({
 });
 
 export default function Footer() {
-    const { activeLang, t } = useLanguage();
+    const { activeLang, t, lp } = useLanguage();
     const pathname = usePathname();
 
     
@@ -39,7 +39,7 @@ export default function Footer() {
 
                     {/* 1. KOLONA: Brending & Logo (Zauzima 4 kolone na desktopu) */}
                     <div className="lg:col-span-4 flex flex-col items-start space-y-6">
-                        <Link href="/" className="group">
+                        <Link href={lp("/")} className="group">
                             <span className={`${luxurious.className} text-4xl tracking-wider text-white group-hover:text-[#bc1888] transition-colors`}>
                                 Kika Rajić
                             </span>
@@ -79,18 +79,18 @@ export default function Footer() {
                         <h4 className="text-white font-serif text-lg tracking-wide mb-2">
                             {activeLang === "SR" ? "Istražite" : "Explore"}
                         </h4>
-                        <Link href="/o-meni" className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/o-meni")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.about}
                         </Link>
-                        <Link href="/galerija" className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/galerija")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.gallery}
                         </Link>
-                        <Link href="/studio" className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/studio")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.studio}
                         </Link>
                         {/* Dinamički linkovi usluga iz prevoda */}
                         {serviceLinks.map((link, idx) => (
-                            <Link key={idx} href={link.href} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                            <Link key={idx} href={lp(link.href)} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                                 {link.name}
                             </Link>
                         ))}
@@ -102,7 +102,7 @@ export default function Footer() {
                             {activeLang === "SR" ? "Edukacije" : "Educations"}
                         </h4>
                         {eduLinks.map((link, idx) => (
-                            <Link key={idx} href={link.href} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                            <Link key={idx} href={lp(link.href)} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                                 {link.name}
                             </Link>
                         ))}

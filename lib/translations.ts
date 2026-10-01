@@ -112,7 +112,7 @@ export const translations = {
     ],
     eduLinks: [
       { name: "Makeup School", href: "/edukacije/skola-sminkanja" },
-      { name: "Workshops", href: "/edukacije//worksshops" },
+      { name: "Workshops", href: "/edukacije/worksshops" },
       { name: "Basic Training", href: "/edukacije/bazna" },
       { name: "Advanced for Makeup Artists", href: "/edukacije/usavrsavanje" },
       { name: "Perfect yourself", href: "/edukacije/perfect-yourself" },

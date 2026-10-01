@@ -28,7 +28,7 @@ function optimizeCloudinaryUrl(url: string, width: number) {
 }
 
 export default function AboutPage() {
-    const { t } = useLanguage();
+    const { t, lp } = useLanguage();
 
     // Manja verzija za slajder (prikazuje se u okviru ~420px)
     const images = defaultImages.map((url) => optimizeCloudinaryUrl(url, 900));
@@ -160,7 +160,7 @@ export default function AboutPage() {
 
                         <Link
                             data-about-reveal
-                            href="/edukacije/skola-sminkanja"
+                            href={lp("/edukacije/skola-sminkanja")}
                             className="mt-7 self-start rounded-full bg-[#bc1888] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#bc1888]/20 transition-transform hover:-translate-y-1 hover:bg-[#a91579]"
                         >
                             {t.nav.educations}
