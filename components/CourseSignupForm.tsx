@@ -54,11 +54,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
       return;
     }
 
-    // 2. Gmail Validacija
-    if (!email.toLowerCase().endsWith("@gmail.com")) {
-      setErrorMessage(activeLang === "SR" ? "Za pristup kursu morate koristiti @gmail.com adresu." : "You must use a @gmail.com address to access the course.");
-      return;
-    }
+    // Uklonjena je stroga @gmail.com provera! HTML5 type="email" proverava validnost formata.
 
     if (!file) {
       setErrorMessage(activeLang === "SR" ? "Molimo vas priložite uplatnicu ili PayPal potvrdu." : "Please attach the payment slip or PayPal screenshot.");
@@ -183,24 +179,26 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         />
       </div>
 
-      {/* Gmail */}
+      {/* MEJL GOOGLE NALOGA */}
       <div>
         <label className="block text-sm font-medium text-stone-300 mb-1">
-          {activeLang === "SR" ? "Vaša @gmail.com adresa" : "Your @gmail.com address"}
+          {activeLang === "SR" ? "Mejl vašeg Google naloga" : "Your Google Account Email"}
         </label>
         <input
           required
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="ana.jovanovic@gmail.com"
+          placeholder="ana@gmail.com, ana@yahoo.com..."
           className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-stone-500 focus:outline-none focus:border-[#bc1888] focus:ring-1 focus:ring-[#bc1888] transition-all"
         />
-        <p className="text-xs text-stone-500 mt-1">
-          {activeLang === "SR" 
-            ? "Pristup videu je moguć isključivo preko Google (Gmail) naloga." 
-            : "Video access is only possible via a Google (Gmail) account."}
-        </p>
+        <div className="bg-white/5 border border-white/10 p-3 rounded-lg mt-2">
+          <p className="text-xs text-stone-400 leading-relaxed">
+            {activeLang === "SR" 
+              ? "Unesite mejl kojim ste prijavljeni na YouTube/Gmail/Google. Ako nemate Google nalog, napravite ga besplatno pre prijave. Može i sa postojećim (npr. Yahoo) mejlom." 
+              : "Enter the email linked to your YouTube/Google account. If you don't have a Google account, you can create one for free using your current email."}
+          </p>
+        </div>
       </div>
 
       {/* NAČINI PLAĆANJA - INFO BLOK */}
@@ -288,8 +286,8 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         </div>
         <span className="text-xs text-stone-400 leading-relaxed font-light select-none group-hover:text-stone-300 transition-colors">
           {activeLang === "SR" 
-            ? "Razumem da je kurs strogo vezan za moju Gmail adresu. Snimanje i deljenje materijala strogo je zabranjeno i zaštićeno autorskim pravima." 
-            : "I understand the course is tied to my Gmail. Recording or sharing is strictly prohibited and protected by copyright."}
+            ? "Razumem da je kurs vezan za moj Google nalog. Snimanje i deljenje materijala strogo je zabranjeno i zaštićeno autorskim pravima." 
+            : "I understand the course is tied to my Google account. Recording or sharing is strictly prohibited and protected by copyright."}
         </span>
       </label>
 
