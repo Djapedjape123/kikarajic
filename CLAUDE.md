@@ -7,16 +7,17 @@ Kreirati sistem za prodaju online kurseva na statičkom Next.js (App Router) saj
 Sistem koristi "Hibridni pristup": Premium UI na frontendu + Google Drive za bezbedan video hosting + Cloudinary za upload slika + Resend za notifikacije.
 
 ## 📐 Arhitektura (Flow)
-1. **Prijava (Frontend):** Korisnik popunjava formu (Ime, Gmail, Slika uplatnice).
+1. **Prijava (Frontend):** Korisnik popunjava formu (Ime, Telefon, Google mejl, Slika uplatnice).
 2. **Upload (Cloudinary):** Slika uplatnice se šalje direktno sa klijenta na Cloudinary (Unsigned upload) kako bi se izbeglo zagušenje serverless funkcije.
-3. **Notifikacija (API/Resend):** Next.js Route Handler prima podatke i link slike, te šalje email vlasniku sajta (Kiki) preko Resend-a.
+3. **Notifikacija (API/Resend):** Next.js Route Handler prima podatke i link slike, te šalje email vlasniku sajta (Kiki) preko Resend-a. Mejl sadrži dugme za Drive video i „Odobri“ (`mailto:` sa već popunjenom porukom i linkom ka `/{lang}/moj-kurs/{slug}`).
 4. **Odobrenje (Manuelno):** Kika dodaje korisnikov Gmail u Google Drive video (View Only, No Download) i šalje mu pristupni link.
 5. **Gledanje (Premium UI):** Korisnik gleda zaštićen video preko Iframe-a na našoj zaštićenoj URL ruti.
 
 ## 📂 Nova Struktura Foldera i Fajlova
 Dodajemo samo sledeće fajlove u postojeću strukturu:
-- `app/kursevi/page.tsx` -> Stranica za marketing i prodaju kurseva.
-- `app/moj-kurs/page.tsx` -> "Bioskop" stranica gde je ugrađen Google Drive Iframe.
+- `lib/courses.ts` -> Katalog kurseva (jedini izvor podataka): slug, cene, tekstovi SR/EN, `lessons` sa Drive ID-jevima, `PAYMENT_INFO`.
+- `app/[lang]/kursevi/page.tsx` -> Stranica za marketing i prodaju kurseva.
+- `app/[lang]/moj-kurs/[slug]/page.tsx` -> "Bioskop" stranica (noindex), renderuje `components/CoursePlayer.tsx` sa Google Drive Iframe-om. `/[lang]/moj-kurs` preusmerava na kurseve.
 - `app/api/buy-course/route.ts` -> API endpoint za slanje emaila (Resend).
 - `components/CourseSignupForm.tsx` -> Klijentska komponenta za formu i upload uplatnice.
 
@@ -31,8 +32,10 @@ Dodajemo samo sledeće fajlove u postojeću strukturu:
   - Upload Preset: `kika_uplatnice` (Podešeno kao Unsigned)
 
 ### 2. Slanje Emaila (Resend)
-- API ruta `app/api/buy-course/route.ts` prima isključivo JSON podatke: `{ name, email, imageUrl }`.
+- API ruta `app/api/buy-course/route.ts` prima isključivo JSON podatke: `{ name, email, phone, courseSlug, lang, imageUrl, website }` (`website` je honeypot). Validacija preko `zod`; `imageUrl` mora biti sa `https://res.cloudinary.com/duomot4hp/`.
 - Backend koristi `resend.emails.send()` da prosledi ove podatke vlasniku.
+- Env (`.env.local` i Vercel): `RESEND_API_KEY`, `RESEND_FROM`, `KIKA_EMAIL`.
+- Dok domen nije verifikovan u Resend-u: `RESEND_FROM` mora biti `onboarding@resend.dev`, a `KIKA_EMAIL` mora biti mejl kojim je otvoren Resend nalog.
 
 ### 3. Google Drive Iframe Integracija (`/moj-kurs`)
 - Video mora biti centriran na crnoj pozadini (Premium izgled).

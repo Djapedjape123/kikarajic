@@ -8,14 +8,13 @@ export default function LoadingScreen() {
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
-    /// Postavljamo timer za fade efekat i uklanjanje loadera
+    // Fade počinje malo pre kraja, pa se loader uklanja kad se fade (500ms) završi
     const fadeTimer = setTimeout(() => {
       setIsFading(true);
-    }, 2600);
-    // Nakon 2 sekunde, uklanjamo loader iz DOM-a
+    }, 1600);
     const removeTimer = setTimeout(() => {
       setIsVisible(false);
-    }, 2000);
+    }, 2100);
 
     return () => {
       clearTimeout(fadeTimer);

@@ -4,62 +4,8 @@ import React, { useState } from 'react';
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaPlayCircle, FaInfoCircle, FaCheck } from "react-icons/fa";
-// Ako imaš svoju formu negde sačuvanu, importuj je ovde:
 import CourseSignupForm from "@/components/CourseSignupForm";
-
-// 1. Baza kurseva (Katalog)
-// Ovde dodaješ nove kurseve kada ih Kika snimi. 
-// "courseLang" nam služi za onaj tvoj padajući meni (filter).
-const COURSES = [
-  {
-    id: 1,
-    courseLang: "SR",
-    image: "https://res.cloudinary.com/duomot4hp/image/upload/f_auto,q_auto,w_800/v1788807802/IMG_0606.JPG_jvxare.jpg",
-    price: "9.900 RSD",
-    title: {
-      SR: "Masterclass Šminkanja (Srpski jezik)",
-      EN: "Makeup Masterclass (Serbian Voiceover)"
-    },
-    shortDesc: {
-      SR: "Naučite najtraženije salonske tehnike šminkanja kroz 5 sati video materijala.",
-      EN: "Learn the most requested salon makeup techniques through 5 hours of video content."
-    },
-    fullDesc: {
-      SR: "Ovaj kurs pokriva sve od pripreme kože do naprednih tehnika poput Soft Glam i Bridal makeup-a. Naučićete kako da prilagodite šminku različitim tipovima kože i oblicima lica.",
-      EN: "This course covers everything from skin prep to advanced techniques like Soft Glam and Bridal makeup. Learn how to adapt makeup to different skin types and face shapes."
-    },
-    includes: [
-      "5+ sati video materijala",
-      "Doživotni pristup preko Google Drive-a",
-      "Lista preporučenih proizvoda",
-      "Sertifikat o završenom kursu"
-    ]
-  },
-  {
-    id: 2,
-    courseLang: "EN",
-    image: "https://res.cloudinary.com/duomot4hp/image/upload/f_auto,q_auto,w_800/v1788807736/IMG_5148.JPG_beawel.jpg",
-    price: "€85",
-    title: {
-      SR: "Masterclass Šminkanja (Engleski jezik)",
-      EN: "Makeup Masterclass (English Voiceover)"
-    },
-    shortDesc: {
-      SR: "Isti vrhunski materijal, prilagođen za strano tržište sa engleskim glasom (Voiceover).",
-      EN: "The same premium content, adapted for the international market with English voiceover."
-    },
-    fullDesc: {
-      SR: "Edukacija na engleskom jeziku idealna za klijente iz inostranstva. Prolazimo sve korake od pripreme lica do završnih detalja.",
-      EN: "Training in English, ideal for international clients. We cover all steps from face preparation to finishing details."
-    },
-    includes: [
-      "5+ hours of video content",
-      "Lifetime access via Google Drive",
-      "Recommended product list",
-      "Certificate of completion"
-    ]
-  }
-];
+import { COURSES, type Course } from "@/lib/courses";
 
 export default function KurseviPage() {
   const { activeLang } = useLanguage();
@@ -69,8 +15,8 @@ export default function KurseviPage() {
   
   // State za Modale
   // Čuvamo ceo objekat kursa na koji je kliknuto kako bismo znali šta da prikažemo
-  const [infoModalCourse, setInfoModalCourse] = useState<any | null>(null);
-  const [signupModalCourse, setSignupModalCourse] = useState<any | null>(null);
+  const [infoModalCourse, setInfoModalCourse] = useState<Course | null>(null);
+  const [signupModalCourse, setSignupModalCourse] = useState<Course | null>(null);
 
   // Filtriramo kurseve na osnovu izbora
   const filteredCourses = COURSES.filter(course => 
@@ -99,7 +45,7 @@ export default function KurseviPage() {
           {["ALL", "SR", "EN"].map((tab) => (
             <button
               key={tab}
-              onClick={() => setFilterLang(tab as any)}
+              onClick={() => setFilterLang(tab as "ALL" | "SR" | "EN")}
               className={`px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 filterLang === tab 
                   ? "bg-gradient-to-tr from-[#f09433] to-[#bc1888] text-white shadow-lg" 
@@ -119,7 +65,7 @@ export default function KurseviPage() {
         <AnimatePresence>
           {filteredCourses.map((course, idx) => (
             <motion.div
-              key={course.id}
+              key={course.slug}
               layout
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -218,7 +164,7 @@ export default function KurseviPage() {
                   {activeLang === "SR" ? "Šta je uključeno:" : "What's included:"}
                 </h4>
                 <ul className="space-y-3 mb-8">
-                  {infoModalCourse.includes.map((item: string, idx: number) => (
+                  {infoModalCourse.includes[activeLang].map((item, idx) => (
                     <li key={idx} className="flex items-center gap-3 text-stone-400 font-light">
                       <FaCheck className="text-[#f09433]" size={14} />
                       {item}
@@ -276,7 +222,7 @@ export default function KurseviPage() {
                   </p>
                 </div>
 
-                 <CourseSignupForm courseName={signupModalCourse.title[activeLang]} />
+                 <CourseSignupForm course={signupModalCourse} />
                 
               </div>
             </motion.div>

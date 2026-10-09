@@ -36,7 +36,14 @@ const statData = [
     { broj: 5000, suffix: "+", key: "clients" },
     { broj: 200, suffix: "", key: "students" },
     { broj: 10, suffix: "", key: "masterclasses" },
-];
+] as const;
+
+// Broj koji se animira - hook mora biti u svojoj komponenti, ne u .map() petlji
+function StatCount({ target, isActive }: { target: number; isActive: boolean }) {
+    const count = useCounter(target, isActive, 3500);
+    // Formatiranje za 5000 (da ubaci tačku 5.000)
+    return <>{count >= 1000 ? count.toLocaleString('sr-RS') : count}</>;
+}
 // Statistika sekcija sa animacijama i brojačem,funkcija za prikaz statistike sa animacijama i brojačem
 export default function StatsSection() {
     const { t } = useLanguage();
@@ -95,12 +102,6 @@ export default function StatsSection() {
                     className="grid grid-cols-6 lg:grid-cols-5 gap-y-12 lg:gap-8"
                 >
                     {statData.map((stat, index) => {
-                        // Animacija broja (okida se kad je sekcija u view-u)
-                        const count = useCounter(stat.broj, isInView, 3500);
-
-                        // Formatiranje za 5000 (da ubaci tačku 5.000)
-                        const formattedCount = count >= 1000 ? count.toLocaleString('sr-RS') : count;
-
                         return (
                             <motion.div
                                 key={index}
@@ -120,7 +121,7 @@ export default function StatsSection() {
                                 {/* Broj i Suffix */}
                                 <div className="flex items-start justify-center gap-0.5 mb-4 text-[#1a1a1a]">
                                     <span className="text-4xl md:text-5xl lg:text-6xl font-bold tabular-nums tracking-tighter drop-shadow-sm">
-                                        {formattedCount}
+                                        <StatCount target={stat.broj} isActive={isInView} />
                                     </span>
                                     <span className="text-2xl md:text-3xl font-bold text-[#bc1888] mt-1">
                                         {stat.suffix}
@@ -129,7 +130,6 @@ export default function StatsSection() {
 
                                 {/* Labela (Prevod) */}
                                 <h3 className="text-xs md:text-sm font-semibold text-stone-600 uppercase tracking-wider max-w-[120px] lg:max-w-full">
-                                    {/* @ts-ignore - koristimo ključeve iz objekta */}
                                     {t.stats.items[stat.key]}
                                 </h3>
 

@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Upload, CheckCircle2, AlertCircle, Loader2, Check } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { FaUpload, FaCheckCircle, FaExclamationCircle, FaSpinner } from "react-icons/fa";
+import { PAYMENT_INFO, type Course } from "@/lib/courses";
 
 interface CourseSignupFormProps {
-  courseName: string;
+  course: Course;
 }
 
-export default function CourseSignupForm({ courseName }: CourseSignupFormProps) {
+type FormStatus = "idle" | "uploading_image" | "sending_email" | "success" | "error";
+
+export default function CourseSignupForm({ course }: CourseSignupFormProps) {
   const { activeLang } = useLanguage();
 
   // Stanja forme
@@ -19,20 +23,22 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
   const [terms, setTerms] = useState(false);
   const [honeypot, setHoneypot] = useState(""); // Skriveno polje za botove
 
-  // Stanja procesa (Loading, Error, Success)
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  // Stanja procesa
+  const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const isBusy = status === "uploading_image" || status === "sending_email";
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
-      
+
       // Validacija: Samo slike
       if (!selectedFile.type.startsWith("image/")) {
         setErrorMessage(activeLang === "SR" ? "Molimo vas izaberite sliku (JPG, PNG)." : "Please select an image (JPG, PNG).");
         return;
       }
-      
+
       // Validacija: Max 10MB
       if (selectedFile.size > 10 * 1024 * 1024) {
         setErrorMessage(activeLang === "SR" ? "Slika je prevelika (Max 10MB)." : "Image is too large (Max 10MB).");
@@ -54,17 +60,15 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
       return;
     }
 
-    // Uklonjena je stroga @gmail.com provera! HTML5 type="email" proverava validnost formata.
-
     if (!file) {
       setErrorMessage(activeLang === "SR" ? "Molimo vas priložite uplatnicu ili PayPal potvrdu." : "Please attach the payment slip or PayPal screenshot.");
       return;
     }
 
-    setStatus("loading");
-
     try {
-      // 3. Upload slike na Cloudinary
+      // 2. Upload slike direktno na Cloudinary (ne ide kroz naš API zbog Vercel limita)
+      setStatus("uploading_image");
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("upload_preset", "kika_uplatnice");
@@ -80,9 +84,11 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         throw new Error("Greška pri slanju slike na server.");
       }
 
-      const imageUrl = cloudinaryData.secure_url;
+      const imageUrl: string = cloudinaryData.secure_url;
 
-      // 4. Slanje podataka na naš API
+      // 3. Slanje podataka na naš API (samo JSON)
+      setStatus("sending_email");
+
       const apiRes = await fetch("/api/buy-course", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -90,8 +96,10 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
           name,
           email,
           phone,
-          courseName,
+          courseSlug: course.slug,
+          lang: activeLang.toLowerCase(),
           imageUrl,
+          website: honeypot,
         }),
       });
 
@@ -99,9 +107,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         throw new Error("Greška pri obradi prijave.");
       }
 
-      // Sve je prošlo super!
       setStatus("success");
-
     } catch (error) {
       console.error(error);
       setStatus("error");
@@ -112,39 +118,43 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
   // AKO JE USPEŠNO
   if (status === "success") {
     return (
-      <div className="text-center py-10 flex flex-col items-center justify-center">
-        <FaCheckCircle className="text-green-500 text-6xl mb-4" />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center py-10 flex flex-col items-center justify-center"
+      >
+        <CheckCircle2 className="text-green-500 mb-4" size={60} />
         <h3 className="text-2xl font-serif text-white mb-2">
           {activeLang === "SR" ? "Prijava je uspešna!" : "Enrollment Successful!"}
         </h3>
         <p className="text-stone-400">
-          {activeLang === "SR" 
-            ? "Primili smo vašu potvrdu. Čim proverimo uplatu, stiže vam pristup na mejl." 
+          {activeLang === "SR"
+            ? "Primili smo vašu potvrdu. Čim proverimo uplatu, stiže vam pristup na mejl."
             : "We received your confirmation. Once verified, you will get access via email."}
         </p>
-      </div>
+      </motion.div>
     );
   }
 
   // SAMA FORMA
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      
+
       {/* Skriveno polje za botove (Honeypot) */}
-      <input 
-        type="text" 
-        name="website" 
-        value={honeypot} 
-        onChange={(e) => setHoneypot(e.target.value)} 
-        className="opacity-0 absolute -z-10 w-0 h-0" 
-        tabIndex={-1} 
+      <input
+        type="text"
+        name="website"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        className="opacity-0 absolute -z-10 w-0 h-0"
+        tabIndex={-1}
         autoComplete="off"
       />
 
       {/* Prikaz Greške */}
       {errorMessage && (
         <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl flex items-center gap-3 text-sm">
-          <FaExclamationCircle className="shrink-0" size={18} />
+          <AlertCircle className="shrink-0" size={18} />
           {errorMessage}
         </div>
       )}
@@ -194,8 +204,8 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         />
         <div className="bg-white/5 border border-white/10 p-3 rounded-lg mt-2">
           <p className="text-xs text-stone-400 leading-relaxed">
-            {activeLang === "SR" 
-              ? "Unesite mejl kojim ste prijavljeni na YouTube/Gmail/Google. Ako nemate Google nalog, napravite ga besplatno pre prijave. Može i sa postojećim (npr. Yahoo) mejlom." 
+            {activeLang === "SR"
+              ? "Unesite mejl kojim ste prijavljeni na YouTube/Gmail/Google. Ako nemate Google nalog, napravite ga besplatno pre prijave. Može i sa postojećim (npr. Yahoo) mejlom."
               : "Enter the email linked to your YouTube/Google account. If you don't have a Google account, you can create one for free using your current email."}
           </p>
         </div>
@@ -206,7 +216,7 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         <h4 className="text-white font-medium mb-3">
           {activeLang === "SR" ? "Instrukcije za uplatu:" : "Payment Instructions:"}
         </h4>
-        
+
         <div className="flex flex-col gap-4 text-sm text-stone-300 font-light">
           {/* Srbija */}
           <div className="flex items-start gap-3">
@@ -215,9 +225,9 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
               <strong className="text-white block mb-1">
                 {activeLang === "SR" ? "Iz Srbije (Žiro račun):" : "From Serbia (Bank Account):"}
               </strong>
-              160-XXXXXX-XX (Kika Rajić) <br/>
+              {PAYMENT_INFO.bankAccount} ({PAYMENT_INFO.bankOwner}) <br/>
               <span className="text-stone-400">
-                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">9.900 RSD</span>
+                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">{course.priceRSD}</span>
               </span>
             </div>
           </div>
@@ -229,16 +239,16 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
               <strong className="text-white block mb-1">
                 {activeLang === "SR" ? "Iz inostranstva (PayPal):" : "International (PayPal):"}
               </strong>
-              <a 
-                href="https://www.paypal.me/KristinaRajic" 
-                target="_blank" 
+              <a
+                href={PAYMENT_INFO.paypalUrl}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-[#bc1888] hover:text-[#f09433] underline transition-colors"
               >
-                paypal.me/KristinaRajic
+                {PAYMENT_INFO.paypalLabel}
               </a> <br/>
               <span className="text-stone-400">
-                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">85 EUR</span>
+                {activeLang === "SR" ? "Iznos:" : "Amount:"} <span className="text-[#f09433] font-medium">{course.priceEUR}</span>
               </span>
             </div>
           </div>
@@ -250,24 +260,24 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
         <label className="block text-sm font-medium text-stone-300 mb-2 mt-2">
           {activeLang === "SR" ? "Skrinšot uplatnice ili PayPal potvrde" : "Payment Slip or PayPal Screenshot"}
         </label>
-        
+
         <p className="text-xs text-stone-400 mb-3 bg-[#f09433]/10 border border-[#f09433]/20 p-3 rounded-lg leading-relaxed">
-          💡 {activeLang === "SR" 
-            ? "Uputstvo: Bez obzira kako ste platili, uslikajte ekran (uplatnicu ili PayPal 'Success' ekran) i priložite sliku ispod." 
+          💡 {activeLang === "SR"
+            ? "Uputstvo: Bez obzira kako ste platili, uslikajte ekran (uplatnicu ili PayPal 'Success' ekran) i priložite sliku ispod."
             : "Instruction: Regardless of how you paid, take a screenshot of the confirmation (bank slip or PayPal success screen) and upload it below."}
         </p>
 
         <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-[#bc1888]/50 bg-black/10 rounded-xl py-6 cursor-pointer transition-all">
-          <FaUpload className="text-stone-400 mb-2" size={24} />
+          <Upload className="text-stone-400 mb-2" size={24} />
           <span className="text-sm text-stone-300 font-medium">
             {file ? file.name : (activeLang === "SR" ? "Klikni da izabereš sliku" : "Click to select image")}
           </span>
           <span className="text-xs text-stone-500 mt-1">JPG, PNG (Max 10MB)</span>
-          <input 
-            type="file" 
-            accept="image/png, image/jpeg, image/webp" 
-            onChange={handleFileChange} 
-            className="hidden" 
+          <input
+            type="file"
+            accept="image/png, image/jpeg, image/webp"
+            onChange={handleFileChange}
+            className="hidden"
           />
         </label>
       </div>
@@ -282,29 +292,35 @@ export default function CourseSignupForm({ courseName }: CourseSignupFormProps) 
             onChange={(e) => setTerms(e.target.checked)}
             className="peer appearance-none w-5 h-5 border border-white/20 rounded bg-black/20 checked:bg-[#bc1888] checked:border-[#bc1888] transition-all cursor-pointer"
           />
-          <FaCheckCircle className="absolute text-white opacity-0 peer-checked:opacity-100 w-3 h-3 pointer-events-none" />
+          <Check className="absolute text-white opacity-0 peer-checked:opacity-100 w-3 h-3 pointer-events-none" strokeWidth={3} />
         </div>
         <span className="text-xs text-stone-400 leading-relaxed font-light select-none group-hover:text-stone-300 transition-colors">
-          {activeLang === "SR" 
-            ? "Razumem da je kurs vezan za moj Google nalog. Snimanje i deljenje materijala strogo je zabranjeno i zaštićeno autorskim pravima." 
+          {activeLang === "SR"
+            ? "Razumem da je kurs vezan za moj Google nalog. Snimanje i deljenje materijala strogo je zabranjeno i zaštićeno autorskim pravima."
             : "I understand the course is tied to my Google account. Recording or sharing is strictly prohibited and protected by copyright."}
         </span>
       </label>
 
       {/* Submit Dugme */}
-      <button 
-        type="submit" 
-        disabled={status === "loading"}
+      <button
+        type="submit"
+        disabled={isBusy}
         className="w-full mt-2 flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-tr from-[#f09433] to-[#bc1888] text-white font-medium text-lg hover:shadow-[0_0_20px_rgba(188,24,136,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {status === "loading" ? (
+        {status === "uploading_image" && (
           <>
-            <FaSpinner className="animate-spin" />
-            {activeLang === "SR" ? "Šaljem..." : "Sending..."}
+            <Loader2 className="animate-spin" size={20} />
+            {activeLang === "SR" ? "Šaljem sliku..." : "Uploading image..."}
           </>
-        ) : (
-          activeLang === "SR" ? "Pošalji prijavu" : "Submit Enrollment"
         )}
+        {status === "sending_email" && (
+          <>
+            <Loader2 className="animate-spin" size={20} />
+            {activeLang === "SR" ? "Šaljem prijavu..." : "Sending enrollment..."}
+          </>
+        )}
+        {(status === "idle" || status === "error") &&
+          (activeLang === "SR" ? "Pošalji prijavu" : "Submit Enrollment")}
       </button>
 
     </form>
