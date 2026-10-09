@@ -48,7 +48,7 @@ export default function AboutPage() {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
+   // funkacija za automatsko menjanje slika u slajderu svakih 3 sekunde, osim kada je lightbox otvoren
     useEffect(() => {
         if (lightboxIndex !== null) return;
 
