@@ -43,6 +43,7 @@ export default function WorkshopModal({ isOpen, onClose, workshopName, workshopD
   }, [isOpen, onClose]);
 
   return (
+    // Animacija modala i pozadine
     <AnimatePresence>
       {isOpen && (
         <>
