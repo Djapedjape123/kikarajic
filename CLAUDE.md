@@ -15,7 +15,7 @@ Sistem koristi "Hibridni pristup": Premium UI na frontendu + Google Drive za bez
 
 ## 📂 Nova Struktura Foldera i Fajlova
 Dodajemo samo sledeće fajlove u postojeću strukturu:
-- `app/online-kursevi/page.tsx` -> Stranica za marketing i prodaju kurseva.
+- `app/kursevi/page.tsx` -> Stranica za marketing i prodaju kurseva.
 - `app/moj-kurs/page.tsx` -> "Bioskop" stranica gde je ugrađen Google Drive Iframe.
 - `app/api/buy-course/route.ts` -> API endpoint za slanje emaila (Resend).
 - `components/CourseSignupForm.tsx` -> Klijentska komponenta za formu i upload uplatnice.
