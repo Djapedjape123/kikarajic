@@ -1,15 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
+import { luxurious } from "@/lib/fonts";
 import { FaInstagram, FaMapMarkerAlt, FaEnvelope, FaChevronUp, FaTiktok } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-
-const luxurious = Luxurious_Script({
-    weight: "400",
-    subsets: ["latin"],
-});
 
 export default function Footer() {
     const { activeLang, t, lp } = useLanguage();
@@ -82,15 +77,16 @@ export default function Footer() {
                         <Link href={lp("/o-meni")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.about}
                         </Link>
-                        <Link href={lp("/galerija")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/galerija")} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.gallery}
                         </Link>
-                        <Link href={lp("/studio")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/studio")} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.studio}
                         </Link>
                         {/* Dinamički linkovi usluga iz prevoda */}
+                        {/* TODO: kad stranice /galerija, /studio i usluge budu gotove, ukloniti prefetch={false} */}
                         {serviceLinks.map((link, idx) => (
-                            <Link key={idx} href={lp(link.href)} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                            <Link key={idx} href={lp(link.href)} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                                 {link.name}
                             </Link>
                         ))}

@@ -121,20 +121,17 @@ export default function WorkshopsPage() {
       {/* 1. HERO SEKCIJA SA DUPLIM SLIKAMA (Mobile vs Desktop) */}
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          {/* TODO: Ubaci sliku za MALE ekrane (mobilne) */}
-          <img 
-            // src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg", 800)}
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807866/IMG_1329.JPG_zui59e.jpg", 800)} 
-            alt="Makeup Workshops" 
-            className="w-full h-full object-cover object-top md:hidden"
-          />
-          
-          {/* TODO: Ubaci sliku za VELIKE ekrane (desktop) */}
-          <img 
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 800)} 
-            alt="Makeup Workshops" 
-            className="w-full h-full object-cover object-top hidden md:block"
-          />
+          {/* Skida se samo jedna slika: mobilna na telefonu, desktop od md (768px) naviše */}
+          {/* stara mobilna slika: optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg", 800) */}
+          <picture className="block w-full h-full">
+            <source media="(min-width: 768px)" srcSet={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 800)} />
+            <img
+              src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807866/IMG_1329.JPG_zui59e.jpg", 800)}
+              alt="Makeup Workshops"
+              fetchPriority="high"
+              className="w-full h-full object-cover object-top"
+            />
+          </picture>
           
           {/* Tamni overlay za savršenu vidljivost navbara i belog teksta */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
@@ -283,13 +280,13 @@ export default function WorkshopsPage() {
         {/* TODO: Zameni src atribute sa svojim Cloudinary linkovima za Workshops */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807848/IMG_1332.JPG_k0g8yl.jpg", 800)} alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807848/IMG_1332.JPG_k0g8yl.jpg", 800)} alt="Atmosfera 1" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md sm:mt-8">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg", 800)} alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807820/IMG_1326.JPG_ytpstv.jpg", 800)} alt="Atmosfera 2" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807720/IMG_1325.JPG_fdj7eh.jpg", 800)} alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807720/IMG_1325.JPG_fdj7eh.jpg", 800)} alt="Atmosfera 3" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
         </div>
       </section>

@@ -20,6 +20,7 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // preskače API rute, Next.js interne fajlove i fajlove sa ekstenzijom (icon.png, slike...)
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  // preskače API rute, Next.js interne fajlove, fajlove sa ekstenzijom (icon.png, slike...)
+  // i adrese koje već imaju jezik (/sr, /sr/..., /en, /en/...) - tu proxy nema šta da radi
+  matcher: ["/((?!api|_next|sr(?:/|$)|en(?:/|$)|.*\\..*).*)"],
 };

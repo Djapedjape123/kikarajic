@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import WorkshopModal from "@/components/WorkshopModal";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
+import { isIntroSeen } from "@/lib/intro";
 
-const luxurious = Luxurious_Script({
-    weight: "400",
-    subsets: ["latin"],
-});
+const HERO_VIDEO = "https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4";
+// prvi frejm videa kao slika - vidi se dok se video ne učita
+const HERO_POSTER = "https://res.cloudinary.com/duomot4hp/video/upload/so_0,f_auto,q_auto,w_720/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.jpg";
 
 export default function HeroSection() {
     const { t } = useLanguage();
     const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false);
+    // animacije čekaju loader (~1.5s); ako je loader već viđen u ovoj poseti, kreću odmah istim redosledom
+    const introDelay = isIntroSeen() ? 0 : 1.5;
 
     return (
         <section className="relative w-full min-h-[100svh] md:h-screen overflow-hidden bg-stone-900">
@@ -26,6 +26,7 @@ export default function HeroSection() {
                 loop
                 muted
                 playsInline
+                poster={HERO_POSTER}
                 className="
                     absolute inset-0
                     w-full h-full
@@ -36,12 +37,9 @@ export default function HeroSection() {
                     z-0
                  "
             >
-                <source
-                    src={optimizeCloudinaryUrl(
-                        "https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4",
-                        1080
-                    )}
-                />
+                {/* telefoni dobijaju manju verziju (~1.8 MB umesto ~3.8 MB) */}
+                <source media="(max-width: 767px)" src={optimizeCloudinaryUrl(HERO_VIDEO, 720)} />
+                <source src={optimizeCloudinaryUrl(HERO_VIDEO, 1080)} />
 
                 Vaš pretraživač ne podržava video format.
             </video>
@@ -63,7 +61,7 @@ export default function HeroSection() {
                     alt="Kika Rajić Logo"
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    transition={{ duration: 0.8, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 0.8, delay: introDelay, ease: [0.16, 1, 0.3, 1] }}
                     className="h-[622svh] sm:h-[24svh] md:h-[26svh] lg:h-[634svh] max-h-[630px] sm:max-h-[220px] md:max-h-[260px] lg:max-h-[700px] w-auto object-contain drop-shadow-lg"
                 />
             </div>
@@ -76,7 +74,7 @@ export default function HeroSection() {
                 <motion.p
                     initial={{ opacity: 0, y: 25 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, delay: 2.5, ease: "easeOut" }}
+                    transition={{ duration: 0.9, delay: introDelay + 1, ease: "easeOut" }}
                     className="text-stone-200 text-sm md:text-lg max-w-xl font-light drop-shadow-sm leading-relaxed"
                 >
                     {t.hero.subtitle}
@@ -85,7 +83,7 @@ export default function HeroSection() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 2.7, ease: "easeOut" }}
+                    transition={{ duration: 0.8, delay: introDelay + 1.2, ease: "easeOut" }}
                     // IZMENA: gap-2.5 umesto gap-3 sužava prostor između dva dugmeta na mobilnom
                     className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 items-center"
                 >

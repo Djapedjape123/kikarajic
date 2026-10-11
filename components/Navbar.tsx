@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Luxurious_Script } from "next/font/google";
 import { useLanguage } from "@/context/LanguageContext";
-import { usePathname } from "next/navigation";
+import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
+import { isIntroSeen } from "@/lib/intro";
 
-const luxurious = Luxurious_Script({
-  weight: "400",
-  subsets: ["latin"],
-});
+// isti URL kao logo u Hero sekciji -> posle skrola ide iz keša, ne skida se ponovo
+const LOGO_SCROLLED = optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png", 800);
+const LOGO_TOP = optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png", 800);
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,15 +18,16 @@ export default function Navbar() {
   const [isReady, setIsReady] = useState(false);
 
   const { activeLang, setActiveLang, t, lp } = useLanguage();
-  const pathname = usePathname();
 
   const eduLinks = t.eduLinks;
+  // TODO: kad stranice /galerija, /studio i usluge (serviceLinks) budu gotove, ukloniti prefetch={false}
   const serviceLinks = t.serviceLinks; // <--- Usluge iz prevoda
 
   useEffect(() => {
+    // čeka loader (2s), osim ako je loader već viđen u ovoj poseti
     const timer = setTimeout(() => {
       setIsReady(true);
-    }, 2000);
+    }, isIntroSeen() ? 0 : 2000);
 
     const handleScroll = () => {
       if (window.scrollY > 50) setIsScrolled(true);
@@ -58,11 +58,7 @@ export default function Navbar() {
 
           <Link href={lp("/")} className="flex-shrink-0 flex items-center z-50">
             <img
-              src={
-                isScrolled || isMobileMenuOpen
-                  ? "https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png"
-                  : "https://res.cloudinary.com/duomot4hp/image/upload/v1788957487/Kika_Rajic_logo-01_w90w5g.png"
-              }
+              src={isScrolled || isMobileMenuOpen ? LOGO_SCROLLED : LOGO_TOP}
               alt="Kika Rajić Logo"
               className="h-40 sm:h-60 w-auto object-contain transition-opacity duration-300"
             />
@@ -72,7 +68,7 @@ export default function Navbar() {
 
           <div className="hidden md:flex items-center space-x-8">
             <Link href={lp("/o-meni")} className="hover:text-[#bc1888] transition-colors">{t.nav.about}</Link>
-            <Link href={lp("/galerija")} className="hover:text-[#bc1888] transition-colors">{t.nav.gallery}</Link>
+            <Link href={lp("/galerija")} prefetch={false} className="hover:text-[#bc1888] transition-colors">{t.nav.gallery}</Link>
 
             {/* NOVI PADAJUĆI MENI: USLUGE (Desktop) */}
             <div className="relative group">
@@ -84,7 +80,7 @@ export default function Navbar() {
               <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-56 bg-[#FAF7F2]/95 backdrop-blur-md text-stone-800 shadow-2xl rounded-2xl border border-white/50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top translate-y-2 group-hover:translate-y-0">
                 <div className="py-2 flex flex-col">
                   {serviceLinks.map((link, idx) => (
-                    <Link key={idx} href={lp(link.href)} className="px-6 py-3 mx-2 rounded-xl hover:bg-[#E8DDD1]/50 hover:text-[#bc1888] transition-all text-sm font-medium">
+                    <Link key={idx} href={lp(link.href)} prefetch={false} className="px-6 py-3 mx-2 rounded-xl hover:bg-[#E8DDD1]/50 hover:text-[#bc1888] transition-all text-sm font-medium">
                       {link.name}
                     </Link>
                   ))}
@@ -110,7 +106,7 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href={lp("/studio")} className="hover:text-[#bc1888] transition-colors">{t.nav.studio}</Link>
+            <Link href={lp("/studio")} prefetch={false} className="hover:text-[#bc1888] transition-colors">{t.nav.studio}</Link>
             <Link href={lp("/kursevi")} className="hover:text-[#bc1888] transition-colors">{t.nav.kursevi}</Link>
 
             <div className="flex items-center space-x-2 pl-4 border-l border-current">
@@ -162,7 +158,7 @@ export default function Navbar() {
           </div>
 
           <div className={`transition-all duration-500 delay-150 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href={lp("/galerija")} className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href={lp("/galerija")} prefetch={false} className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
               <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               {t.nav.gallery}
             </Link>
@@ -186,6 +182,7 @@ export default function Navbar() {
                   <Link
                     key={idx}
                     href={lp(link.href)}
+                    prefetch={false}
                     className="block py-2 text-base text-stone-600 hover:text-[#bc1888] transition-colors"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -225,7 +222,7 @@ export default function Navbar() {
           </div>
 
           <div className={`transition-all duration-500 delay-300 transform ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}>
-            <Link href={lp("/studio")} className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
+            <Link href={lp("/studio")} prefetch={false} className="flex items-center gap-3 text-lg font-medium px-4 py-3 hover:bg-[#E8DDD1]/40 hover:text-[#bc1888] rounded-xl transition-all" onClick={() => setIsMobileMenuOpen(false)}>
               <svg className="w-5 h-5 text-[#bc1888]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V10a2 2 0 012-2h2a2 2 0 012 2v11" /></svg>
               {t.nav.studio}
             </Link>

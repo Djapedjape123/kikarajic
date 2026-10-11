@@ -125,19 +125,16 @@ export default function BaznaEdukacijaPage() {
       <section className="relative h-[85vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         
         <div className="absolute inset-0 w-full h-full">
-          {/* Slika za male ekrane (vidljiva samo na mobilnim uređajima) */}
-          <img
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101132/IMG_2367.JPG_cqg2r7.jpg", 800)}
-            alt="Škola šminkanja"
-            className="w-full h-full object-cover object-top md:hidden"
-          />
-
-          {/* Slika za velike ekrane (vidljiva samo na desktopu i većim tabletima) */}
-          <img
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
-            alt="Škola šminkanja"
-            className="w-full h-full object-cover object-top hidden md:block"
-          />
+          {/* Skida se samo jedna slika: mobilna na telefonu, desktop od md (768px) naviše */}
+          <picture className="block w-full h-full">
+            <source media="(min-width: 768px)" srcSet={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)} />
+            <img
+              src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1790101132/IMG_2367.JPG_cqg2r7.jpg", 800)}
+              alt="Škola šminkanja"
+              fetchPriority="high"
+              className="w-full h-full object-cover object-top"
+            />
+          </picture>
           {/* Tamni overlay koji omogućava da se navbar i tekst vide savršeno */}
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
         </div>
@@ -278,13 +275,13 @@ export default function BaznaEdukacijaPage() {
         {/* TODO: Zameni src atribute sa svojim Cloudinary linkovima */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807736/IMG_5148.JPG_beawel.jpg", 700)} alt="Atmosfera 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807736/IMG_5148.JPG_beawel.jpg", 700)} alt="Atmosfera 1" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md sm:mt-8">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807709/IMG_5293.JPG_edc1nn.jpg", 700)} alt="Atmosfera 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807709/IMG_5293.JPG_edc1nn.jpg", 700)} alt="Atmosfera 2" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="aspect-[4/5] rounded-3xl overflow-hidden shadow-md">
-            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg", 700)} alt="Atmosfera 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <img src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807781/IMG_1327.JPG_oqizoy.jpg", 700)} alt="Atmosfera 3" loading="lazy" decoding="async" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
           </motion.div>
         </div>
       </section>

@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import LogoLoop from "@/components/ui/LogoLoop"; 
+import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
 
 
 const brands = [
@@ -48,8 +49,10 @@ export default function BrandsSection() {
               aria-label={`Visit ${item.name}`}
             >
               <img
-                src={item.src}
+                src={optimizeCloudinaryUrl(item.src)}
                 alt={item.name}
+                loading="lazy"
+                decoding="async"
                 className="h-19 md:h-24 w-auto object-contain mix-blend-multiply grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"
               />
             </a>

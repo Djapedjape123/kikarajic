@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { FaStar, FaTimes } from "react-icons/fa";
-import { motion, AnimatePresence, useMotionValue, useAnimationFrame } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useAnimationFrame, useInView } from "framer-motion";
 
 type Review = {
   id: number;
@@ -79,6 +79,9 @@ export default function Reviews() {
   const [teleportWidth, setTeleportWidth] = useState(0);
   
   const itemRef = useRef<HTMLElement>(null);
+  // van ekrana traka stoji (ne troši CPU), a nastavlja kad se sekcija vidi
+  const sectionRef = useRef<HTMLElement>(null);
+  const isOnScreen = useInView(sectionRef);
   const isHovered = useRef(false);
   const isDragging = useRef(false);
 
@@ -116,14 +119,14 @@ export default function Reviews() {
   // 3. Automatsko pomeranje animacije (svaki frejm pomeri malo ulevo)
   useAnimationFrame((time, delta) => {
     // Pauzira ako merimo širinu, ako je miš preko, ili ako klijent prevlači prstom
-    if (!teleportWidth || isHovered.current || isDragging.current) return;
+    if (!teleportWidth || !isOnScreen || isHovered.current || isDragging.current) return;
     
     // Brzina kretanja. Povećaj 0.7 za brže, smanji za sporije.
     x.set(x.get() - 0.7 * (delta / 16)); 
   });
 
   return (
-    <section className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40 select-none">
+    <section ref={sectionRef} className="py-24 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/40 select-none">
       
       {/* Naslov sekcije */}
       <div className="max-w-7xl mx-auto px-4 text-center mb-16">

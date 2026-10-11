@@ -73,6 +73,19 @@ const useImageLoader = (seqRef: React.RefObject<HTMLElement | null>, onLoad: () 
   }, [onLoad, seqRef, dependencies]);
 };
 
+// FUNKCIJA KOJA PRATI DA LI JE TRAKA NA EKRANU (van ekrana ne trošimo CPU na animaciju)
+const useIsOnScreen = (ref: React.RefObject<HTMLElement | null>) => {
+  const [isOnScreen, setIsOnScreen] = useState(true);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !window.IntersectionObserver) return;
+    const observer = new IntersectionObserver(([entry]) => setIsOnScreen(entry.isIntersecting));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [ref]);
+  return isOnScreen;
+};
+
 const useAnimationLoop = (
   trackRef: React.RefObject<HTMLElement | null>, 
   targetVelocity: number, 
@@ -80,7 +93,8 @@ const useAnimationLoop = (
   seqHeight: number, 
   isHovered: boolean, 
   hoverSpeed: number | undefined, 
-  isVertical: boolean
+  isVertical: boolean,
+  isOnScreen: boolean
 ) => {
   const rafRef = useRef<number | null>(null);
   const lastTimestampRef = useRef<number | null>(null);
@@ -98,6 +112,8 @@ const useAnimationLoop = (
         ? `translate3d(0, ${-offsetRef.current}px, 0)`
         : `translate3d(${-offsetRef.current}px, 0, 0)`;
     }
+
+    if (!isOnScreen) return;
 
     const animate = (timestamp: number) => {
       if (lastTimestampRef.current === null) lastTimestampRef.current = timestamp;
@@ -123,7 +139,7 @@ const useAnimationLoop = (
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef]);
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, isOnScreen]);
 };
 
 export const LogoLoop = memo(({ 
@@ -173,7 +189,8 @@ export const LogoLoop = memo(({
 
   useResizeObserver(updateDimensions, [containerRef, seqRef], [logos, gap, logoHeight]);
   useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight]);
-  useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, false);
+  const isOnScreen = useIsOnScreen(containerRef);
+  useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, false, isOnScreen);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);

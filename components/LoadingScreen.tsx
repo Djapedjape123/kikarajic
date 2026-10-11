@@ -2,19 +2,25 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
+import { isIntroSeen, markIntroSeen } from "@/lib/intro";
 
 export default function LoadingScreen() {
   const [isVisible, setIsVisible] = useState(true);
   const [isFading, setIsFading] = useState(false);
 
   useEffect(() => {
+    // Loader je već viđen u ovoj poseti - CSS ga je sakrio, pa ga odmah uklanjamo
+    const seen = isIntroSeen();
+
     // Fade počinje malo pre kraja, pa se loader uklanja kad se fade (500ms) završi
     const fadeTimer = setTimeout(() => {
       setIsFading(true);
-    }, 1600);
+    }, seen ? 0 : 1600);
     const removeTimer = setTimeout(() => {
       setIsVisible(false);
-    }, 2100);
+      markIntroSeen();
+    }, seen ? 0 : 2100);
 
     return () => {
       clearTimeout(fadeTimer);
@@ -26,6 +32,7 @@ export default function LoadingScreen() {
 
   return (
     <div
+      data-loader
       className={`fixed inset-0 z-50 flex items-center justify-center bg-black transition-opacity duration-500 ease-in-out ${
         isFading ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
@@ -54,7 +61,7 @@ export default function LoadingScreen() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          src="https://res.cloudinary.com/duomot4hp/image/upload/v1787775920/Kika_Rajic_logo-03_a0c7ef.png"
+          src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1787775920/Kika_Rajic_logo-03_a0c7ef.png", 700)}
           alt="Kika Rajic Studio Logo"
           className="relative z-10 w-auto h-auto max-w-[75%] sm:max-w-[340px] object-contain drop-shadow-2xl"
         />

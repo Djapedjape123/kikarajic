@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import IntroScript from "@/components/IntroScript";
 
 // promena jezika 
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -10,16 +10,6 @@ import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import InstagramFloatButton from "@/components/InstagramFloatButton"; // dugem za insta
 import Footer from "@/components/Footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Kika Rajić | Studio",
@@ -44,8 +34,14 @@ export default async function RootLayout({
   return (
     <html
       lang={lang}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className="h-full antialiased"
+      // skripta u <head>-u menja data-intro-seen pre hidratacije
+      suppressHydrationWarning
     >
+      <head>
+        {/* loader samo jednom po poseti - vidi lib/intro.ts */}
+        <IntroScript />
+      </head>
       <body className="min-h-full flex flex-col">
         
         {/* Loader ide na sam vrh! On je z-50 i prekriće ceo ekran prve 2 sekunde koje moramo da popravimo */}

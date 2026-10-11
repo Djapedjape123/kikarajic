@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "404 | Kika Rajić",
@@ -13,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="sr" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="sr" className="h-full antialiased">
       <body className="min-h-full flex flex-col items-center justify-center bg-[#FAF7F2] text-stone-800 px-4 text-center">
         <p className="text-6xl font-light text-[#bc1888]">404</p>
         <p className="mt-4 text-stone-500">Stranica nije pronađena · Page not found</p>
