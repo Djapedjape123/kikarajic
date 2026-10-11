@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   title: "404 | Kika Rajić",
 };
 
-// stranica za adrese koje ne postoje (npr. /de/...)
 export default function GlobalNotFound() {
   return (
     <html lang="sr" className={`${geistSans.variable} h-full antialiased`}>
