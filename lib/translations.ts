@@ -17,9 +17,9 @@ export const translations = {
       insta:"Zakaži svoj termin ovde"
     },
     serviceLinks: [
-      { name: "Šminka", href: "/sminka" },
-      { name: "Sprej ten", href: "/sprej-ten" },
-      { name: "Svečane frizure", href: "/svecane-frizure" },
+      { name: "Šminka", href: "/usluge/sminka" },
+      { name: "Sprej ten", href: "/usluge/sprej-ten" },
+      { name: "Svečane frizure", href: "/usluge/svecane-frizure" },
     ],
     hero: {
       subtitle: 'Otkrijte svoju savršenu verziju uz profesionalno šminkanje, frizure i premium sprej ten tretmane.',
@@ -106,9 +106,9 @@ export const translations = {
     },
     // NOVO: Edukacije na engleskom (zadržano i netaknuto kako si tražio)
     serviceLinks: [
-      { name: "Makeup", href: "/sminka" },
-      { name: "Spray Tan", href: "/sprej-ten" },
-      { name: "Formal Hairstyles", href: "/svecane-frizure" },
+      { name: "Makeup", href: "/usluge/sminka" },
+      { name: "Spray Tan", href: "/usluge/sprej-ten" },
+      { name: "Formal Hairstyles", href: "/usluge/svecane-frizure" },
     ],
     eduLinks: [
       { name: "Makeup School", href: "/edukacije/skola-sminkanja" },

@@ -34,8 +34,13 @@ export default function Navbar() {
       else setIsScrolled(false);
     };
 
+    // stranica može da se otvori već skrolovana (osvežavanje, dugme "nazad", link sa #sidrom) - bez ovoga
+    // navbar ostaje providan sa belim tekstom preko krem pozadine dok se ne skroluje; rAF zbog react-hooks/set-state-in-effect
+    const raf = requestAnimationFrame(handleScroll);
+
     window.addEventListener("scroll", handleScroll);
     return () => {
+      cancelAnimationFrame(raf);
       clearTimeout(timer);
       window.removeEventListener("scroll", handleScroll);
     };
