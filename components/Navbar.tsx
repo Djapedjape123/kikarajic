@@ -21,7 +21,7 @@ export default function Navbar() {
 
   const eduLinks = t.eduLinks;
   // TODO: kad stranice /galerija, /studio i usluge (serviceLinks) budu gotove, ukloniti prefetch={false}
-  const serviceLinks = t.serviceLinks; // <--- Usluge iz prevoda
+  const serviceLinks = t.serviceLinks; // usluge (serviceLinks) se koristi i u desktop i u mobilnom meniju
 
   useEffect(() => {
     // čeka loader (2s), osim ako je loader već viđen u ovoj poseti
