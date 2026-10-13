@@ -7,6 +7,7 @@ export const translations = {
       gallery: 'Galerija',
       makeup: 'Šminka',
       sprayTan: 'Sprej ten',
+      hairstyles: 'Svečane frizure',
       services: 'Usluge',
       educations: 'Edukacije',
       studio: 'Studio',
@@ -79,6 +80,7 @@ export const translations = {
       makeup: 'Makeup',
       services: 'Services', 
       sprayTan: 'Spray Tan',
+      hairstyles: 'Formal Hairstyles',
       educations: 'Educations',
       studio: 'Studio',
       kursevi:'Courses'

@@ -1,7 +1,9 @@
 import type { Language } from "@/lib/translations";
 
-// Jedino mesto za tekst i slike stranice "Sprej ten" (/usluge/sprej-ten).
+// Jedino mesto za tekst, slike i link za zakazivanje stranice "Sprej ten" (/usluge/sprej-ten).
 // Tekst nije u translations.ts jer taj fajl ide u JS svake stranice (učitava ga LanguageContext u layoutu).
+
+export const SPRAY_TAN_BOOKING_URL = "https://ig.me/m/tasaa_makeup";
 
 // TODO (PRIVREMENO): ovo su slike koje već postoje na sajtu (O meni / Edukacije), samo da se vidi izgled stranice.
 // Zameniti sa 7 Cloudinary linkova za sprej ten: hero, prep, care i 4 za galeriju rezultata.
