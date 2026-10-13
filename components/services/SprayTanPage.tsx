@@ -13,7 +13,7 @@ import { luxurious } from "@/lib/fonts";
 import { isIntroSeen } from "@/lib/intro";
 import { SPRAY_TAN, SPRAY_TAN_IMAGES, type FactIcon, type SprayTanContent } from "@/lib/services/sprayTan";
 
-const BOOKING_URL = "https://ig.me/m/kikarajic";
+const BOOKING_URL = "https://ig.me/m/tasaa_makeup";
 
 const FACT_ICONS: Record<FactIcon, LucideIcon> = {
   calendar: CalendarCheck,
