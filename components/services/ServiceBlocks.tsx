@@ -3,7 +3,7 @@
 /* eslint-disable @next/next/no-img-element -- slike optimizuje Cloudinary (lib/cloudinary.ts), isto kao na ostatku sajta */
 
 // Delovi koje dele stranice usluga (Sprej ten, Svečane frizure, Šminka), da dizajn ostane isti na svima.
-
+// ova strnica je "client" jer koristi framer-motion (animacije) i react-icons (svg)
 import type { MouseEvent, ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Sparkles } from "lucide-react";
