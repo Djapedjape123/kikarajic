@@ -33,15 +33,15 @@ export default function CourseSignupForm({ course }: CourseSignupFormProps) {
     if (e.target.files && e.target.files[0]) {
       const selectedFile = e.target.files[0];
 
-      // Validacija: Samo slike
-      if (!selectedFile.type.startsWith("image/")) {
-        setErrorMessage(activeLang === "SR" ? "Molimo vas izaberite sliku (JPG, PNG)." : "Please select an image (JPG, PNG).");
+      // Validacija: slika ili PDF
+      if (!selectedFile.type.startsWith("image/") && selectedFile.type !== "application/pdf") {
+        setErrorMessage(activeLang === "SR" ? "Molimo vas izaberite sliku ili PDF (JPG, PNG, PDF)." : "Please select an image or PDF (JPG, PNG, PDF).");
         return;
       }
 
       // Validacija: Max 10MB
       if (selectedFile.size > 10 * 1024 * 1024) {
-        setErrorMessage(activeLang === "SR" ? "Slika je prevelika (Max 10MB)." : "Image is too large (Max 10MB).");
+        setErrorMessage(activeLang === "SR" ? "Fajl je prevelik (Max 10MB)." : "File is too large (Max 10MB).");
         return;
       }
 
@@ -263,19 +263,19 @@ export default function CourseSignupForm({ course }: CourseSignupFormProps) {
 
         <p className="text-xs text-stone-400 mb-3 bg-[#f09433]/10 border border-[#f09433]/20 p-3 rounded-lg leading-relaxed">
           💡 {activeLang === "SR"
-            ? "Uputstvo: Bez obzira kako ste platili, uslikajte ekran (uplatnicu ili PayPal 'Success' ekran) i priložite sliku ispod."
-            : "Instruction: Regardless of how you paid, take a screenshot of the confirmation (bank slip or PayPal success screen) and upload it below."}
+            ? "Uputstvo: Bez obzira kako ste platili, uslikajte ekran (uplatnicu ili PayPal 'Success' ekran) i priložite sliku ili PDF ispod."
+            : "Instruction: Regardless of how you paid, take a screenshot of the confirmation (bank slip or PayPal success screen) and upload an image or PDF below."}
         </p>
 
         <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-white/10 hover:border-[#bc1888]/50 bg-black/10 rounded-xl py-6 cursor-pointer transition-all">
           <Upload className="text-stone-400 mb-2" size={24} />
           <span className="text-sm text-stone-300 font-medium">
-            {file ? file.name : (activeLang === "SR" ? "Klikni da izabereš sliku" : "Click to select image")}
+            {file ? file.name : (activeLang === "SR" ? "Klikni da izabereš sliku ili PDF" : "Click to select image or PDF")}
           </span>
-          <span className="text-xs text-stone-500 mt-1">JPG, PNG (Max 10MB)</span>
+          <span className="text-xs text-stone-500 mt-1">JPG, PNG, PDF (Max 10MB)</span>
           <input
             type="file"
-            accept="image/png, image/jpeg, image/webp"
+            accept="image/png, image/jpeg, image/webp, application/pdf"
             onChange={handleFileChange}
             className="hidden"
           />

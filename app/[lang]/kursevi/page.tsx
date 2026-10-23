@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTimes, FaPlayCircle, FaInfoCircle, FaCheck } from "react-icons/fa";
@@ -17,6 +17,28 @@ export default function KurseviPage() {
   // Čuvamo ceo objekat kursa na koji je kliknuto kako bismo znali šta da prikažemo
   const [infoModalCourse, setInfoModalCourse] = useState<Course | null>(null);
   const [signupModalCourse, setSignupModalCourse] = useState<Course | null>(null);
+
+  // Dok je neki modal otvoren: pozadina se ne skroluje, a Esc zatvara modal
+  const isModalOpen = infoModalCourse !== null || signupModalCourse !== null;
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setInfoModalCourse(null);
+      setSignupModalCourse(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isModalOpen]);
 
   // Filtriramo kurseve na osnovu izbora
   const filteredCourses = COURSES.filter(course => 
