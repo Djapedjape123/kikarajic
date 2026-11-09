@@ -7,7 +7,9 @@ import { FaTimes, FaPlayCircle, FaInfoCircle, FaCheck } from "react-icons/fa";
 import CourseSignupForm from "@/components/CourseSignupForm";
 import { COURSES, type Course } from "@/lib/courses";
 
-export default function KurseviPage() {
+// Katalog kurseva (filter, kartice, modali, forma) - ceo je interaktivan, pa ostaje klijentski;
+// stranica app/[lang]/kursevi/page.tsx je server omotač sa naslovom taba.
+export default function CoursesCatalog() {
   const { activeLang } = useLanguage();
   
   // State za Filter (Padajući meni / Tabovi)
