@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// stranica je na srpskom bez obzira na jezik adrese - služi samo Kiki
 export default async function OdobriPage({ searchParams }: PageProps<"/[lang]/odobri">) {
   const { t } = await searchParams;
   const token = typeof t === "string" ? t : "";
