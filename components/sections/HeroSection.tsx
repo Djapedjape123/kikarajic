@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import WorkshopModal from "@/components/WorkshopModal";
@@ -8,6 +8,9 @@ import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
 import { introRemaining } from "@/lib/intro";
 
 const HERO_VIDEO = "https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4";
+// telefoni dobijaju manju verziju (~1.8 MB umesto ~3.8 MB)
+const HERO_VIDEO_PHONE = optimizeCloudinaryUrl(HERO_VIDEO, 720);
+const HERO_VIDEO_DESKTOP = optimizeCloudinaryUrl(HERO_VIDEO, 1080);
 // prvi frejm videa kao slika - vidi se dok se video ne učita
 const HERO_POSTER = "https://res.cloudinary.com/duomot4hp/video/upload/so_0,f_auto,q_auto,w_720/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.jpg";
 
@@ -16,12 +19,34 @@ export default function HeroSection() {
     const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false);
     // animacije čekaju loader (~1.5s od otvaranja stranice); ako je loader već viđen u ovoj poseti, kreću odmah istim redosledom
     const [introDelay] = useState(() => introRemaining(1500) / 1000);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    // Video se skida tek kad se stranica učita (JS, slike, font), da im ne otima mrežu.
+    // Do tada se vidi poster (prvi frejm videa), isto kao ranije dok video ne krene.
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const start = () => {
+            video.src = window.matchMedia("(max-width: 767px)").matches ? HERO_VIDEO_PHONE : HERO_VIDEO_DESKTOP;
+            video.play().catch(() => {});
+        };
+
+        // povratak na početnu u istoj poseti: stranica je već učitana
+        if (document.readyState === "complete") {
+            start();
+            return;
+        }
+        window.addEventListener("load", start, { once: true });
+        return () => window.removeEventListener("load", start);
+    }, []);
 
     return (
         <section className="relative w-full min-h-[100svh] md:h-screen overflow-hidden bg-stone-900">
 
             {/* 1. VIDEO POZADINA */}
             <video
+                ref={videoRef}
                 autoPlay
                 loop
                 muted
@@ -37,10 +62,7 @@ export default function HeroSection() {
                     z-0
                  "
             >
-                {/* telefoni dobijaju manju verziju (~1.8 MB umesto ~3.8 MB) */}
-                <source media="(max-width: 767px)" src={optimizeCloudinaryUrl(HERO_VIDEO, 720)} />
-                <source src={optimizeCloudinaryUrl(HERO_VIDEO, 1080)} />
-
+                {/* src se postavlja u useEffect-u iznad, posle učitavanja stranice */}
                 Vaš pretraživač ne podržava video format.
             </video>
 
