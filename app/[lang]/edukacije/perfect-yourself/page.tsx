@@ -124,12 +124,16 @@ export default function PerfectYourselfPage() {
         
         <div className="absolute inset-0 w-full h-full">
           {/* TODO: Ubaci sliku za Perfect Yourself edukaciju */}
-          <img 
-            src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)}
-            alt="Perfect Yourself edukacija šminkanja" 
-            fetchPriority="high"
-            className="w-full h-full object-cover object-top"
-          />
+          {/* Ista slika, ali telefon skida 800 px umesto 1600 px (desktop od md/768px naviše, kao na ostalim edukacijama) */}
+          <picture className="block w-full h-full">
+            <source media="(min-width: 768px)" srcSet={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 1600)} />
+            <img
+              src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788807802/IMG_0606.JPG_jvxare.jpg", 800)}
+              alt="Perfect Yourself edukacija šminkanja"
+              fetchPriority="high"
+              className="w-full h-full object-cover object-top"
+            />
+          </picture>
           <div className="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/50 to-[#FAF7F2]" />
         </div>
 

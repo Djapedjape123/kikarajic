@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { luxurious } from "@/lib/fonts";
+import { prefetchFor } from "@/lib/routes";
 import { FaInstagram, FaMapMarkerAlt, FaEnvelope, FaChevronUp, FaTiktok } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 
@@ -77,16 +78,16 @@ export default function Footer() {
                         <Link href={lp("/o-meni")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.about}
                         </Link>
-                        <Link href={lp("/galerija")} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/galerija")} prefetch={prefetchFor("/galerija")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.gallery}
                         </Link>
-                        <Link href={lp("/studio")} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                        <Link href={lp("/studio")} prefetch={prefetchFor("/studio")} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                             {t.nav.studio}
                         </Link>
                         {/* Dinamički linkovi usluga iz prevoda */}
-                        {/* TODO: kad stranice /galerija, /studio i usluge budu gotove, ukloniti prefetch={false} */}
+                        {/* stranice koje još ne postoje nemaju prefetch - spisak je u lib/routes.ts */}
                         {serviceLinks.map((link, idx) => (
-                            <Link key={idx} href={lp(link.href)} prefetch={false} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
+                            <Link key={idx} href={lp(link.href)} prefetch={prefetchFor(link.href)} className="text-stone-400 hover:text-white transition-colors text-sm font-light">
                                 {link.name}
                             </Link>
                         ))}

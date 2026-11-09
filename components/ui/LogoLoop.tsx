@@ -2,9 +2,9 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState, memo } from 'react';
 
-// 1. Definišemo tipove za Props-e
-export interface LogoLoopProps {
-  logos: any[];
+// 1. Definišemo tipove za Props-e (T = tip jednog logoa, npr. { name, href, src })
+export interface LogoLoopProps<T> {
+  logos: readonly T[];
   speed?: number;
   direction?: 'left' | 'right' | 'up' | 'down';
   width?: string | number;
@@ -15,7 +15,7 @@ export interface LogoLoopProps {
   fadeOut?: boolean;
   fadeOutColor?: string;
   scaleOnHover?: boolean;
-  renderItem: (item: any) => React.ReactNode;
+  renderItem: (item: T) => React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
 }
@@ -29,8 +29,14 @@ const cx = (...parts: (string | undefined | null | false)[]) =>
   parts.filter(Boolean).join(' ');
 
 // 2. Dodati tipovi za Hook-ove
+// Zavisnosti efekata su stabilne (refovi, callback iz useCallback, niz logoa) - ranije su se nizovi
+// pravili iznova pri svakom renderu, pa su se posmatrači i listeneri postavljali ponovo na svaki hover/skrol.
 // FUNKCIJA KOJA KORISTI ResizeObserver ILI FALLBACK NA window.resize
-const useResizeObserver = (callback: () => void, elements: React.RefObject<HTMLElement | null>[], dependencies: any[]) => {
+const useResizeObserver = (
+  callback: () => void,
+  firstRef: React.RefObject<HTMLElement | null>,
+  secondRef: React.RefObject<HTMLElement | null>
+) => {
   useEffect(() => {
     // Ako ResizeObserver nije podržan, koristimo fallback na window.resize
     if (!window.ResizeObserver) {
@@ -39,8 +45,8 @@ const useResizeObserver = (callback: () => void, elements: React.RefObject<HTMLE
       callback();
       return () => window.removeEventListener('resize', handleResize);
     }
-    // Ako je ResizeObserver podržan, koristimo ga
-    const observers = elements.map(ref => {
+    // Ako je ResizeObserver podržan, koristimo ga (javlja se i odmah po observe-u, i pri svakoj promeni veličine)
+    const observers = [firstRef, secondRef].map(ref => {
       if (!ref.current) return null;
       const observer = new ResizeObserver(callback);
       observer.observe(ref.current);
@@ -48,29 +54,33 @@ const useResizeObserver = (callback: () => void, elements: React.RefObject<HTMLE
     });
     callback();
     return () => { observers.forEach(observer => observer?.disconnect()); };
-  }, [callback, elements, dependencies]);
+  }, [callback, firstRef, secondRef]);
 };
-// FUNLCIJA KOJA ČEKA DA SE SVI LOGO-OVI UCITAJU
-const useImageLoader = (seqRef: React.RefObject<HTMLElement | null>, onLoad: () => void, dependencies: any[]) => {
+// FUNLCIJA KOJA ČEKA DA SE SVI LOGO-OVI UCITAJU (ponovo samo kad se promeni spisak logoa)
+const useImageLoader = (seqRef: React.RefObject<HTMLElement | null>, onLoad: () => void, logos: readonly unknown[]) => {
   useEffect(() => {
-    const images = seqRef.current?.querySelectorAll('img') ?? [];
+    const images = Array.from(seqRef.current?.querySelectorAll('img') ?? []);
     if (images.length === 0) { onLoad(); return; }
-    
+
     let remainingImages = images.length;
     const handleImageLoad = () => {
       remainingImages -= 1;
       if (remainingImages === 0) onLoad();
     };
 
-    images.forEach(img => {
-      const htmlImg = img as HTMLImageElement;
-      if (htmlImg.complete) handleImageLoad();
-      else {
-        htmlImg.addEventListener('load', handleImageLoad, { once: true });
-        htmlImg.addEventListener('error', handleImageLoad, { once: true });
-      }
+    const pending = images.filter(img => !img.complete);
+    images.forEach(img => { if (img.complete) handleImageLoad(); });
+    pending.forEach(img => {
+      img.addEventListener('load', handleImageLoad, { once: true });
+      img.addEventListener('error', handleImageLoad, { once: true });
     });
-  }, [onLoad, seqRef, dependencies]);
+    return () => {
+      pending.forEach(img => {
+        img.removeEventListener('load', handleImageLoad);
+        img.removeEventListener('error', handleImageLoad);
+      });
+    };
+  }, [onLoad, seqRef, logos]);
 };
 
 // FUNKCIJA KOJA PRATI DA LI JE TRAKA NA EKRANU (van ekrana ne trošimo CPU na animaciju)
@@ -142,8 +152,8 @@ const useAnimationLoop = (
   }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, isOnScreen]);
 };
 
-export const LogoLoop = memo(({ 
-  logos, 
+function LogoLoopInner<T>({
+  logos,
   speed = 40, 
   direction = 'left', 
   width = '100%', 
@@ -156,8 +166,8 @@ export const LogoLoop = memo(({
   scaleOnHover = false, 
   renderItem, 
   className, 
-  style 
-}: LogoLoopProps) => {
+  style
+}: LogoLoopProps<T>) {
   
   // 3. OVO REŠAVA TVOJ PROBLEM: Tačno govorimo TS-u koji HTML element ref prati
   const containerRef = useRef<HTMLDivElement>(null);
@@ -187,15 +197,16 @@ export const LogoLoop = memo(({
     }
   }, []);
 
-  useResizeObserver(updateDimensions, [containerRef, seqRef], [logos, gap, logoHeight]);
-  useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight]);
+  // promena razmaka/visine logoa menja širinu trake, a to ResizeObserver sam primeti
+  useResizeObserver(updateDimensions, containerRef, seqRef);
+  useImageLoader(seqRef, updateDimensions, logos);
   const isOnScreen = useIsOnScreen(containerRef);
   useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, false, isOnScreen);
 
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
 
-  const renderLogoItem = (item: any, key: string) => (
+  const renderLogoItem = (item: T, key: string) => (
     <li className={`flex-none text-[length:var(--logoloop-logoHeight)] leading-[1] mr-[var(--logoloop-gap)]`} key={key}>
       {renderItem(item)}
     </li>
@@ -230,7 +241,10 @@ export const LogoLoop = memo(({
       </div>
     </div>
   );
-});
+}
 
-LogoLoop.displayName = 'LogoLoop';
+// memo ne zna za generičke komponente, pa se tip vraća ručno
+const MemoLogoLoop = memo(LogoLoopInner);
+MemoLogoLoop.displayName = 'LogoLoop';
+export const LogoLoop = MemoLogoLoop as typeof LogoLoopInner;
 export default LogoLoop;

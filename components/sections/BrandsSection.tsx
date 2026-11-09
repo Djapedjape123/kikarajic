@@ -40,7 +40,7 @@ export default function BrandsSection() {
           fadeOut={true} // Omogućava fade out efekat na ivicama
           fadeOutColor="#FAF7F2" // Isti fadeOut kao naša pozadina!
           pauseOnHover={true} 
-          renderItem={(item: any) => (
+          renderItem={(item) => (
             <a
               href={item.href}
               target="_blank"
