@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
-import { isIntroSeen } from "@/lib/intro";
+import { introRemaining } from "@/lib/intro";
 
 // isti URL kao logo u Hero sekciji -> posle skrola ide iz keša, ne skida se ponovo
 const LOGO_SCROLLED = optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png", 800);
@@ -24,10 +24,10 @@ export default function Navbar() {
   const serviceLinks = t.serviceLinks; // usluge (serviceLinks) se koristi i u desktop i u mobilnom meniju
 
   useEffect(() => {
-    // čeka loader (2s), osim ako je loader već viđen u ovoj poseti
+    // čeka loader (2s od otvaranja stranice), osim ako je loader već viđen u ovoj poseti
     const timer = setTimeout(() => {
       setIsReady(true);
-    }, isIntroSeen() ? 0 : 2000);
+    }, introRemaining(2000));
 
     const handleScroll = () => {
       if (window.scrollY > 50) setIsScrolled(true);
@@ -38,7 +38,8 @@ export default function Navbar() {
     // navbar ostaje providan sa belim tekstom preko krem pozadine dok se ne skroluje; rAF zbog react-hooks/set-state-in-effect
     const raf = requestAnimationFrame(handleScroll);
 
-    window.addEventListener("scroll", handleScroll);
+    // passive: browser ne čeka ovaj listener pre skrolovanja
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(timer);

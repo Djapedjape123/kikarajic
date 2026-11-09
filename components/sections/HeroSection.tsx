@@ -5,7 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 import WorkshopModal from "@/components/WorkshopModal";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
-import { isIntroSeen } from "@/lib/intro";
+import { introRemaining } from "@/lib/intro";
 
 const HERO_VIDEO = "https://res.cloudinary.com/duomot4hp/video/upload/v1787777905/WhatsApp_Video_2026-08-26_at_22.17.02_ku4hkc.mp4";
 // prvi frejm videa kao slika - vidi se dok se video ne učita
@@ -14,8 +14,8 @@ const HERO_POSTER = "https://res.cloudinary.com/duomot4hp/video/upload/so_0,f_au
 export default function HeroSection() {
     const { t } = useLanguage();
     const [isWorkshopModalOpen, setIsWorkshopModalOpen] = useState(false);
-    // animacije čekaju loader (~1.5s); ako je loader već viđen u ovoj poseti, kreću odmah istim redosledom
-    const introDelay = isIntroSeen() ? 0 : 1.5;
+    // animacije čekaju loader (~1.5s od otvaranja stranice); ako je loader već viđen u ovoj poseti, kreću odmah istim redosledom
+    const [introDelay] = useState(() => introRemaining(1500) / 1000);
 
     return (
         <section className="relative w-full min-h-[100svh] md:h-screen overflow-hidden bg-stone-900">

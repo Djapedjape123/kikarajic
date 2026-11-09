@@ -6,16 +6,16 @@ import { usePathname } from "next/navigation";
 
 //prevod
 import { useLanguage } from "@/context/LanguageContext";
-import { isIntroSeen } from "@/lib/intro";
+import { introRemaining, isIntroSeen } from "@/lib/intro";
 
 export default function InstagramFloatButton() {
   const [isVisible, setIsVisible] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
-    // Dugme se pojavljuje nakon 4 sekunde (2 sec loader + 2 sec gledanja sajta),
+    // Dugme se pojavljuje posle loadera (2 sec od otvaranja stranice) + 2 sec gledanja sajta,
     // a nakon 2 sekunde ako je loader već viđen u ovoj poseti
-    const timer = setTimeout(() => setIsVisible(true), isIntroSeen() ? 2000 : 4000);
+    const timer = setTimeout(() => setIsVisible(true), isIntroSeen() ? 2000 : introRemaining(2000) + 2000);
     return () => clearTimeout(timer);
   }, []);
    const pathname = usePathname();

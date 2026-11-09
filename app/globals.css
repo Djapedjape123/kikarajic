@@ -24,6 +24,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Beskonačne i intro animacije su u CSS-u (a ne u framer-motion-u): rade od prvog iscrtavanja,
+   bez čekanja JS-a, i na grafičkom čipu umesto na glavnoj niti. Vremena i krive su ista kao ranije u kodu. */
+@theme {
+  /* loader (components/LoadingScreen.tsx) */
+  --animate-loader-ring: loader-ring 3s linear infinite;
+  --animate-loader-ring-reverse: loader-ring-reverse 2.5s linear infinite;
+  --animate-loader-logo: loader-logo 0.8s ease-out both;
+
+  @keyframes loader-ring {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes loader-ring-reverse {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+  @keyframes loader-logo {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+}
+
 /* loader samo jednom po poseti (lib/intro.ts) */
 html[data-intro-seen] [data-loader] {
   display: none;

@@ -4,12 +4,12 @@
 
 // Delovi koje dele stranice usluga (Sprej ten, Svečane frizure, Šminka), da dizajn ostane isti na svima.
 // ova strnica je "client" jer koristi framer-motion (animacije) i react-icons (svg)
-import type { MouseEvent, ReactNode } from "react";
+import { useState, type MouseEvent, type ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Sparkles } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
 import { luxurious } from "@/lib/fonts";
-import { isIntroSeen } from "@/lib/intro";
+import { introRemaining } from "@/lib/intro";
 
 export const INSTAGRAM_BUTTON =
   "inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] px-8 py-4 font-medium text-white shadow-2xl transition-all hover:scale-105 hover:shadow-[#bc1888]/40";
@@ -72,8 +72,8 @@ export function ServiceHero({
   children: ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
-  // animacije čekaju loader (~1.5s); ako je loader već viđen u ovoj poseti, kreću odmah (isto kao HeroSection)
-  const introDelay = isIntroSeen() ? 0 : 1.5;
+  // animacije čekaju loader (~1.5s od otvaranja stranice); ako je loader već viđen u ovoj poseti, kreću odmah (isto kao HeroSection)
+  const [introDelay] = useState(() => introRemaining(1500) / 1000);
 
   const reveal = (order: number) => ({
     initial: { opacity: 0, y: 24 },
