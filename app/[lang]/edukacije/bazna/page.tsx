@@ -1,7 +1,6 @@
-"use client";
-
-import { useLanguage } from "@/context/LanguageContext";
-import { motion } from "framer-motion";
+import type { Metadata } from "next";
+// motion.* su male klijentske komponente (components/motion/elements.tsx) koje server stranica sme da koristi - animacije ostaju iste
+import * as motion from "@/components/motion/elements";
 import { FaInstagram, FaCheck, FaCamera, FaBrush, FaCertificate, FaClock, FaCreditCard } from "react-icons/fa";
 import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
 
@@ -113,10 +112,16 @@ const t = {
   }
 };
 
-export default function BaznaEdukacijaPage() {
-  
-  const { activeLang } = useLanguage();
-  const content = activeLang === "SR" ? t.SR : t.EN;
+// samo naslov taba; ostatak SEO-a ide u završnu SEO fazu
+export async function generateMetadata({ params }: PageProps<"/[lang]/edukacije/bazna">): Promise<Metadata> {
+  const { lang } = await params;
+  return { title: `${(lang === "en" ? t.EN : t.SR).title} | Kika Rajić` };
+}
+
+// Server komponenta: tekst stiže kao gotov HTML (nije u JS-u), jezik se čita iz adrese (/sr ili /en)
+export default async function BaznaEdukacijaPage({ params }: PageProps<"/[lang]/edukacije/bazna">) {
+  const { lang } = await params;
+  const content = lang === "en" ? t.EN : t.SR;
 
   return (
     <main className="min-h-screen bg-[#FAF7F2]">
