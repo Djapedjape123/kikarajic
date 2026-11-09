@@ -44,6 +44,27 @@ body {
     from { opacity: 0; transform: scale(0.85); }
     to { opacity: 1; transform: scale(1); }
   }
+
+  /* pulsirajući sjaj iza naslova (components/sections/HeroSection.tsx) */
+  --animate-hero-glow: hero-glow 6s ease-in-out infinite;
+  @keyframes hero-glow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(1.1); }
+  }
+
+  /* rotirajuće mrlje iza brojeva (components/sections/StatsSection.tsx) */
+  --animate-stats-blob: stats-blob 25s linear infinite;
+  @keyframes stats-blob {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* bronzani sjaj iza slike u hero-u usluga koji polako "diše" (components/services/ServiceBlocks.tsx) */
+  --animate-service-glow: service-glow 6s ease-in-out infinite;
+  @keyframes service-glow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.55; transform: scale(1.06); }
+  }
 }
 
 /* loader samo jednom po poseti (lib/intro.ts) */

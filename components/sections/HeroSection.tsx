@@ -69,11 +69,9 @@ export default function HeroSection() {
             {/* 2. OVERLAY (Zatamnjenje) */}
             <div className="absolute inset-0 bg-black/45 z-10" />
 
-            {/* Pulsirajući svetlosni efekat iza naslova */}
-            <motion.div
-                animate={{ opacity: [0.3, 0.6, 0.3], scale: [1, 1.1, 1] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#bc1888]/20 to-[#f09433]/20 rounded-full blur-3xl z-10 pointer-events-none"
+            {/* Pulsirajući svetlosni efekat iza naslova (CSS animacija, app/globals.css) */}
+            <div
+                className="animate-hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#bc1888]/20 to-[#f09433]/20 rounded-full blur-3xl z-10 pointer-events-none"
             />
 
             {/* 3. LOGO SLOJ */}

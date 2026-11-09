@@ -111,11 +111,9 @@ export default function StatsSection() {
                                 className={`relative flex flex-col items-center text-center ${index < 3 ? "col-span-2 lg:col-span-1" : "col-span-3 lg:col-span-1"
                                     }`}
                             >
-                                {/* Apstraktna rotirajuća pozadina (Krem/Roze) */}
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                                    className="absolute top-2 w-20 h-20 bg-gradient-to-tr from-[#E8DDD1] to-[#bc1888]/10 rounded-full blur-xl opacity-60 -z-10"
+                                {/* Apstraktna rotirajuća pozadina (Krem/Roze) - CSS animacija, app/globals.css */}
+                                <div
+                                    className="animate-stats-blob absolute top-2 w-20 h-20 bg-gradient-to-tr from-[#E8DDD1] to-[#bc1888]/10 rounded-full blur-xl opacity-60 -z-10"
                                 />
 
                                 {/* Broj i Suffix */}

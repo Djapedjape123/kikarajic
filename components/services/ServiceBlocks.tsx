@@ -135,12 +135,11 @@ export function ServiceHero({
           transition={{ duration: 0.9, delay: introDelay + 0.2, ease: "easeOut" }}
           className={`relative mx-auto w-full lg:col-span-5 lg:ml-auto lg:mr-0 ${mediaClassName}`}
         >
-          {/* bronzani sjaj iza slike, polako "diše" (kao svetlo u HeroSection) */}
-          <motion.div
+          {/* bronzani sjaj iza slike, polako "diše" (kao svetlo u HeroSection); CSS animacija, app/globals.css,
+              a korisnicima koji su isključili animacije ostaje miran (opacity 0.4) */}
+          <div
             aria-hidden="true"
-            animate={reduceMotion ? { opacity: 0.4 } : { opacity: [0.3, 0.55, 0.3], scale: [1, 1.06, 1] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -inset-5 rounded-[3rem] bg-gradient-to-tr from-[#C28B5A] to-[#bc1888] blur-3xl"
+            className="animate-service-glow motion-reduce:animate-none motion-reduce:opacity-40 absolute -inset-5 rounded-[3rem] bg-gradient-to-tr from-[#C28B5A] to-[#bc1888] blur-3xl"
           />
           {children}
         </motion.div>
