@@ -45,7 +45,7 @@ export default function LocationSection() {
                   <FaMapMarkerAlt size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-stone-800">{t.location.address_label}</h4>
+                  <h3 className="font-bold text-stone-800">{t.location.address_label}</h3>
                   <p className="text-stone-600 font-medium text-lg mt-1">{t.location.address_value}</p>
                   <p className="text-stone-500 text-sm mt-0.5">{t.location.address_note}</p>
                 </div>
@@ -57,7 +57,7 @@ export default function LocationSection() {
                   <FaEnvelope size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-stone-800">{t.location.email_label}</h4>
+                  <h3 className="font-bold text-stone-800">{t.location.email_label}</h3>
                   <p className="text-stone-600 mt-1">rajickristina.ns@gmail.com</p>
                 </div>
               </a>
@@ -68,7 +68,7 @@ export default function LocationSection() {
                   <FaPhoneAlt size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-stone-800">{t.location.phone_label}</h4>
+                  <h3 className="font-bold text-stone-800">{t.location.phone_label}</h3>
                   <p className="text-stone-600 mt-1">060 194 4713</p>
                 </div>
               </a>
@@ -83,7 +83,7 @@ export default function LocationSection() {
                   <FaClock size={20} />
                 </div>
                 <div>
-                  <h4 className="font-bold text-stone-800">{t.location.hours_label}</h4>
+                  <h3 className="font-bold text-stone-800">{t.location.hours_label}</h3>
                   <p className="text-stone-600 mt-1">{t.location.hours_week}</p>
                   <p className="text-stone-600">{t.location.hours_weekend}</p>
                 </div>

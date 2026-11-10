@@ -138,7 +138,7 @@ export default function Footer() {
                 </div>
 
                 {/* DONJI DEO FOOTERA (Copyright + Developer Tag + Povratak na vrh) */}
-                <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500 font-light">
+                <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#8a837d] font-light">
 
                     <p>© {new Date().getFullYear()} Kika Rajić Studio. {activeLang === "SR" ? "Sva prava zadržana." : "All rights reserved."}</p>
 

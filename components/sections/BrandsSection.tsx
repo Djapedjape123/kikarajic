@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import LogoLoop from "@/components/ui/LogoLoop";
 import { optimizeCloudinaryHeight } from "@/lib/cloudinary";
@@ -22,6 +23,21 @@ const brands = [
 
 export default function BrandsSection() {
   const { t } = useLanguage();
+  // Traka je daleko ispod prvog ekrana, a njeni logoi (~80 KB) su se skidali dok se učitava JS i otimali mu mrežu,
+  // što kasni hidrataciju (a od nje zavisi pojava loga u hero-u). Zato se traka ubacuje tek posle `load`-a;
+  // do tada se drži prazno mesto iste visine, da se ništa ne pomera.
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const show = () => setReady(true);
+    // povratak na početnu u istoj poseti: stranica je već učitana (rAF zbog react-hooks/set-state-in-effect)
+    if (document.readyState === "complete") {
+      const raf = requestAnimationFrame(show);
+      return () => cancelAnimationFrame(raf);
+    }
+    window.addEventListener("load", show, { once: true });
+    return () => window.removeEventListener("load", show);
+  }, []);
 
   return (
     // Mala visina (py-12), savršeno se naslanja na krem pozadinu
@@ -29,14 +45,15 @@ export default function BrandsSection() {
       
       {/* Naslov sekcije */}
       <div className="max-w-7xl mx-auto px-4 mb-8 text-center">
-        <h3 className="text-sm md:text-base font-semibold text-stone-500 uppercase tracking-[0.2em]">
+        <h3 className="text-sm md:text-base font-semibold text-[#736b65] uppercase tracking-[0.2em]">
           {t.brands.title}
         </h3>
       </div>
 
       {/* Traka sa brendovima */}
-      <div className="w-full">
-        <LogoLoop
+      {/* 92px / 112px = logo (h-19 / md:h-24) + py-2 oko njega */}
+      <div className="w-full min-h-23 md:min-h-28">
+        {ready && <LogoLoop
           logos={brands}
           speed={40} // Brzina rotacije (smanji/povećaj po želji)
           gap={80}   // Razmak između logotipa
@@ -63,7 +80,7 @@ export default function BrandsSection() {
               />
             </a>
           )}
-        />
+        />}
       </div>
 
     </section>

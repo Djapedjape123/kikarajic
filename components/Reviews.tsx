@@ -136,7 +136,7 @@ export default function Reviews() {
         <h2 className="text-4xl md:text-5xl font-serif text-stone-800 mb-4">
           {heading}
         </h2>
-        <p className="text-stone-500 font-light text-base md:text-lg">
+        <p className="text-[#736b65] font-light text-base md:text-lg">
           {subHeading}
         </p>
       </div>
@@ -192,8 +192,8 @@ export default function Reviews() {
                     {review.name.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-medium text-stone-800 text-sm sm:text-base">{review.name}</h4>
-                    <span className="text-xs text-stone-400">{review.role}</span>
+                    <h3 className="font-medium text-stone-800 text-sm sm:text-base">{review.name}</h3>
+                    <span className="text-xs text-stone-500">{review.role}</span>
                   </div>
                 </div>
 

@@ -140,8 +140,10 @@ export default function Navbar() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="focus:outline-none p-2 rounded-full hover:bg-black/5 transition-colors"
+              aria-label={isMobileMenuOpen ? (activeLang === "SR" ? "Zatvori meni" : "Close menu") : (activeLang === "SR" ? "Otvori meni" : "Open menu")}
+              aria-expanded={isMobileMenuOpen}
             >
-              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
