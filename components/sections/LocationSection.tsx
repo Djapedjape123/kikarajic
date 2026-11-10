@@ -1,12 +1,17 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaClock, FaDirections } from 'react-icons/fa';
 
 export default function LocationSection() {
   const { t } = useLanguage();
+  // Google mapa skida ~450 KB JS-a. loading="lazy" nije dovoljan (Chrome učita iframe i kad je ~1250px ispod ekrana,
+  // a mapa je odmah ispod brendova), pa se iframe ubacuje tek kad je posetilac na 600px od mape.
+  // Okvir mape je tu od početka, a sam okvir ionako izranja tek kad uđe u ekran (whileInView).
+  const mapRef = useRef<HTMLDivElement>(null);
+  const isMapNear = useInView(mapRef, { once: true, margin: "600px 0px" });
 
   return (
     <section className="py-16 md:py-24 px-4 md:px-12 bg-[#FAF7F2] relative overflow-hidden border-t border-stone-200/50">
@@ -102,25 +107,28 @@ export default function LocationSection() {
           </motion.div>
 
           {/* --- DESNA STRANA: MAPA --- */}
-          <motion.div 
+          <motion.div
+            ref={mapRef}
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             className="relative h-[450px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl border-[6px] border-white"
           >
-            {/* Google Maps Iframe - Besplatan embed generisan na osnovu adrese */}
-            <iframe 
-              title="Mape - Kika Rajic Studio"
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              loading="lazy" 
-              allowFullScreen 
-              referrerPolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=Bore%20Prodanovi%C4%87a%201A,%20Novi%20Sad&t=&z=16&ie=UTF8&iwloc=&output=embed"
-              className="transition-all duration-700 grayscale-[20%] contrast-[1.1]" // Blagi filter na mapi da izgleda luksuznije
-            ></iframe>
+            {/* Google Maps Iframe - Besplatan embed generisan na osnovu adrese (ubacuje se kad je posetilac blizu, vidi isMapNear) */}
+            {isMapNear && (
+              <iframe
+                title="Mape - Kika Rajic Studio"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src="https://maps.google.com/maps?q=Bore%20Prodanovi%C4%87a%201A,%20Novi%20Sad&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                className="transition-all duration-700 grayscale-[20%] contrast-[1.1]" // Blagi filter na mapi da izgleda luksuznije
+              ></iframe>
+            )}
 
             {/* Pin Kartica preko mape */}
             <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg border border-stone-100 hidden sm:block pointer-events-none">

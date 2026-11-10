@@ -67,6 +67,9 @@ export default function Navbar() {
             <img
               src={isScrolled || isMobileMenuOpen ? LOGO_SCROLLED : LOGO_TOP}
               alt="Kika Rajić Logo"
+              // proporcija slike (800×1000); stvarnu veličinu određuju klase h-40/h-60 i w-auto
+              width={800}
+              height={1000}
               className="h-40 sm:h-60 w-auto object-contain transition-opacity duration-300"
             />
           </Link>

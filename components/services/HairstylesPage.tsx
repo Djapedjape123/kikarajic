@@ -105,7 +105,9 @@ function Collage({
             <img
               src={optimizeCloudinaryUrl(style.src, 600)}
               alt={style.alt}
+              // gornji red je prvo što se vidi; donji red je na telefonu ispod ekrana, pa se skida kad mu se priđe
               fetchPriority={i < 2 ? "high" : undefined}
+              loading={i < 2 ? undefined : "lazy"}
               decoding="async"
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />

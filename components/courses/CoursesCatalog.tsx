@@ -102,6 +102,9 @@ export default function CoursesCatalog() {
                 <img 
                   src={course.image} 
                   alt={course.title[activeLang]} 
+                  // prva kartica se vidi odmah; ostale su na telefonu ispod ekrana, pa se skidaju kad im se priđe
+                  loading={idx === 0 ? undefined : "lazy"}
+                  decoding={idx === 0 ? undefined : "async"}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1 rounded-full text-sm font-medium border border-white/20">

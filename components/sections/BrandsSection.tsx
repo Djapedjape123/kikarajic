@@ -1,18 +1,22 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import LogoLoop from "@/components/ui/LogoLoop"; 
-import { optimizeCloudinaryUrl } from "@/lib/cloudinary";
+import LogoLoop from "@/components/ui/LogoLoop";
+import { optimizeCloudinaryHeight } from "@/lib/cloudinary";
 
+// Logo je visok najviše 96px (h-24), pa je 240px dovoljno i za ekrane sa 3x gušćim pikselima
+const LOGO_HEIGHT = 240;
 
+// w/h = veličina slike koju Cloudinary vraća (posle smanjenja na LOGO_HEIGHT); idu u width/height,
+// da pregledač zna proporciju logoa pre nego što se slika skine
 const brands = [
-  { name: "YSl", href: "https://www.yslbeauty.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910461/logo6-removebg-preview_bi02ya.png" },
-  { name: "Astarta Parfums", href: "https://astartaparfums.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910509/logo5-removebg-preview_1_milurr.png" },
-  { name: "Golden Rose", href: "https://gbs.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910394/logo4-removebg-preview_qro1sw.png" },
-  { name: "Tangle Teezer ", href: "https://tangleteezer.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910315/logo3-removebg-preview_mp4uhh.png" },
-  { name: "Milani", href: "https://www.milanicosmetics.com/?srsltid=AfmBOopiXc54gWqYTdhnJC610LtWapy2RFPDiHRXlTBQMypLQ430hVXi", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910250/logo2-removebg-preview_znvdjl.png" },
-  { name: "Estee Lauder", href: "https://www.esteelauder.com/?srsltid=AU7gw4VkSJHn_jn9imDrAabDiygriIpnFCCZneRfL6-Ype2XY6AiHpwz",src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910186/Estee-Lauder-Logo-1-removebg-preview_e5xuhz.png" },
-  { name: "My Gaisha",href: "https://www.mygeisha.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1788296099/MY-GEISHA_crni_ujkb63.webp" },
+  { name: "YSl", href: "https://www.yslbeauty.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910461/logo6-removebg-preview_bi02ya.png", w: 240, h: 240 },
+  { name: "Astarta Parfums", href: "https://astartaparfums.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910509/logo5-removebg-preview_1_milurr.png", w: 457, h: 240 },
+  { name: "Golden Rose", href: "https://gbs.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910394/logo4-removebg-preview_qro1sw.png", w: 300, h: 187 },
+  { name: "Tangle Teezer ", href: "https://tangleteezer.com/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910315/logo3-removebg-preview_mp4uhh.png", w: 855, h: 233 },
+  { name: "Milani", href: "https://www.milanicosmetics.com/?srsltid=AfmBOopiXc54gWqYTdhnJC610LtWapy2RFPDiHRXlTBQMypLQ430hVXi", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910250/logo2-removebg-preview_znvdjl.png", w: 268, h: 148 },
+  { name: "Estee Lauder", href: "https://www.esteelauder.com/?srsltid=AU7gw4VkSJHn_jn9imDrAabDiygriIpnFCCZneRfL6-Ype2XY6AiHpwz",src: "https://res.cloudinary.com/duomot4hp/image/upload/v1787910186/Estee-Lauder-Logo-1-removebg-preview_e5xuhz.png", w: 384, h: 240 },
+  { name: "My Gaisha",href: "https://www.mygeisha.rs/", src: "https://res.cloudinary.com/duomot4hp/image/upload/v1788296099/MY-GEISHA_crni_ujkb63.webp", w: 240, h: 240 },
 
 ];
 
@@ -49,8 +53,10 @@ export default function BrandsSection() {
               aria-label={`Visit ${item.name}`}
             >
               <img
-                src={optimizeCloudinaryUrl(item.src)}
+                src={optimizeCloudinaryHeight(item.src, LOGO_HEIGHT)}
                 alt={item.name}
+                width={item.w}
+                height={item.h}
                 loading="lazy"
                 decoding="async"
                 className="h-19 md:h-24 w-auto object-contain mix-blend-multiply grayscale opacity-50 transition-all duration-500 group-hover:grayscale-0 group-hover:opacity-100"

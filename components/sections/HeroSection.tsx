@@ -74,11 +74,18 @@ export default function HeroSection() {
                 className="animate-hero-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-tr from-[#bc1888]/20 to-[#f09433]/20 rounded-full blur-3xl z-10 pointer-events-none"
             />
 
-            {/* 3. LOGO SLOJ */}
+            {/* 3. LOGO SLOJ
+                 Logo je najveći element na ekranu (LCP): fetchPriority="high" da se skida pre ostalih slika,
+                 width/height = proporcija slike (800×1000), stvarnu veličinu i dalje određuju klase.
+                 Animacija namerno ostaje u framer-motion-u: u čistom CSS-u Chrome ne broji logo kao LCP
+                 (animacija od opacity 0 ide na grafičkom čipu), a i izranjanje mora da prati loader koji gasi JS. */}
             <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none px-4">
                 <motion.img
                     src={optimizeCloudinaryUrl("https://res.cloudinary.com/duomot4hp/image/upload/v1788957115/Kika_Rajic_logo-05_byi0jx.png", 800)}
                     alt="Kika Rajić Logo"
+                    width={800}
+                    height={1000}
+                    fetchPriority="high"
                     initial={{ opacity: 0, y: 30, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.8, delay: introDelay, ease: [0.16, 1, 0.3, 1] }}
